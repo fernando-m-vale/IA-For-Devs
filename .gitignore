@@ -1,0 +1,9 @@
+venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env
+
+# Dados brutos grandes (preserva .gitkeep)
+data/raw/*
+!data/raw/.gitkeep

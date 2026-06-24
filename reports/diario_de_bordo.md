@@ -101,10 +101,34 @@ Comparando histogramas de features-chave, separados por diagnóstico:
 atribuída pelos modelos confirma esse padrão visual (espera-se que
 `smoothness1` tenha baixa importância relativa, e `area1`/`concavity1` alta).
 
-## 4. Próximos passos
+## 4.4 Escolha dos algoritmos de classificação (Etapa 3)
+
+Foram escolhidos três algoritmos de classificação, representando abordagens
+distintas de Machine Learning, para enriquecer a comparação de desempenho
+e a discussão crítica do relatório:
+
+- **Regressão Logística:** modelo linear/estatístico clássico, calcula uma
+  combinação linear das features e converte em probabilidade de diagnóstico
+  maligno. Vantagem: alta interpretabilidade direta dos coeficientes.
+  Limitação conhecida: sensível à multicolinearidade identificada na Etapa 2.
+- **Random Forest:** ensemble de múltiplas Árvores de Decisão. Vantagem:
+  captura relações não-lineares entre features e é robusto à
+  multicolinearidade; tende a ter ótima performance "fora da caixa".
+  Limitação: menor interpretabilidade direta (compensada pelo SHAP na Etapa 5).
+- **KNN (K-Nearest Neighbors, k=5):** classifica cada amostra pela maioria
+  entre seus 5 vizinhos mais próximos no espaço de features. Vantagem:
+  conceito intuitivo de explicar. Depende da padronização já realizada
+  (Etapa 2), pois é sensível à escala das variáveis.
+
+Implementação centralizada em `src/models.py`, com uma função `get_model()`
+que retorna a instância do modelo solicitado e `train_model()` que treina
+diretamente com os dados de treino fornecidos.
+
+## 5. Próximos passos
 
 - [ ] Etapa 2: análise de correlação formal + decisão de padronização
-- [ ] Etapa 3: escolha dos algoritmos de classificação
+- [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
+  Logística, Random Forest, KNN)
 - [ ] Etapa 4: treinamento, métricas e justificativa da métrica principal
 - [ ] Etapa 5: feature importance e SHAP
 - [ ] Decisão final sobre o extra de CNN

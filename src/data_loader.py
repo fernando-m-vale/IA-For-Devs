@@ -32,7 +32,7 @@ def load_breast_cancer_data(
     y: pd.DataFrame = dataset.data.targets
 
     df = X.copy()
-    df["diagnosis"] = y.values
+    df["diagnosis"] = y.iloc[:, 0].values
 
     save_path = Path(save_path)
     save_path.parent.mkdir(parents=True, exist_ok=True)

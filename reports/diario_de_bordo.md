@@ -184,21 +184,9 @@ que retorna a instância do modelo solicitado (lança `ValueError` para nomes
 inválidos) e `train_model()` que treina diretamente com os dados de treino
 fornecidos, usando `get_model()` internamente.
 
-## 5. Próximos passos
+## 5. Etapa 4 — Avaliação dos modelos
 
-- [x] Etapa 1: EDA
-- [x] Etapa 2: análise de correlação + split treino/teste + padronização
-- [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
-  Logística, Random Forest, KNN)
-- [x] Etapa 4: treinamento, métricas e justificativa da métrica principal
-- [ ] Etapa 5: feature importance e SHAP
-- [ ] Decisão final sobre o extra de CNN
-- [ ] Etapa 7: README, Dockerfile (se aplicável), relatório final
-- [ ] Etapa 8: vídeo de demonstração
-
-## 6. Etapa 4 — Avaliação dos modelos
-
-### 6.1 Avaliação em split único (treino/teste 80/20)
+### 5.1 Avaliação em split único (treino/teste 80/20)
 
 | Modelo | Accuracy | Precision | Recall | F1-score |
 |---|---|---|---|---|
@@ -214,9 +202,9 @@ de teste) e a maior Accuracy/F1, empatando com Logistic Regression em Recall.
 apenas 114 amostras é um resultado a ser interpretado com cautela — pode
 refletir generalização real ou favorecimento parcial pela composição
 específica desse split. Isso motivou a realização de validação cruzada
-(Etapa 6.2) antes de eleger um modelo como superior.
+(5.2) antes de eleger um modelo como superior.
 
-### 6.2 Validação cruzada (5-fold Stratified Cross-Validation)
+### 5.2 Validação cruzada (5-fold Stratified Cross-Validation)
 
 Para obter uma estimativa mais robusta de generalização, foi aplicada
 validação cruzada estratificada com 5 folds (`StratifiedKFold`,
@@ -245,3 +233,50 @@ menor média de recall.
 confiar em métricas de um único split de treino/teste para eleger um modelo
 — validação cruzada oferece uma estimativa mais confiável do desempenho
 esperado em dados novos.
+
+### 5.3 Matriz de confusão (split único, 114 amostras de teste: 72 Benignos, 42 Malignos)
+
+| Modelo | Falsos Negativos (Maligno → Benigno) | Falsos Positivos (Benigno → Maligno) |
+|---|---|---|
+| Logistic Regression | 3 | 1 |
+| Random Forest | 3 | 0 |
+| KNN | 4 | 1 |
+
+**Discussão:** os números absolutos confirmam os recalls observados — 3
+falsos negativos equivalem a 39/42 (92.9%) para Logistic Regression e Random
+Forest, e 4 falsos negativos equivalem a 38/42 (90.5%) para o KNN.
+
+Em termos práticos, cada falso negativo representa um caso em que um
+paciente com câncer maligno real receberia, do modelo isoladamente, um
+resultado classificado como benigno. Isso reforça concretamente por que o
+modelo deve atuar como ferramenta de apoio à decisão clínica, nunca como
+substituto do julgamento médico — especialmente considerando que o modelo
+não tem acesso a sintomas clínicos, histórico familiar ou outros fatores de
+risco que o(a) médico(a) avalia em conjunto.
+
+O Random Forest apresentou zero falsos positivos neste split específico,
+mas — à luz da validação cruzada (5.2), que mostrou recall médio inferior ao
+da Regressão Logística — esse resultado é interpretado como característica
+da composição deste split, não como propriedade estável e generalizável do
+modelo.
+
+### 5.4 Decisão sobre o modelo a interpretar com SHAP
+
+Com base na validação cruzada (5.2), que indicou a Regressão Logística como
+o modelo mais robusto (maior recall médio, com desvio padrão comparável aos
+demais), optou-se por concentrar a análise de interpretabilidade via SHAP
+(Etapa 6) apenas neste modelo, em vez de replicar a análise para os três
+algoritmos.
+
+## 6. Próximos passos
+
+- [x] Etapa 1: EDA
+- [x] Etapa 2: análise de correlação + split treino/teste + padronização
+- [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
+  Logística, Random Forest, KNN)
+- [x] Etapa 4: treinamento, métricas e justificativa da métrica principal
+- [ ] Etapa 5: feature importance e SHAP (em andamento — célula de cálculo
+  dos valores SHAP já executada; gráficos de resumo e beeswarm pendentes)
+- [ ] Decisão final sobre o extra de CNN
+- [ ] Etapa 7: README, Dockerfile (se aplicável), relatório final
+- [ ] Etapa 8: vídeo de demonstração

@@ -101,7 +101,66 @@ Comparando histogramas de features-chave, separados por diagnóstico:
 atribuída pelos modelos confirma esse padrão visual (espera-se que
 `smoothness1` tenha baixa importância relativa, e `area1`/`concavity1` alta).
 
-## 4.4 Escolha dos algoritmos de classificação (Etapa 3)
+## 4. Etapa 2 — Pré-processamento
+
+### 4.1 Análise de correlação
+
+**Multicolinearidade entre features:** confirmada a suspeita levantada na
+EDA. O heatmap de correlação mostra blocos fortes entre variantes da mesma
+característica geométrica — `radius`, `perimeter` e `area` (nas três versões:
+mean, se, worst) apresentam correlação próxima de 0.99 entre si, o que é
+esperado matematicamente (raio, perímetro e área de uma estrutura aproximadamente
+circular são dependentes entre si). Padrão semelhante ocorre entre
+`concavity` e `concave_points`.
+
+**Decisão:** manter todas as 30 features no dataset, em vez de remover
+manualmente as redundantes ou aplicar PCA. Justificativa: preserva a
+interpretabilidade exigida pelo desafio (feature importance e SHAP na Etapa 5),
+e a multicolinearidade afeta principalmente a estabilidade dos coeficientes
+de Regressão Logística — não a performance preditiva, e não afeta modelos
+baseados em árvores. Essa limitação será mencionada na discussão crítica do
+relatório final.
+
+**Correlação com o diagnóstico:** ranking das features mais correlacionadas
+com o diagnóstico maligno confirma e refina os achados visuais da EDA:
+
+| Posição | Feature | Correlação |
+|---|---|---|
+| 1º | `concave_points3` | 0.79 |
+| 2º | `perimeter3` | 0.78 |
+| 3º | `concave_points1` | 0.78 |
+| 4º | `radius3` | 0.78 |
+| ~7º-8º | `area1`, `perimeter1`, `radius1` | 0.71–0.74 |
+| ~21º | `smoothness1` | 0.36 |
+| Próximo de 0 | `symmetry2`, `texture2`, `fractal_dimension1`, `smoothness2` | -0.07 a 0.08 |
+
+**Achado relevante:** as features de "erro padrão" (sufixo 2, exceto
+`radius2`/`perimeter2`/`area2`) têm correlação próxima de zero com o
+diagnóstico — a variabilidade da medição não discrimina bem entre as classes;
+o que importa é o valor médio e o "pior caso" de cada característica.
+
+### 4.2 Separação treino/teste
+
+- Split 80/20 (`test_size=0.2`), com `stratify=y` para preservar a proporção
+  de classes em ambos os conjuntos, e `random_state=42` para reprodutibilidade.
+- Resultado: 455 amostras de treino, 114 de teste.
+- Proporção de Maligno: 37.4% no treino vs 36.8% no teste — próximas entre si
+  e do valor original do dataset completo (37.3%), confirmando que a
+  estratificação funcionou corretamente.
+
+### 4.3 Padronização (StandardScaler)
+
+- **Motivo:** grande disparidade de escala entre features (ex: `area1` em
+  centenas/milhares vs `smoothness1` entre 0 e 1) prejudicaria algoritmos
+  sensíveis a distância/magnitude, como KNN e Regressão Logística.
+- **Prevenção de data leakage:** o scaler foi ajustado (`fit_transform`)
+  apenas com os dados de treino, e aplicado (`transform`, sem reajuste) aos
+  dados de teste — evitando que estatísticas do conjunto de teste influenciem
+  o treinamento.
+- **Resultado:** após padronização, todas as features do treino apresentam
+  média ≈ 0 e desvio padrão ≈ 1, confirmando a transformação correta.
+
+### 4.4 Escolha dos algoritmos de classificação (Etapa 3)
 
 Foram escolhidos três algoritmos de classificação, representando abordagens
 distintas de Machine Learning, para enriquecer a comparação de desempenho
@@ -121,12 +180,14 @@ e a discussão crítica do relatório:
   (Etapa 2), pois é sensível à escala das variáveis.
 
 Implementação centralizada em `src/models.py`, com uma função `get_model()`
-que retorna a instância do modelo solicitado e `train_model()` que treina
-diretamente com os dados de treino fornecidos.
+que retorna a instância do modelo solicitado (lança `ValueError` para nomes
+inválidos) e `train_model()` que treina diretamente com os dados de treino
+fornecidos, usando `get_model()` internamente.
 
 ## 5. Próximos passos
 
-- [ ] Etapa 2: análise de correlação formal + decisão de padronização
+- [x] Etapa 1: EDA
+- [x] Etapa 2: análise de correlação + split treino/teste + padronização
 - [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
   Logística, Random Forest, KNN)
 - [ ] Etapa 4: treinamento, métricas e justificativa da métrica principal

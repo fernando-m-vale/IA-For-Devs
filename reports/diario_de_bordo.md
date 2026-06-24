@@ -190,8 +190,58 @@ fornecidos, usando `get_model()` internamente.
 - [x] Etapa 2: análise de correlação + split treino/teste + padronização
 - [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
   Logística, Random Forest, KNN)
-- [ ] Etapa 4: treinamento, métricas e justificativa da métrica principal
+- [x] Etapa 4: treinamento, métricas e justificativa da métrica principal
 - [ ] Etapa 5: feature importance e SHAP
 - [ ] Decisão final sobre o extra de CNN
 - [ ] Etapa 7: README, Dockerfile (se aplicável), relatório final
 - [ ] Etapa 8: vídeo de demonstração
+
+## 6. Etapa 4 — Avaliação dos modelos
+
+### 6.1 Avaliação em split único (treino/teste 80/20)
+
+| Modelo | Accuracy | Precision | Recall | F1-score |
+|---|---|---|---|---|
+| Logistic Regression | 0.965 | 0.975 | 0.929 | 0.951 |
+| Random Forest | 0.974 | 1.000 | 0.929 | 0.963 |
+| KNN | 0.956 | 0.974 | 0.905 | 0.938 |
+
+Os três modelos apresentaram desempenho elevado. No split único, Random
+Forest se destacou com Precision de 100% (nenhum falso positivo no conjunto
+de teste) e a maior Accuracy/F1, empatando com Logistic Regression em Recall.
+
+**Ressalva metodológica:** um Precision de 100% em um conjunto de teste de
+apenas 114 amostras é um resultado a ser interpretado com cautela — pode
+refletir generalização real ou favorecimento parcial pela composição
+específica desse split. Isso motivou a realização de validação cruzada
+(Etapa 6.2) antes de eleger um modelo como superior.
+
+### 6.2 Validação cruzada (5-fold Stratified Cross-Validation)
+
+Para obter uma estimativa mais robusta de generalização, foi aplicada
+validação cruzada estratificada com 5 folds (`StratifiedKFold`,
+`shuffle=True`, `random_state=42`), com métrica `recall`. O pré-processamento
+(padronização) foi encapsulado em um `Pipeline` do scikit-learn, garantindo
+que o `StandardScaler` seja reajustado a cada fold — evitando data leakage
+entre folds.
+
+| Modelo | Recall médio (5-fold) | Desvio padrão |
+|---|---|---|
+| **Logistic Regression** | **0.944** | 0.052 |
+| Random Forest | 0.934 | 0.054 |
+| KNN | 0.925 | 0.046 |
+
+**Discussão:** a validação cruzada reverteu parcialmente o quadro observado
+no split único. A Regressão Logística apresentou o maior recall médio
+(94.4%), superando o Random Forest (93.4%), o que confirma a suspeita de que
+o resultado "perfeito" deste último no split único (Precision = 100%) era
+parcialmente favorecido pela composição específica daquele split, não um
+indicador definitivo de superioridade. Os desvios padrão são comparáveis
+entre os três modelos (0.046–0.054), sem destaque de instabilidade. O KNN
+apresentou o menor desvio padrão (mais consistente entre folds), porém com a
+menor média de recall.
+
+**Conclusão metodológica:** este resultado ilustra a importância de não
+confiar em métricas de um único split de treino/teste para eleger um modelo
+— validação cruzada oferece uma estimativa mais confiável do desempenho
+esperado em dados novos.

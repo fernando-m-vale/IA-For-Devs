@@ -275,8 +275,77 @@ algoritmos.
 - [x] Etapa 3: escolha dos algoritmos de classificação (Regressão
   Logística, Random Forest, KNN)
 - [x] Etapa 4: treinamento, métricas e justificativa da métrica principal
-- [ ] Etapa 5: feature importance e SHAP (em andamento — célula de cálculo
-  dos valores SHAP já executada; gráficos de resumo e beeswarm pendentes)
+- [x] Etapa 5: feature importance e SHAP (Logistic Regression + Random
+  Forest, com investigação de divergência por multicolinearidade)
 - [ ] Decisão final sobre o extra de CNN
 - [ ] Etapa 7: README, Dockerfile (se aplicável), relatório final
 - [ ] Etapa 8: vídeo de demonstração
+
+## 7. Etapa 5 — Interpretabilidade (SHAP)
+
+### 7.1 Primeira tentativa e divergência identificada
+
+A análise SHAP foi inicialmente realizada apenas para a Regressão Logística
+(modelo escolhido como mais robusto na validação cruzada — ver 5.2), usando
+`shap.LinearExplainer`. O ranking de importância resultante apontou
+`texture3` e `radius2` como as duas features mais influentes no modelo —
+resultado inesperado, já que `radius2` havia sido identificada na Etapa 2
+como tendo correlação próxima de zero com o diagnóstico, e `texture3` nunca
+apareceu entre as features mais correlacionadas.
+
+Essa divergência foi tratada como um sinal de alerta a ser investigado, não
+como um achado a aceitar diretamente.
+
+### 7.2 Investigação da causa raiz
+
+Três verificações confirmaram a hipótese de multicolinearidade distorcendo
+os coeficientes da Regressão Logística:
+
+1. **Coeficientes do modelo:** `texture3` (1.43) e `radius2` (1.23) são, de
+   fato, os dois coeficientes de maior magnitude absoluta do modelo —
+   confirmando que o SHAP estava descrevendo corretamente o comportamento
+   do modelo, e o problema estava no treinamento, não na ferramenta.
+2. **Correlação entre variantes da mesma característica:**
+   `radius1` vs `radius3`: 0.97; `radius1` vs `radius2`: 0.68;
+   `texture1` vs `texture3`: 0.91 — confirmando alta multicolinearidade
+   exatamente nas features que "herdaram" peso desproporcional.
+3. **Comparação com SHAP do Random Forest** (`TreeExplainer`, robusto a
+   multicolinearidade por natureza — decide por divisões binárias, não por
+   combinação linear de pesos): o ranking do Random Forest elegeu como
+   top-5 `area3`, `concave_points3`, `radius3`, `concave_points1` e
+   `perimeter3` — exatamente as features já identificadas como mais
+   correlacionadas com o diagnóstico na Etapa 2. Já `texture3` e `radius2`
+   caíram para as posições 13ª e 14ª no ranking do Random Forest.
+
+**Nota técnica:** a subamostragem padrão do `LinearExplainer`
+(`max_samples=100` de 455 disponíveis) foi corrigida para usar o conjunto de
+treino completo, via `shap.maskers.Independent(X_train.values, max_samples=455)`,
+eliminando variabilidade adicional do cálculo.
+
+### 7.3 Conclusão sobre interpretabilidade
+
+A divergência confirma uma limitação prevista desde a Etapa 2: a
+multicolinearidade entre features afeta a estabilidade dos coeficientes da
+Regressão Logística, fazendo com que features correlacionadas (mas não
+necessariamente as mais preditivas) recebam peso desproporcional.
+
+**Decisão adotada:** a Regressão Logística é mantida como modelo preditivo
+principal do projeto, por apresentar o maior recall médio em validação
+cruzada (Etapa 5.2) — multicolinearidade não compromete a capacidade
+preditiva do modelo, apenas a interpretabilidade direta de seus coeficientes
+individuais. Para fins de interpretação clínica de quais características
+mais influenciam o diagnóstico, adota-se o ranking de importância do
+**Random Forest** como referência — por ser robusto à multicolinearidade e
+concordar com a análise de correlação simples (Etapa 2) e com os padrões
+visuais identificados na EDA (Etapa 1).
+
+**Conclusão clínica (Random Forest + correlação, convergentes):** tamanho
+(`radius`, `area`, `perimeter`) e irregularidade de contorno (`concavity`,
+`concave_points`) do núcleo celular, especialmente nas medições "pior caso"
+(sufixo 3), são os indicadores mais fortes de malignidade no dataset.
+
+**Nota metodológica geral:** este episódio ilustra por que validar resultados
+de interpretabilidade contra múltiplas fontes de evidência (correlação, EDA
+visual, e mais de um modelo) é importante — um único método de
+interpretabilidade, aplicado a um modelo sensível a uma limitação conhecida
+dos dados, pode levar a conclusões equivocadas se aceito sem verificação.

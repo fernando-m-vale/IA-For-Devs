@@ -351,25 +351,3 @@ visual, e mais de um modelo) é importante — um único método de
 interpretabilidade, aplicado a um modelo sensível a uma limitação conhecida
 dos dados, pode levar a conclusões equivocadas se aceito sem verificação.
 
-## 8. Decisão final sobre o extra de Visão Computacional (CNN)
-
-**Decisão:** não realizar o extra de CNN com mamografias (CBIS-DDSM).
-
-**Justificativa:**
-
-1. O enunciado caracteriza o extra como compensatório, não cumulativo:
-   "não é obrigatório, mas pode aumentar sua nota caso não atinja a
-   pontuação máxima" — destinado a recuperar pontuação eventualmente perdida
-   na parte obrigatória, não a somar acima de uma entrega já completa.
-2. A análise tabular obrigatória foi concluída com profundidade acima do
-   mínimo esperado: EDA completa, pré-processamento com prevenção de data
-   leakage, três modelos comparados, validação cruzada, matriz de confusão,
-   e uma investigação crítica da causa raiz de uma divergência na análise
-   SHAP (multicolinearidade), incluindo comparação entre dois explicadores.
-3. Restrições práticas de ambiente (treinamento em CPU, sem GPU disponível)
-   tornariam o ciclo de desenvolvimento da CNN lento e arriscado dentro do
-   prazo remanescente, com alto risco de uma entrega rasa ou inacabada
-   comprometer a percepção de qualidade do projeto como um todo.
-
-O tempo que seria investido neste extra foi redirecionado para a finalização
-cuidadosa do relatório técnico e do vídeo de demonstração.

@@ -29,9 +29,6 @@ interpretabilidade (SHAP).
 | Interpretabilidade | SHAP (LinearExplainer + TreeExplainer), com investigação de uma
 divergência causada por multicolinearidade entre features |
 
-Mais detalhes em [`reports/relatorio_tecnico.md`](reports/relatorio_tecnico.md)
-e no histórico completo de decisões em
-[`reports/diario_de_bordo.md`](reports/diario_de_bordo.md).
 
 ## Estrutura do repositório
 
@@ -53,7 +50,6 @@ IA-For-Devs/
 ├── outputs/
 │   └── models/                      # modelos treinados serializados (.pkl)
 ├── reports/
-│   ├── diario_de_bordo.md           # registro cronológico de decisões e achados
 │   └── relatorio_tecnico.md         # relatório técnico consolidado (entregável)
 ├── requirements.txt
 └── README.md

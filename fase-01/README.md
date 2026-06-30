@@ -145,7 +145,7 @@ Discussão completa, incluindo justificativas de cada decisão técnica, no
 
 ## Vídeo de demonstração
 
-🔗 *[link a ser adicionado após a gravação]*
+https://youtu.be/2JcK82BSrcE
 
 ## Autor
 

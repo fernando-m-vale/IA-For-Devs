@@ -90,7 +90,7 @@ def build_model(model_name: str, hyperparams: dict):
     elif model_name == "knn":
         return KNeighborsClassifier(**hyperparams)
     elif model_name == "svm":
-        return SVC(random_state=42, probability=True, **hyperparams)
+        return SVC(random_state=42, **hyperparams)
     else:
         raise ValueError(f"Modelo '{model_name}' não reconhecido.")
 

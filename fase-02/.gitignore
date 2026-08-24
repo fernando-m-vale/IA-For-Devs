@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtualenv
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Outputs
+outputs/results/*.json
+!outputs/results/.gitkeep
+
+# Modelos serializados
+*.pkl
+
+# Modelos do Ollama (ficam em ~/.ollama, não precisam ser versionados)
+.ollama/

@@ -170,15 +170,3 @@ Caso C — o mais relevante clinicamente: o modelo de ML previu "Benigno" com pr
 Limitação de tempo de resposta: 294–474 segundos por chamada em CPU.
 Em ambiente de produção com GPU ou API de nuvem, o tempo cairia — limitação do ambiente de desenvolvimento, não do design.
 
-5. Próximos passos
-
-- [x] Etapa 1: Algoritmo Genético (3 experimentos, 4 modelos)
-- [x] Etapa 2: Logging e monitoramento
-- [x] Etapa 3: Integração com LLM (Ollama + LLaMA 3.1)
-- [ ] Etapa 4: Diagrama de arquitetura + relatório técnico
-- [ ] Etapa 5: Vídeo de demonstração
-
----
-
-Depois de salvar, faça commit e push com a mensagem:
-"docs: corrige formatacao markdown e adiciona secao 4 (LLM) no diario de bordo"

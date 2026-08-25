@@ -126,9 +126,59 @@ Correção técnica identificada: `probability=True` no SVC estava
 deprecated no scikit-learn 1.9+. Corrigido — a flag era desnecessária pois
 a função fitness não usa `predict_proba()`.
 
-4. Próximos passos
+4. Integração com LLM (Ollama + LLaMA 3.1 8B)
 
-- [ ] Etapa 3a: instalação do Ollama e download do modelo LLM
-- [ ] Etapa 3b: implementação do llm_interpreter.py e prompt engineering
-- [ ] Etapa 4: diagrama de arquitetura + relatório técnico
-- [ ] Etapa 5: vídeo de demonstração
+4.1 Setup e decisões técnicas
+
+- Modelo escolhido: LLaMA 3.1 8B via Ollama (local, gratuito, sem API key).
+- Motivo: 16 GB de RAM disponíveis permitem rodar o modelo 8B confortavelmente; LLaMA 3.1 apresenta boa qualidade em português.
+- Temperatura: 0.3 para explicações (consistência > criatividade em contexto médico); 0.1 para avaliação de qualidade (JSON estruturado exige mínima variabilidade).
+- Problema resolvido: SHAP 0.52+ exige Python >=3.12; solução foi fixar versão `shap>=0.44.0,<0.52.0` compatível com Python >=3.10.
+
+4.2 Prompt engineering
+
+- Role prompting: system prompt define papel (assistente de apoio ao diagnóstico em oncologia), restrições (nunca emitir diagnóstico definitivo, sempre reforçar papel do médico) e formato esperado.
+- Structured input: dados do diagnóstico formatados de forma consistente (predição, confiança, features com valores SHAP e direção do impacto).
+- Output format specification: instrução explícita de estrutura da resposta (resumo, interpretação de características, limitações e recomendação).
+- Chain-of-thought: prompt de insights acionáveis pede raciocínio passo a passo (implicação biológica → atenção prioritária → exames → conduta).
+- Self-evaluation prompting: a própria LLM avalia sua resposta anterior segundo 4 critérios, retornando JSON estruturado com scores e justificativa.
+
+4.3 Resultados dos 3 casos de diagnóstico
+
+Casos testados:
+- Caso A (PACIENTE-TEST-108): Maligno, prob=1.000, real=Maligno
+- Caso B (PACIENTE-TEST-091): Benigno, prob=0.000, real=Benigno
+- Caso C (PACIENTE-TEST-112): Benigno, prob=0.471, real=Maligno (falso negativo)
+
+Avaliação de qualidade (auto-avaliação LLM, escala 0–10):
+
+| Caso | Precisão técnica | Clareza | Segurança | Utilidade clínica | Média |
+|---|---|---|---|---|---|
+| A — Maligno | 9 | 8 | 9 | 9 | 8.8 |
+| B — Benigno | 9 | 8 | 9 | 8 | 8. |
+| C — Limítrofe | 9 | 8 | 9 | 8 | 8.5 |
+
+4.4 Discussão crítica
+
+Pontos positivos:
+- LLM respeitou consistentemente os limites do system prompt — nunca emitiu diagnóstico definitivo, sempre reforçou o papel do médico. 
+- Na pergunta livre, iniciou a resposta com ressalva explícita sobre limitações de recomendações médicas — comportamento de segurança adequado.
+- Explicações em português fluente e tecnicamente coerentes com os dados.
+
+Caso C — o mais relevante clinicamente: o modelo de ML previu "Benigno" com probabilidade 47.1%, mas o diagnóstico real era Maligno (falso negativo). A LLM identificou sinais contraditórios (texture sugere benigno, symmetry3 sugere maligno) — reforçando por que casos limítrofes exigem revisão médica.
+
+Limitação de tempo de resposta: 294–474 segundos por chamada em CPU.
+Em ambiente de produção com GPU ou API de nuvem, o tempo cairia — limitação do ambiente de desenvolvimento, não do design.
+
+5. Próximos passos
+
+- [x] Etapa 1: Algoritmo Genético (3 experimentos, 4 modelos)
+- [x] Etapa 2: Logging e monitoramento
+- [x] Etapa 3: Integração com LLM (Ollama + LLaMA 3.1)
+- [ ] Etapa 4: Diagrama de arquitetura + relatório técnico
+- [ ] Etapa 5: Vídeo de demonstração
+
+---
+
+Depois de salvar, faça commit e push com a mensagem:
+"docs: corrige formatacao markdown e adiciona secao 4 (LLM) no diario de bordo"

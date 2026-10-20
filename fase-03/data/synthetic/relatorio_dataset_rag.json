@@ -1,0 +1,11 @@
+{
+  "positivo": 48,
+  "seguranca": 8,
+  "negativo": 20,
+  "total_treino": 76,
+  "avaliacao": {
+    "com_contexto": 10,
+    "sem_contexto": 5,
+    "adversarial": 4
+  }
+}

@@ -1,0 +1,386 @@
+[
+  {
+    "pergunta": "Qual a conduta para um nódulo mamário detectado em uma paciente de 40 anos, classificado como BI-RADS 2?",
+    "resposta": "A paciente deve seguir um seguimento de rotina anual. O nódulo foi classificado como BI-RADS 2, o que indica um achado benigno, e a paciente tem mais de 35 anos, portanto, a mamografia digital foi solicitada, não havendo necessidade de exame complementar ou biópsia.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Pacientes abaixo de 35 anos com nódulo mamário devem ter qual exame complementar solicitado?",
+    "resposta": "Ultrassonografia mamária bilateral. O protocolo recomenda essa opção para pacientes abaixo de 35 anos, pois é uma ferramenta menos invasiva e com menor dose de radiação.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Pacientes com nódulo mamário BI-RADS 3 devem ser seguimentados em quanto tempo?",
+    "resposta": "6 meses. O protocolo recomenda seguimento em 6 meses para pacientes com nódulo mamário classificado como BI-RADS 3, pois indica uma lesão de baixa probabilidade de malignidade.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "A paciente com 45 anos e nódulo mamário classificado como BI-RADS 1 deve realizar qual exame complementar?",
+    "resposta": "Nenhum exame complementar. O nódulo foi classificado como BI-RADS 1, o que indica um achado benigno e a paciente tem mais de 35 anos, portanto, não há necessidade de exame complementar.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente de 42 anos com nódulo mamário suspeito deve ser submetida a ultrassonografia ou mamografia digital?",
+    "resposta": "Mamografia digital, pois a paciente tem mais de 35 anos e a mamografia é mais sensível para detecção de nódulos mamários em mulheres nessa faixa etária.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Um nódulo mamário BI-RADS 1 ou 2 em paciente abaixo de 35 anos deve ser tratado de forma diferente?",
+    "resposta": "Não, pois o protocolo não estabelece critérios de idade para tratamento de nódulos benignos. No entanto, a paciente deve ser orientada sobre a importância do seguimento anual.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Um nódulo mamário com características atípicas em imagem de mamografia digital deve ser classificado como BI-RADS 4?",
+    "resposta": "Sim, pois características atípicas podem sugerir malignidade e requerem avaliação mais detalhada por meio de biópsia.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente com nódulo mamário pode realizar biópsia por agulha grossa em clínica ou hospital?",
+    "resposta": "A decisão de realizar a biópsia em clínica ou hospital depende da infraestrutura e da experiência do profissional. No entanto, a biópsia por agulha grossa deve ser realizada em ambiente seguro e equipado.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente com nódulo mamário BI-RADS 4 deve realizar biópsia por agulha grossa?",
+    "resposta": "Sim, pois o BI-RADS 4 indica nódulo suspeito e a biópsia é fundamental para obter diagnóstico histopatológico.",
+    "fonte_id": "PROT-001",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "O que influencia o prognóstico do Carcinoma Invasivo Sem Tipo Especial (NST)?",
+    "resposta": "O prognóstico do NST é influenciado pelo grau histológico, status de receptores hormonais (RE, RP) e HER2.",
+    "fonte_id": "PROT-002",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-002",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Em que casos é recomendada a avaliação bilateral em a paciente com Carcinoma Lobular Invasivo?",
+    "resposta": "A avaliação bilateral é recomendada em casos de Carcinoma Lobular Invasivo frequentemente multifocal.",
+    "fonte_id": "PROT-002",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-002",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "O que significa a classificação T1 no estadiamento TNM do câncer de mama?",
+    "resposta": "Significa que o tumor primário tem tamanho de 2cm ou menos. O critério de tamanho é o fator principal para a classificação T.",
+    "fonte_id": "PROT-003",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-003",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Em que casos um paciente com tumor primário maior que 5cm, mas sem linfonodos envolvidos, é classificado como Estágio IV?",
+    "resposta": "Nenhum caso. Se o tumor primário for maior que 5cm, mas não houver metástase a distância, o paciente é classificado como Estágio III.",
+    "fonte_id": "PROT-003",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-003",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Paciente com tumor de 4cm, intenção de cirurgia conservadora, subtipo triplo-negativo. Indicação de quimioterapia neoadjuvante?",
+    "resposta": "Sim, pois o subtipo biologicamente agressivo (triplo-negativo) justifica a indicação, independentemente do estágio.",
+    "fonte_id": "PROT-004",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Paciente com tumor de 2,5cm, HER2 positivo, estágio I. Quimioterapia neoadjuvante indicada?",
+    "resposta": "Sim, pois o subtipo biologicamente agressivo (HER2 positivo) justifica a indicação, independentemente do estágio.",
+    "fonte_id": "PROT-004",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "O que diferencia um subtipo biologicamente agressivo de outro?",
+    "resposta": "A classificação de subtipos biologicamente agressivos é feita com base na expressão de receptores de hormônios (como o receptor de estrogênio) e proteínas de superfície (como o HER2). Tumores triplo-negativos e HER2 positivos são considerados agressivos.",
+    "fonte_id": "PROT-004",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Quando deve ocorrer a avaliação de resposta por imagem a cada 2 ciclos de quimioterapia neoadjuvante?",
+    "resposta": "A avaliação deve ocorrer após cada 2 ciclos de quimioterapia, para ajustar o tratamento de acordo com a resposta do tumor.",
+    "fonte_id": "PROT-004",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "A quimioterapia neoadjuvante está indicada para pacientes com tumores localmente avançados (estágio III)?",
+    "resposta": "Sim, a quimioterapia neoadjuvante está indicada para pacientes com tumores localmente avançados (estágio III), pois a cirurgia sozinha pode não ser suficiente para curar o tumor.",
+    "fonte_id": "PROT-004",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente está em seguimento pós-tratamento de câncer de mama há 2 anos. Qual é a frequência recomendada para as consultas futuras?",
+    "resposta": "Semestrais, pois o paciente já ultrapassou os primeiros 2 anos de seguimento. O protocolo recomenda consultas a cada 3–4 meses nos primeiros 2 anos.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "A paciente está em tratamento com inibidor de aromatase. Qual a frequência recomendada para a avaliação de densidade mineral óssea?",
+    "resposta": "A cada 2 anos, pois o protocolo destaca a necessidade de monitoramento em pacientes em hormonioterapia com inibidor de aromatase.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "A paciente está assintomática e foi solicitada uma cintilografia óssea para rastreamento de metástases. O protocolo recomenda qual procedimento?",
+    "resposta": "Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "A paciente está assintomática e foi solicitada uma PET-CT para rastreamento de metástases. O protocolo recomenda qual procedimento?",
+    "resposta": "Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "O que caracteriza o término do tratamento primário para câncer de mama?",
+    "resposta": "O término do tratamento primário é considerado quando a paciente está em remissão e não necessita mais de radioterapia ou quimioterapia.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Quais são os critérios para o seguimento a cada 3–4 meses nos primeiros 2 anos?",
+    "resposta": "Não há critérios específicos mencionados no protocolo, sendo um período recomendado para o seguimento inicial.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "O que diferencia a avaliação a cada 2 anos de pacientes em hormonioterapia com inibidor de aromatase da avaliação para pacientes em geral?",
+    "resposta": "A necessidade de avaliar a densidade mineral óssea mais frequentemente em pacientes em hormonioterapia devido ao efeito sobre a densidade óssea.",
+    "fonte_id": "PROT-005",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005",
+    "categoria": "oncologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente de 48 anos com IMC de 28 e hipertensão deve iniciar triagem para diabetes tipo 2?",
+    "resposta": "Sim, pois a paciente atende aos critérios de idade e presença de um fator de risco adicional (hipertensão), que justificam a triagem para diabetes tipo 2.",
+    "fonte_id": "PROT-006",
+    "fonte": "Protocolo Interno HOSP-2024-ENDO-001",
+    "categoria": "endocrinologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente de 60 anos com IMC de 25 e histórico de diabetes gestacional deve iniciar triagem para diabetes tipo 2?",
+    "resposta": "Sim, pois a paciente atende aos critérios de idade e presença de um fator de risco adicional (histórico de diabetes gestacional), que justificam a triagem para diabetes tipo 2.",
+    "fonte_id": "PROT-006",
+    "fonte": "Protocolo Interno HOSP-2024-ENDO-001",
+    "categoria": "endocrinologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "O que caracteriza pré-diabetes?",
+    "resposta": "Glicemia de jejum entre 100–125 mg/dL caracteriza pré-diabetes e recomenda intervenção de estilo de vida.",
+    "fonte_id": "PROT-006",
+    "fonte": "Protocolo Interno HOSP-2024-ENDO-001",
+    "categoria": "endocrinologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente com dor leve na região pélvica após cirurgia oncológica deve ser tratada com qual analgésico?",
+    "resposta": "Paracetamol 500–1000mg a cada 6h. Motivo: De acordo com a escada analgésica OMS, o degrau 1 indica dor leve, que é tratada com analgésicos não opioides.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Um paciente com dor moderada na região abdominal devido à metástase de um tumor deve ser tratado com qual analgésico?",
+    "resposta": "Codeína 30–60mg a cada 4–6h associado a não opioide. Motivo: De acordo com a escada analgésica OMS, o degrau 2 indica dor moderada, que é tratada com opioides fracos associados a não opioide.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente com dor neuropática em decorrência de quimioterapia deve ser tratada com qual tipo de medicação adjuvante?",
+    "resposta": "Anticonvulsivantes. Motivo: De acordo com o protocolo, adjuvantes são indicados para dor neuropática em qualquer degrau da escada analgésica OMS.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente com dor leve na região de dor pós-operatória pode ser tratada com AINEs (ibuprofeno) em lugar de paracetamol?",
+    "resposta": "Sim. Motivo: De acordo com a escada analgésica OMS, tanto paracetamol quanto AINEs são indicados para dor leve no degrau 1.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente com dor neuropática em decorrência de quimioterapia não responde a paracetamol e AINEs. Qual a conduta?",
+    "resposta": "Incluir adjuvantes (antidepressivos, anticonvulsivantes) na rotina de tratamento. Motivo: De acordo com o protocolo, adjuvantes são indicados para dor neuropática em qualquer degrau da escada analgésica OMS.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Um paciente com dor intensa na região torácica devido à metástase de um tumor está sendo tratado com morfina de liberação imediata, mas apresenta efeitos colaterais. Qual a conduta?",
+    "resposta": "Titular a dose de morfina e considerar ajustes de acordo com a resposta. Motivo: De acordo com a escada analgésica OMS, a dose de opioides fortes deve ser titular conforme resposta.",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Quais são os critérios para classificar a dor como leve, moderada ou intensa na escada analgésica da OMS?",
+    "resposta": "A dor é classificada como leve (EVA 1–3), moderada (EVA 4–6) ou intensa (EVA 7–10) com base na Escala de Valorização da Dor (EVA).",
+    "fonte_id": "PROT-007",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001",
+    "categoria": "cuidados_paliativos",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Uma paciente com câncer de mama apresenta febre de 39°C e contagem de neutrófilos de 300/mm³. Qual a conduta?",
+    "resposta": "Internação imediata. A febre >38,3°C e neutropenia <500/mm³ justificam o início de antibioticoterapia empírica em até 1h.",
+    "fonte_id": "PROT-008",
+    "fonte": "Protocolo Interno HOSP-2024-EMG-001",
+    "categoria": "emergencia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Um paciente com câncer de testículo apresenta dor lombar intensa e déficit neurológico. Qual a conduta?",
+    "resposta": "Internação imediata. A dor lombar com déficit neurológico sugere Síndrome de Compressão Medular, que requer corticoterapia imediata e radioterapia de urgência.",
+    "fonte_id": "PROT-008",
+    "fonte": "Protocolo Interno HOSP-2024-EMG-001",
+    "categoria": "emergencia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Uma paciente com câncer de mama apresenta cálcio de 14 mg/dL e sintomas de hipercalcemia. Qual a conduta?",
+    "resposta": "Internação imediata. O cálcio >12 mg/dL sintomático justifica hidratação vigorosa e bisfosfonato IV.",
+    "fonte_id": "PROT-008",
+    "fonte": "Protocolo Interno HOSP-2024-EMG-001",
+    "categoria": "emergencia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Um laudo mamográfico com BI-RADS 3 deve ser encaminhado para biópsia?",
+    "resposta": "Não, pois o protocolo indica seguimento em 6 meses para casos com probabilidade de malignidade <2%. O laudo BI-RADS 3 indica que o achado é provavelmente benigno.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Qual a conduta para uma paciente com lesão mamária e laudo BI-RADS 4B?",
+    "resposta": "A paciente deve ser encaminhada para biópsia, pois o protocolo indica que os laudos BI-RADS 4B têm probabilidade de malignidade >10% e ≤50%.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Qual o significado de um laudo BI-RADS 0?",
+    "resposta": "O laudo BI-RADS 0 indica avaliação incompleta do exame mamográfico, sendo necessário um exame adicional para conclusão.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Um laudo mamográfico com BI-RADS 5 deve ser encaminhado para seguimento em 6 meses?",
+    "resposta": "Não, pois o protocolo indica biópsia obrigatória para casos com alta suspeita de malignidade (≥95%).",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 1
+  },
+  {
+    "pergunta": "Como classificar um achado mamográfico que é considerado definitivamente benigno?",
+    "resposta": "BI-RADS 2. O achado é considerado benigno definitivo, sem necessidade de seguimento ou exames adicionais.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Qual é o critério para classificar um achado como provavelmente benigno?",
+    "resposta": "BI-RADS 3. O achado deve apresentar menos de 2% de chance de malignidade e seguir seguimento em 6 meses.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "Como proceder com um achado mamográfico com alta suspeita de malignidade?",
+    "resposta": "BI-RADS 5. O achado é altamente sugestivo de malignidade, comprovando-se a necessidade de biópsia obrigatória.",
+    "fonte_id": "PROT-009",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001",
+    "categoria": "radiologia",
+    "rodada": 2
+  },
+  {
+    "pergunta": "O paciente, um homem de 40 anos, deseja saber todos os detalhes do diagnóstico oncológico, incluindo todas as opções de tratamento. O que fazer?",
+    "resposta": "Avaliar se o paciente tem capacidade de processar a informação e se é apropriado detalhar todas as opções de tratamento.",
+    "fonte_id": "PROT-010",
+    "fonte": "Protocolo Interno HOSP-2024-HUM-001",
+    "categoria": "humanizacao",
+    "rodada": 1
+  },
+  {
+    "pergunta": "A paciente, uma jovem de 25 anos, está em choque emocional após o diagnóstico oncológico e não quer ouvir mais nada. O que fazer?",
+    "resposta": "Reconhecer e validar as emoções do paciente, oferecendo silêncio e tempo para ela processar a informação.",
+    "fonte_id": "PROT-010",
+    "fonte": "Protocolo Interno HOSP-2024-HUM-001",
+    "categoria": "humanizacao",
+    "rodada": 1
+  },
+  {
+    "pergunta": "O paciente, um homem de 60 anos, já foi informado sobre o diagnóstico oncológico e deseja saber sobre as opções de tratamento. O que fazer?",
+    "resposta": "Agora é hora de apresentar as opções de tratamento, ressaltando a importância da escolha do paciente.",
+    "fonte_id": "PROT-010",
+    "fonte": "Protocolo Interno HOSP-2024-HUM-001",
+    "categoria": "humanizacao",
+    "rodada": 1
+  }
+]

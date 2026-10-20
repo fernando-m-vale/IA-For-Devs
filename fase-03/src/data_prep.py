@@ -47,8 +47,8 @@ PROTOCOLOS = [
             "sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau "
             "histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma "
             "lobular invasivo: frequentemente multifocal, requer avaliação bilateral. "
-            "Resultado concordante com imagem suspeita e histologia benigna: repetir "
-            "biópsia em local diferente."
+            "Resultado discordante (imagem suspeita com histologia benigna): repetir "
+            "biópsia em local diferente, pois a amostra pode não ter representado a lesão."
         ),
         "fonte": "Protocolo Interno HOSP-2024-ONCO-002",
     },

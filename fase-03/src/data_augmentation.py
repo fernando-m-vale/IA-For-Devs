@@ -239,6 +239,17 @@ def curate(
 # Formatação e orquestração
 # ---------------------------------------------------------------------------
 
+def apply_human_review(pairs: list[dict], review_path: Path) -> tuple[list[dict], int]:
+    """Filtro 6: remove pares rejeitados na revisão humana contra os protocolos."""
+    if not review_path.exists():
+        logger.warning("[curadoria] revisao_humana.json não encontrado, filtro 6 não aplicado")
+        return pairs, 0
+    review = json.loads(review_path.read_text(encoding="utf-8"))
+    rejeitadas = {_normalize(r["pergunta"]).lower() for r in review["rejeitados"]}
+    kept = [p for p in pairs if _normalize(p["pergunta"]).lower() not in rejeitadas]
+    return kept, len(pairs) - len(kept)
+
+
 def to_chat_example(pergunta: str, resposta: str, fonte: str) -> dict:
     """Formato chat usado pelo Unsloth. A resposta termina citando a fonte."""
     return {
@@ -264,7 +275,20 @@ def build_finetuning_dataset(base_dir: Path = BASE_DIR, model: str = TEACHER_MOD
     raw = generate_raw_pairs(protocolos, base_dir / "qa_bruto_gerado.json", model=model)
     curated, stats = curate(raw, [g["pergunta"] for g in gold])
 
+    curated, n_rev = apply_human_review(curated, base_dir / "revisao_humana.json")
+    stats["removido_revisao_humana"] = n_rev
+    stats["total_curado"] = len(curated)
+
+    seguranca_path = base_dir / "exemplos_seguranca.json"
+    seguranca = []
+    if seguranca_path.exists():
+        seguranca = json.loads(seguranca_path.read_text(encoding="utf-8"))
+    stats["exemplos_seguranca_manuais"] = len(seguranca)
+
     train = [to_chat_example(c["pergunta"], c["resposta"], c["fonte"]) for c in curated]
+    train += [to_chat_example(s["pergunta"], s["resposta"], s["fonte"]) for s in seguranca]
+
+    stats["total_treino"] = len(train)
     evaluation = [
         to_chat_example(g["pergunta"], g["resposta"], fonte_por_id.get(g["fonte"], g["fonte"]))
         for g in gold

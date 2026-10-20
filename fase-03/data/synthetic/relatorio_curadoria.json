@@ -1,0 +1,22 @@
+{
+  "total_bruto": 151,
+  "substituicoes_anonimizacao": 0,
+  "removido_tamanho": 68,
+  "removido_duplicata_semantica": 16,
+  "total_curado": 48,
+  "por_protocolo": {
+    "PROT-001": 14,
+    "PROT-002": 4,
+    "PROT-003": 5,
+    "PROT-004": 9,
+    "PROT-005": 7,
+    "PROT-006": 4,
+    "PROT-007": 8,
+    "PROT-008": 6,
+    "PROT-009": 7,
+    "PROT-010": 3
+  },
+  "removido_revisao_humana": 19,
+  "exemplos_seguranca_manuais": 8,
+  "total_treino": 56
+}

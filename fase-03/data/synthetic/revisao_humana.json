@@ -1,0 +1,82 @@
+{
+  "descricao": "Filtro 6 da curadoria: pares gerados pelo modelo professor rejeitados após revisão contra o texto dos protocolos internos. A comparação é feita pela pergunta (normalizada).",
+  "criterio": "Rejeitar respostas com erro factual em relação ao protocolo, contradição interna, informação inventada que não consta no protocolo, ou conclusão clinicamente insegura.",
+  "rejeitados": [
+    {
+      "pergunta": "Paciente com tumor primário de 6 cm e linfonodos axilares ausentes, qual o estadiamento?",
+      "motivo": "Erro factual: classifica corretamente como T3, mas conclui Estágio II. Pelo protocolo ONCO-003, T3 corresponde a Estágio III."
+    },
+    {
+      "pergunta": "Paciente com tumor primário de 2 cm e 1 linfonodo positivo na axila, qual o estadiamento?",
+      "motivo": "Erro factual: classifica 2 cm como T2. Pelo protocolo ONCO-003, T1 é tumor de até 2 cm."
+    },
+    {
+      "pergunta": "Em que situação um paciente com tumor primário de 3cm e linfonodos envolvidos é classificado como Estágio II?",
+      "motivo": "Erro factual: afirma que nunca ocorre. Pelo protocolo ONCO-003, T2N1M0 é Estágio II."
+    },
+    {
+      "pergunta": "Uma paciente de 40 anos com IMC de 22 e síndrome dos ovários policísticos deve iniciar triagem para diabetes tipo 2?",
+      "motivo": "Erro factual: afirma que atende IMC ≥25. Com IMC 22 e idade abaixo de 45 anos, a paciente não atende aos critérios do protocolo ENDO-001."
+    },
+    {
+      "pergunta": "Um paciente com dor moderada na região abdominal devido à metástase de um tumor está em uso de codeína, mas não apresenta melhora. Qual a conduta?",
+      "motivo": "Erro factual: sugere titular a codeína. Pela escada analgésica (PAL-001), falha do degrau 2 indica progressão para opioide forte (degrau 3)."
+    },
+    {
+      "pergunta": "Um paciente com câncer de pulmão apresenta dispneia e hipotensão, mas sem turgência jugular. Qual a conduta?",
+      "motivo": "Conclusão insegura: recomenda não internar um paciente oncológico com dispneia e hipotensão. A ausência de um critério de tamponamento não descarta instabilidade grave."
+    },
+    {
+      "pergunta": "Uma paciente com câncer de mama apresenta temperatura de 38°C e contagem de neutrófilos de 500/mm³. Qual a conduta?",
+      "motivo": "Conclusão insegura e erro conceitual: chama a neutropenia de 'levemente elevada' e descarta internação em caso limítrofe sem nenhuma ressalva de reavaliação."
+    },
+    {
+      "pergunta": "Um paciente com câncer de próstata apresenta dor lombar, mas sem déficit neurológico. Qual a conduta?",
+      "motivo": "Conclusão insegura: generaliza 'não internar' a partir do protocolo de compressão medular, que não trata desse cenário. Dor lombar em paciente oncológico exige investigação."
+    },
+    {
+      "pergunta": "Um nódulo mamário com tamanho de 1,5 cm e bordos irregulares deve ser classificado como BI-RADS 4 ou 5?",
+      "motivo": "Resposta incoerente: responde 'Sim' a uma pergunta de alternativa (4 ou 5)."
+    },
+    {
+      "pergunta": "Um nódulo mamário BI-RADS 3 deve ser avaliado com ultrassonografia mamária bilateral?",
+      "motivo": "Raciocínio errado: atribui a escolha do exame à categoria BI-RADS, quando pelo protocolo ONCO-001 ela depende da idade da paciente."
+    },
+    {
+      "pergunta": "Qual a conduta para uma paciente de 28 anos com nódulo mamário classificado como BI-RADS 4?",
+      "motivo": "Resposta confusa: mistura o exame de triagem com a conduta após a classificação, sugerindo uma relação causal inexistente."
+    },
+    {
+      "pergunta": "Pacientes com nódulo mamário BI-RADS 2 devem ter qual conduta?",
+      "motivo": "Informação inventada: afirma que 'a paciente tem mais de 35 anos', dado ausente na pergunta."
+    },
+    {
+      "pergunta": "Pacientes com nódulo mamário BI-RADS 1 devem realizar seguimento anualmente?",
+      "motivo": "Informação inventada: afirma que 'a paciente tem mais de 35 anos', dado ausente na pergunta."
+    },
+    {
+      "pergunta": "Quando deve-se repetir a biópsia em local diferente caso o resultado seja concordante com a imagem suspeita e a histologia seja benigna?",
+      "motivo": "Herda erro do protocolo PROT-002 original: imagem suspeita com histologia benigna é resultado DISCORDANTE. Protocolo corrigido."
+    },
+    {
+      "pergunta": "Qual é o significado de resultado concordante entre imagem suspeita e histologia benigna na biópsia mamária?",
+      "motivo": "Herda erro do protocolo PROT-002 original: imagem suspeita com histologia benigna é resultado DISCORDANTE. Protocolo corrigido."
+    },
+    {
+      "pergunta": "Qual é o critério de seleção para pacientes com intenção de cirurgia conservadora que justifica a indicação de quimioterapia neoadjuvante?",
+      "motivo": "Erro factual: inverte o protocolo ONCO-004 e inventa justificativa (redução de recidiva) que não consta no texto."
+    },
+    {
+      "pergunta": "O esquema de quimioterapia neoadjuvante preferencial é AC-T, mas em pacientes com intenção de cirurgia conservadora, qual é o esquema mais apropriado?",
+      "motivo": "Informação inventada: justifica o esquema por 'redução de recidiva', motivo que não consta no protocolo ONCO-004."
+    },
+    {
+      "pergunta": "Pacientes com tumores HER2 positivos devem receber adjuvante de trastuzumabe e pertuzumabe, independentemente do protocolo de quimioterapia neoadjuvante?",
+      "motivo": "Resposta contraditória: responde 'não' e em seguida descreve uso condicionado, confundindo terapia adjuvante e neoadjuvante."
+    },
+    {
+      "pergunta": "Em caso de paciente com tumores pequenos e HER2 positivos, a quimioterapia neoadjuvante é necessária?",
+      "motivo": "Exagero normativo: o protocolo ONCO-004 diz que está 'indicada', e a resposta afirma que é 'necessária'."
+    }
+  ]
+}

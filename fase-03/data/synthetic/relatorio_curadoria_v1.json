@@ -1,0 +1,19 @@
+{
+  "total_bruto": 187,
+  "substituicoes_anonimizacao": 0,
+  "removido_tamanho": 137,
+  "removido_duplicata_exata": 1,
+  "removido_duplicata_semantica": 5,
+  "removido_vazamento_avaliacao": 6,
+  "total_curado": 38,
+  "por_protocolo": {
+    "PROT-001": 2,
+    "PROT-002": 8,
+    "PROT-005": 4,
+    "PROT-006": 8,
+    "PROT-007": 1,
+    "PROT-008": 2,
+    "PROT-009": 2,
+    "PROT-010": 11
+  }
+}

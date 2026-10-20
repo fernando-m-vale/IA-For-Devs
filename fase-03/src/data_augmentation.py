@@ -26,16 +26,32 @@ logger = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).parents[1] / "data" / "synthetic"
 TEACHER_MODEL = "llama3.1"
-PAIRS_PER_PROTOCOL = 20
+PAIRS_PER_CALL = 8
+ROUNDS_PER_PROTOCOL = 2
+
+ROUND_FOCUS = {
+    1: "condutas e casos clínicos curtos (uma situação de paciente e qual a conduta segundo o protocolo, explicando o motivo)",
+    2: "definições, critérios, interpretação de achados e situações de exceção ou dúvida previstas no protocolo",
+}
 EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
 SYSTEM_PROMPT_TEACHER = """Você é um médico especialista criando material de treinamento para um assistente virtual hospitalar.
 Gere perguntas que médicos fariam no dia a dia e respostas baseadas EXCLUSIVAMENTE no protocolo fornecido.
-Regras:
-- Responda sempre em português do Brasil.
+
+Regras para as respostas:
+- Português do Brasil, linguagem técnica adequada a médicos.
+- Cada resposta deve ter de 2 a 4 frases: a orientação principal E o motivo clínico ou critério do protocolo que a justifica.
 - Nunca invente informação que não esteja no protocolo.
-- As respostas são orientações para o médico, nunca prescrições diretas ao paciente.
-- Varie o estilo das perguntas: diretas, casos clínicos curtos, dúvidas de conduta, definições."""
+- São orientações para o médico, nunca prescrições diretas ao paciente.
+
+Regras para as perguntas:
+- Cada pergunta deve abordar um aspecto DIFERENTE do protocolo.
+- Não gere perguntas que diferem apenas pela idade, sexo ou outro detalhe trivial do paciente.
+- Em temas de saúde mamária, refira-se a "a paciente".
+
+Exemplo de formato (tema fictício, use apenas como modelo de estilo, não copie o conteúdo):
+{"pergunta": "Paciente com pressão arterial de 150x95 mmHg em consulta isolada já deve iniciar anti-hipertensivo?",
+ "resposta": "Não necessariamente. O diagnóstico de hipertensão exige confirmação com medidas em pelo menos duas consultas ou por monitorização ambulatorial, pois uma medida isolada pode refletir o efeito do avental branco. A decisão de iniciar tratamento depende dessa confirmação e da estratificação de risco cardiovascular."}"""
 
 FINETUNE_SYSTEM_PROMPT = (
     "Você é um assistente de apoio à decisão clínica do hospital. "
@@ -75,13 +91,15 @@ def _normalize(text: str) -> str:
 # Geração (modelo professor)
 # ---------------------------------------------------------------------------
 
-def build_generation_prompt(protocolo: dict, n: int) -> str:
+def build_generation_prompt(protocolo: dict, n: int, rodada: int) -> str:
     return f"""Protocolo: {protocolo['titulo']} ({protocolo['fonte']})
 
 Conteúdo:
 {protocolo['conteudo']}
 
 Gere {n} pares de pergunta e resposta distintos sobre este protocolo.
+Foco desta rodada: {ROUND_FOCUS[rodada]}.
+
 Responda APENAS com JSON no formato:
 {{"pares": [{{"pergunta": "...", "resposta": "..."}}]}}"""
 
@@ -90,54 +108,60 @@ def generate_raw_pairs(
     protocolos: list[dict],
     output_path: Path,
     model: str = TEACHER_MODEL,
-    n: int = PAIRS_PER_PROTOCOL,
+    n: int = PAIRS_PER_CALL,
+    rounds: int = ROUNDS_PER_PROTOCOL,
 ) -> list[dict]:
     """
-    Gera pares brutos para cada protocolo. Retomável: protocolos já
-    processados (presentes em output_path) são pulados, e o progresso
-    é salvo após cada protocolo.
+    Gera pares brutos para cada protocolo, em várias rodadas com focos
+    diferentes. Retomável: combinações (protocolo, rodada) já presentes
+    em output_path são puladas, e o progresso é salvo após cada chamada.
     """
     pairs: list[dict] = []
     if output_path.exists():
         pairs = json.loads(output_path.read_text(encoding="utf-8"))
-    done_ids = {p["fonte_id"] for p in pairs}
+    done = {(p["fonte_id"], p.get("rodada", 1)) for p in pairs}
 
     for prot in protocolos:
-        if prot["id"] in done_ids:
-            logger.info(f"[geracao] {prot['id']} já processado, pulando")
-            continue
+        for rodada in range(1, rounds + 1):
+            if (prot["id"], rodada) in done:
+                logger.info(f"[geracao] {prot['id']} rodada {rodada} já processada, pulando")
+                continue
 
-        logger.info(f"[geracao] Gerando {n} pares para {prot['id']} ({prot['titulo']})")
-        response = ollama.chat(
-            model=model,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT_TEACHER},
-                {"role": "user", "content": build_generation_prompt(prot, n)},
-            ],
-            format="json",
-            options={"temperature": 0.7},
-        )
+            logger.info(f"[geracao] {prot['id']} rodada {rodada}/{rounds} ({prot['titulo']})")
+            response = ollama.chat(
+                model=model,
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT_TEACHER},
+                    {"role": "user", "content": build_generation_prompt(prot, n, rodada)},
+                ],
+                format="json",
+                options={"temperature": 0.7, "num_ctx": 4096},
+            )
 
-        try:
-            novos = json.loads(response["message"]["content"]).get("pares", [])
-        except json.JSONDecodeError:
-            logger.warning(f"[geracao] JSON inválido para {prot['id']}, será refeito na próxima execução")
-            continue
+            try:
+                novos = json.loads(response["message"]["content"]).get("pares", [])
+            except json.JSONDecodeError:
+                logger.warning(
+                    f"[geracao] JSON inválido em {prot['id']} rodada {rodada}, "
+                    "será refeito na próxima execução"
+                )
+                continue
 
-        validos = 0
-        for par in novos:
-            if isinstance(par, dict) and par.get("pergunta") and par.get("resposta"):
-                pairs.append({
-                    "pergunta": str(par["pergunta"]).strip(),
-                    "resposta": str(par["resposta"]).strip(),
-                    "fonte_id": prot["id"],
-                    "fonte": prot["fonte"],
-                    "categoria": prot["categoria"],
-                })
-                validos += 1
+            validos = 0
+            for par in novos:
+                if isinstance(par, dict) and par.get("pergunta") and par.get("resposta"):
+                    pairs.append({
+                        "pergunta": str(par["pergunta"]).strip(),
+                        "resposta": str(par["resposta"]).strip(),
+                        "fonte_id": prot["id"],
+                        "fonte": prot["fonte"],
+                        "categoria": prot["categoria"],
+                        "rodada": rodada,
+                    })
+                    validos += 1
 
-        output_path.write_text(json.dumps(pairs, ensure_ascii=False, indent=2), encoding="utf-8")
-        logger.info(f"[geracao] {prot['id']}: {validos} pares válidos (total acumulado: {len(pairs)})")
+            output_path.write_text(json.dumps(pairs, ensure_ascii=False, indent=2), encoding="utf-8")
+            logger.info(f"[geracao] {prot['id']} rodada {rodada}: {validos} pares (total: {len(pairs)})")
 
     return pairs
 
@@ -149,7 +173,7 @@ def curate(
     pairs: list[dict],
     eval_questions: list[str],
     min_question_chars: int = 15,
-    min_answer_chars: int = 60,
+    min_answer_chars: int = 100,
     max_answer_chars: int = 1500,
     dedup_threshold: float = 0.92,
     leakage_threshold: float = 0.85,

@@ -272,7 +272,7 @@ def build_finetuning_dataset(base_dir: Path = BASE_DIR, model: str = TEACHER_MOD
     gold = json.loads((base_dir / "perguntas_medicas.json").read_text(encoding="utf-8"))
     fonte_por_id = {p["id"]: p["fonte"] for p in protocolos}
 
-    raw = generate_raw_pairs(protocolos, base_dir / "qa_bruto_gerado.json", model=model)
+    raw = generate_raw_pairs(protocolos, base_dir / "qa_bruto_v2.json", model=model)
     curated, stats = curate(raw, [g["pergunta"] for g in gold])
 
     curated, n_rev = apply_human_review(curated, base_dir / "revisao_humana.json")

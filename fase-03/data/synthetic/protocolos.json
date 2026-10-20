@@ -1,0 +1,72 @@
+[
+  {
+    "id": "PROT-001",
+    "titulo": "Triagem de Nódulo Mamário Suspeito",
+    "categoria": "oncologia",
+    "conteudo": "Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-001"
+  },
+  {
+    "id": "PROT-002",
+    "titulo": "Interpretação de Laudos de Biópsia Mamária",
+    "categoria": "oncologia",
+    "conteudo": "O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado concordante com imagem suspeita e histologia benigna: repetir biópsia em local diferente.",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-002"
+  },
+  {
+    "id": "PROT-003",
+    "titulo": "Estadiamento de Câncer de Mama — Sistema TNM",
+    "categoria": "oncologia",
+    "conteudo": "O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1.",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-003"
+  },
+  {
+    "id": "PROT-004",
+    "titulo": "Indicações de Quimioterapia Neoadjuvante",
+    "categoria": "oncologia",
+    "conteudo": "A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos.",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-004"
+  },
+  {
+    "id": "PROT-005",
+    "titulo": "Seguimento Pós-Tratamento de Câncer de Mama",
+    "categoria": "oncologia",
+    "conteudo": "Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase.",
+    "fonte": "Protocolo Interno HOSP-2024-ONCO-005"
+  },
+  {
+    "id": "PROT-006",
+    "titulo": "Protocolo de Triagem para Diabetes Mellitus Tipo 2",
+    "categoria": "endocrinologia",
+    "conteudo": "Triagem para DM2 recomendada em adultos ≥45 anos, ou mais jovens com IMC ≥25 e pelo menos um fator de risco adicional: familiar de 1º grau com DM, hipertensão, dislipidemia, síndrome dos ovários policísticos, histórico de diabetes gestacional. Exames: glicemia de jejum ≥126 mg/dL em duas ocasiões confirma DM2. HbA1c ≥6,5% confirma DM2. Glicemia de jejum 100–125 mg/dL caracteriza pré-diabetes — intervenção de estilo de vida recomendada, reavaliação em 6–12 meses.",
+    "fonte": "Protocolo Interno HOSP-2024-ENDO-001"
+  },
+  {
+    "id": "PROT-007",
+    "titulo": "Manejo de Dor Oncológica — Escada Analgésica OMS",
+    "categoria": "cuidados_paliativos",
+    "conteudo": "A escada analgésica da OMS orienta o manejo da dor em 3 degraus: Degrau 1 (dor leve, EVA 1–3): analgésicos não opioides — paracetamol 500–1000mg a cada 6h ou AINEs (ibuprofeno 400–600mg a cada 8h). Degrau 2 (dor moderada, EVA 4–6): opioides fracos — codeína 30–60mg a cada 4–6h associado a não opioide. Degrau 3 (dor intensa, EVA 7–10): opioides fortes — morfina de liberação imediata 5–10mg a cada 4h, titular conforme resposta. Adjuvantes (antidepressivos, anticonvulsivantes) em qualquer degrau para dor neuropática.",
+    "fonte": "Protocolo Interno HOSP-2024-PAL-001"
+  },
+  {
+    "id": "PROT-008",
+    "titulo": "Critérios de Internação em Emergência Oncológica",
+    "categoria": "emergencia",
+    "conteudo": "Emergências oncológicas que requerem internação imediata: (1) Neutropenia febril: temperatura >38,3°C uma vez ou >38°C por 1h, com neutrófilos <500/mm³ — antibioticoterapia empírica em até 1h; (2) Síndrome de compressão medular: dor lombar com déficit neurológico — corticoterapia imediata e radioterapia de urgência; (3) Hipercalcemia maligna: cálcio >12 mg/dL sintomático — hidratação vigorosa e bisfosfonato IV; (4) Tamponamento cardíaco: dispneia + hipotensão + turgência jugular em paciente oncológico — pericardiocentese de urgência.",
+    "fonte": "Protocolo Interno HOSP-2024-EMG-001"
+  },
+  {
+    "id": "PROT-009",
+    "titulo": "Uso do Sistema BI-RADS na Mamografia",
+    "categoria": "radiologia",
+    "conteudo": "O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia.",
+    "fonte": "Protocolo Interno HOSP-2024-RAD-001"
+  },
+  {
+    "id": "PROT-010",
+    "titulo": "Comunicação de Diagnóstico Oncológico ao Paciente",
+    "categoria": "humanizacao",
+    "conteudo": "A comunicação de diagnóstico oncológico deve seguir o protocolo SPIKES: S (Setting): ambiente privado e confortável, familiar presente se o paciente desejar; P (Perception): avaliar o que o paciente já sabe; I (Invitation): verificar quanto o paciente deseja saber; K (Knowledge): transmitir a informação em linguagem acessível, evitando jargões; E (Emotions): reconhecer e validar emoções, oferecer silêncio; S (Strategy): apresentar o plano de tratamento de forma clara, ressaltar que não está sozinho. Nunca comunicar diagnóstico por telefone ou através de terceiros sem consentimento do paciente.",
+    "fonte": "Protocolo Interno HOSP-2024-HUM-001"
+  }
+]

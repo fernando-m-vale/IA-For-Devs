@@ -1,0 +1,72 @@
+[
+  {
+    "id": "QA-001",
+    "pergunta": "O que é o sistema BI-RADS e como interpretar a categoria 4?",
+    "resposta": "O BI-RADS é um sistema padronizado para classificar achados mamográficos. A categoria 4 indica lesão suspeita e é subdividida em: 4A (baixa suspeita, risco de 2–10%), 4B (suspeita intermediária, 10–50%) e 4C (alta suspeita, 50–95%). Todas as lesões BI-RADS 4 requerem biópsia para esclarecimento histológico. O resultado da biópsia deve ser correlacionado com a imagem para avaliar concordância.",
+    "categoria": "radiologia",
+    "fonte": "PROT-009"
+  },
+  {
+    "id": "QA-002",
+    "pergunta": "Quais são os critérios para indicar quimioterapia neoadjuvante?",
+    "resposta": "A quimioterapia neoadjuvante está indicada em tumores localmente avançados (estágio III), quando há intenção de cirurgia conservadora em tumores maiores que 3cm, e em subtipos biologicamente agressivos como triplo-negativo e HER2 positivo, mesmo em estágios iniciais. O benefício é maior nesses subtipos, pois a resposta patológica completa correlaciona-se com melhor prognóstico.",
+    "categoria": "oncologia",
+    "fonte": "PROT-004"
+  },
+  {
+    "id": "QA-003",
+    "pergunta": "Como manejar neutropenia febril em paciente oncológico?",
+    "resposta": "Neutropenia febril é uma emergência oncológica. Definida por temperatura >38,3°C ou >38°C por 1h, com neutrófilos <500/mm³. A conduta é: iniciar antibioticoterapia empírica de amplo espectro em até 1 hora após a admissão, coletar hemoculturas antes dos antibióticos, internar para monitorização. Esquema empírico de escolha: piperacilina-tazobactam ou cefepima IV. Adicionar vancomicina se suspeita de infecção por gram-positivo ou instabilidade hemodinâmica.",
+    "categoria": "emergencia",
+    "fonte": "PROT-008"
+  },
+  {
+    "id": "QA-004",
+    "pergunta": "Qual o esquema de seguimento após tratamento de câncer de mama?",
+    "resposta": "O seguimento pós-tratamento de câncer de mama inclui consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. A mamografia anual está indicada para a mama residual e contralateral. Não há benefício comprovado para rastreamento rotineiro de metástases em pacientes assintomáticas.",
+    "categoria": "oncologia",
+    "fonte": "PROT-005"
+  },
+  {
+    "id": "QA-005",
+    "pergunta": "Como diagnosticar diabetes mellitus tipo 2?",
+    "resposta": "O diagnóstico de DM2 é confirmado por qualquer um dos seguintes critérios: glicemia de jejum ≥126 mg/dL em duas ocasiões distintas, HbA1c ≥6,5% confirmada em segunda coleta, glicemia 2h após sobrecarga oral de glicose ≥200 mg/dL, ou glicemia aleatória ≥200 mg/dL na presença de sintomas clássicos (poliúria, polidipsia, perda de peso inexplicada).",
+    "categoria": "endocrinologia",
+    "fonte": "PROT-006"
+  },
+  {
+    "id": "QA-006",
+    "pergunta": "Quando usar morfina para controle de dor oncológica?",
+    "resposta": "A morfina está indicada no 3º degrau da escada analgésica da OMS, para dor intensa (EVA 7–10) que não respondeu a opioides fracos ou em situações de dor severa ab initio. A dose inicial recomendada é morfina de liberação imediata 5–10mg a cada 4h, com titulação baseada na resposta. Para dor irruptiva, prescrever dose de resgate de 1/6 da dose total diária. Monitorar efeitos adversos: constipação (tratar profilaticamente), náuseas e sonolência.",
+    "categoria": "cuidados_paliativos",
+    "fonte": "PROT-007"
+  },
+  {
+    "id": "QA-007",
+    "pergunta": "O que é carcinoma ductal in situ e como é tratado?",
+    "resposta": "Carcinoma ductal in situ (CDIS) é uma lesão não invasiva, confinada aos ductos mamários, sem invasão da membrana basal. Representa estágio 0 do câncer de mama. O tratamento é geralmente cirúrgico conservador (tumorectomia) com margens livres, seguido de radioterapia adjuvante. Mastectomia pode ser indicada em lesões extensas ou multicêntricas. Em casos RE positivos, hormonioterapia adjuvante reduz o risco de recorrência e de carcinoma invasivo contralateral.",
+    "categoria": "oncologia",
+    "fonte": "PROT-002"
+  },
+  {
+    "id": "QA-008",
+    "pergunta": "Como comunicar um diagnóstico de câncer ao paciente?",
+    "resposta": "A comunicação de diagnóstico oncológico deve seguir o protocolo SPIKES: preparar o ambiente (privado, com familiar se desejado), avaliar o que o paciente já sabe, verificar quanto ele deseja saber, transmitir a informação em linguagem acessível, reconhecer e validar as emoções, e apresentar o plano de tratamento. Nunca comunicar diagnóstico por telefone ou via terceiros sem consentimento.",
+    "categoria": "humanizacao",
+    "fonte": "PROT-010"
+  },
+  {
+    "id": "QA-009",
+    "pergunta": "Quais exames solicitar na triagem de nódulo mamário?",
+    "resposta": "Para nódulo mamário suspeito, a escolha do exame depende da idade: ultrassonografia mamária bilateral para pacientes abaixo de 35 anos (mama densa, menor sensibilidade da mamografia); mamografia digital para pacientes acima de 35 anos. Em casos de alta suspeição clínica independente da idade, ambos os exames podem ser solicitados simultaneamente. A classificação BI-RADS orienta a conduta subsequente.",
+    "categoria": "oncologia",
+    "fonte": "PROT-001"
+  },
+  {
+    "id": "QA-010",
+    "pergunta": "O que caracteriza uma emergência de compressão medular em oncologia?",
+    "resposta": "Compressão medular maligna é caracterizada por dor lombar progressiva associada a déficit neurológico (fraqueza de membros inferiores, alteração de sensibilidade, disfunção vesical ou intestinal) em paciente oncológico. É uma emergência — corticoterapia (dexametasona) deve ser iniciada imediatamente, seguida de radioterapia de urgência ou cirurgia descompressiva. O prognóstico neurológico depende diretamente da velocidade de intervenção.",
+    "categoria": "emergencia",
+    "fonte": "PROT-008"
+  }
+]

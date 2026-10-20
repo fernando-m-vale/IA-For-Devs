@@ -278,6 +278,7 @@ def build_finetuning_dataset(base_dir: Path = BASE_DIR, model: str = TEACHER_MOD
     curated, n_rev = apply_human_review(curated, base_dir / "revisao_humana.json")
     stats["removido_revisao_humana"] = n_rev
     stats["total_curado"] = len(curated)
+    stats["por_protocolo"] = dict(Counter(c["fonte_id"] for c in curated))
 
     seguranca_path = base_dir / "exemplos_seguranca.json"
     seguranca = []

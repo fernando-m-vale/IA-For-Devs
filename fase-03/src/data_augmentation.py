@@ -1,0 +1,266 @@
+"""
+Aumento sintético e curadoria do dataset de fine-tuning.
+
+Fluxo:
+1. Um modelo "professor" (LLaMA 3.1 8B via Ollama) gera pares pergunta/resposta
+   a partir de cada protocolo interno.
+2. Os pares brutos passam por curadoria: anonimização, filtro de tamanho,
+   filtro de segurança, deduplicação exata e semântica, e remoção de
+   vazamento para o conjunto de avaliação.
+3. Os 10 pares escritos manualmente (perguntas_medicas.json) NÃO entram no
+   treino: formam o conjunto de avaliação (held-out).
+4. Saída em formato chat (JSONL), pronto para fine-tuning com Unsloth.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+from collections import Counter
+from pathlib import Path
+
+import ollama
+
+logger = logging.getLogger(__name__)
+
+BASE_DIR = Path(__file__).parents[1] / "data" / "synthetic"
+TEACHER_MODEL = "llama3.1"
+PAIRS_PER_PROTOCOL = 20
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+SYSTEM_PROMPT_TEACHER = """Você é um médico especialista criando material de treinamento para um assistente virtual hospitalar.
+Gere perguntas que médicos fariam no dia a dia e respostas baseadas EXCLUSIVAMENTE no protocolo fornecido.
+Regras:
+- Responda sempre em português do Brasil.
+- Nunca invente informação que não esteja no protocolo.
+- As respostas são orientações para o médico, nunca prescrições diretas ao paciente.
+- Varie o estilo das perguntas: diretas, casos clínicos curtos, dúvidas de conduta, definições."""
+
+FINETUNE_SYSTEM_PROMPT = (
+    "Você é um assistente de apoio à decisão clínica do hospital. "
+    "Responda com base nos protocolos internos, cite a fonte e nunca prescreva "
+    "diretamente: a decisão final é sempre do médico."
+)
+
+# ---------------------------------------------------------------------------
+# Anonimização e segurança
+# ---------------------------------------------------------------------------
+
+ANON_PATTERNS = [
+    (re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"), "[CPF]"),
+    (re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+"), "[EMAIL]"),
+    (re.compile(r"\(?\b\d{2}\)?\s?9?\d{4}-?\d{4}\b"), "[TELEFONE]"),
+    (re.compile(r"\b(?:Sr|Sra|Dr|Dra)\.\s+[A-ZÀ-Ú][a-zà-ú]+(?:\s+[A-ZÀ-Ú][a-zà-ú]+)*"), "[NOME]"),
+]
+
+UNSAFE_PATTERNS = re.compile(
+    r"\b(prescrevo|receito|você deve tomar|tome\s|automedica)", re.IGNORECASE
+)
+
+
+def anonymize_text(text: str) -> tuple[str, int]:
+    """Substitui dados pessoais identificáveis. Retorna (texto, nº de substituições)."""
+    total = 0
+    for pattern, replacement in ANON_PATTERNS:
+        text, n = pattern.subn(replacement, text)
+        total += n
+    return text, total
+
+
+def _normalize(text: str) -> str:
+    return re.sub(r"\s+", " ", text).strip()
+
+# ---------------------------------------------------------------------------
+# Geração (modelo professor)
+# ---------------------------------------------------------------------------
+
+def build_generation_prompt(protocolo: dict, n: int) -> str:
+    return f"""Protocolo: {protocolo['titulo']} ({protocolo['fonte']})
+
+Conteúdo:
+{protocolo['conteudo']}
+
+Gere {n} pares de pergunta e resposta distintos sobre este protocolo.
+Responda APENAS com JSON no formato:
+{{"pares": [{{"pergunta": "...", "resposta": "..."}}]}}"""
+
+
+def generate_raw_pairs(
+    protocolos: list[dict],
+    output_path: Path,
+    model: str = TEACHER_MODEL,
+    n: int = PAIRS_PER_PROTOCOL,
+) -> list[dict]:
+    """
+    Gera pares brutos para cada protocolo. Retomável: protocolos já
+    processados (presentes em output_path) são pulados, e o progresso
+    é salvo após cada protocolo.
+    """
+    pairs: list[dict] = []
+    if output_path.exists():
+        pairs = json.loads(output_path.read_text(encoding="utf-8"))
+    done_ids = {p["fonte_id"] for p in pairs}
+
+    for prot in protocolos:
+        if prot["id"] in done_ids:
+            logger.info(f"[geracao] {prot['id']} já processado, pulando")
+            continue
+
+        logger.info(f"[geracao] Gerando {n} pares para {prot['id']} ({prot['titulo']})")
+        response = ollama.chat(
+            model=model,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT_TEACHER},
+                {"role": "user", "content": build_generation_prompt(prot, n)},
+            ],
+            format="json",
+            options={"temperature": 0.7},
+        )
+
+        try:
+            novos = json.loads(response["message"]["content"]).get("pares", [])
+        except json.JSONDecodeError:
+            logger.warning(f"[geracao] JSON inválido para {prot['id']}, será refeito na próxima execução")
+            continue
+
+        validos = 0
+        for par in novos:
+            if isinstance(par, dict) and par.get("pergunta") and par.get("resposta"):
+                pairs.append({
+                    "pergunta": str(par["pergunta"]).strip(),
+                    "resposta": str(par["resposta"]).strip(),
+                    "fonte_id": prot["id"],
+                    "fonte": prot["fonte"],
+                    "categoria": prot["categoria"],
+                })
+                validos += 1
+
+        output_path.write_text(json.dumps(pairs, ensure_ascii=False, indent=2), encoding="utf-8")
+        logger.info(f"[geracao] {prot['id']}: {validos} pares válidos (total acumulado: {len(pairs)})")
+
+    return pairs
+
+# ---------------------------------------------------------------------------
+# Curadoria
+# ---------------------------------------------------------------------------
+
+def curate(
+    pairs: list[dict],
+    eval_questions: list[str],
+    min_question_chars: int = 15,
+    min_answer_chars: int = 60,
+    max_answer_chars: int = 1500,
+    dedup_threshold: float = 0.92,
+    leakage_threshold: float = 0.85,
+) -> tuple[list[dict], dict]:
+    """Aplica os 5 filtros de curadoria e retorna (pares_curados, estatísticas)."""
+    import numpy as np
+    from sentence_transformers import SentenceTransformer
+
+    stats: Counter = Counter(total_bruto=len(pairs))
+
+    # Filtros 1-3: anonimização, tamanho, segurança
+    candidates = []
+    for par in pairs:
+        pergunta, n1 = anonymize_text(_normalize(par["pergunta"]))
+        resposta, n2 = anonymize_text(_normalize(par["resposta"]))
+        stats["substituicoes_anonimizacao"] += n1 + n2
+
+        if len(pergunta) < min_question_chars or not (
+            min_answer_chars <= len(resposta) <= max_answer_chars
+        ):
+            stats["removido_tamanho"] += 1
+            continue
+        if UNSAFE_PATTERNS.search(resposta):
+            stats["removido_seguranca"] += 1
+            continue
+        candidates.append({**par, "pergunta": pergunta, "resposta": resposta})
+
+    # Filtro 4a: duplicatas exatas
+    seen, unique = set(), []
+    for c in candidates:
+        key = c["pergunta"].lower()
+        if key in seen:
+            stats["removido_duplicata_exata"] += 1
+            continue
+        seen.add(key)
+        unique.append(c)
+
+    if not unique:
+        stats["total_curado"] = 0
+        return [], dict(stats)
+
+    # Filtros 4b e 5: duplicatas semânticas e vazamento para avaliação
+    encoder = SentenceTransformer(EMBEDDING_MODEL)
+    q_emb = encoder.encode([u["pergunta"] for u in unique], normalize_embeddings=True)
+    eval_emb = encoder.encode(eval_questions, normalize_embeddings=True)
+
+    kept, kept_emb = [], []
+    for item, emb in zip(unique, q_emb):
+        if float(np.max(eval_emb @ emb)) >= leakage_threshold:
+            stats["removido_vazamento_avaliacao"] += 1
+            continue
+        if kept_emb and float(np.max(np.array(kept_emb) @ emb)) >= dedup_threshold:
+            stats["removido_duplicata_semantica"] += 1
+            continue
+        kept.append(item)
+        kept_emb.append(emb)
+
+    stats["total_curado"] = len(kept)
+    stats["por_protocolo"] = dict(Counter(k["fonte_id"] for k in kept))
+    return kept, dict(stats)
+
+# ---------------------------------------------------------------------------
+# Formatação e orquestração
+# ---------------------------------------------------------------------------
+
+def to_chat_example(pergunta: str, resposta: str, fonte: str) -> dict:
+    """Formato chat usado pelo Unsloth. A resposta termina citando a fonte."""
+    return {
+        "messages": [
+            {"role": "system", "content": FINETUNE_SYSTEM_PROMPT},
+            {"role": "user", "content": pergunta},
+            {"role": "assistant", "content": f"{resposta}\n\nFonte: {fonte}"},
+        ]
+    }
+
+
+def write_jsonl(records: list[dict], path: Path) -> None:
+    with open(path, "w", encoding="utf-8") as f:
+        for r in records:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+
+def build_finetuning_dataset(base_dir: Path = BASE_DIR, model: str = TEACHER_MODEL) -> dict:
+    protocolos = json.loads((base_dir / "protocolos.json").read_text(encoding="utf-8"))
+    gold = json.loads((base_dir / "perguntas_medicas.json").read_text(encoding="utf-8"))
+    fonte_por_id = {p["id"]: p["fonte"] for p in protocolos}
+
+    raw = generate_raw_pairs(protocolos, base_dir / "qa_bruto_gerado.json", model=model)
+    curated, stats = curate(raw, [g["pergunta"] for g in gold])
+
+    train = [to_chat_example(c["pergunta"], c["resposta"], c["fonte"]) for c in curated]
+    evaluation = [
+        to_chat_example(g["pergunta"], g["resposta"], fonte_por_id.get(g["fonte"], g["fonte"]))
+        for g in gold
+    ]
+
+    write_jsonl(train, base_dir / "finetune_train.jsonl")
+    write_jsonl(evaluation, base_dir / "finetune_eval.jsonl")
+    (base_dir / "relatorio_curadoria.json").write_text(
+        json.dumps(stats, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+    logger.info(f"[curadoria] Treino: {len(train)} | Avaliação: {len(evaluation)}")
+    logger.info(f"[curadoria] Estatísticas: {stats}")
+    return stats
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)-8s | %(message)s",
+        datefmt="%H:%M:%S",
+    )
+    build_finetuning_dataset()

@@ -1,0 +1,31 @@
+[project]
+name = "tc-fase3-assistente-medico"
+version = "0.1.0"
+description = "Tech Challenge Fase 3: Fine-tuning, LangChain e LangGraph para assistente médico"
+authors = [
+    {name = "Fernando Marques do Vale"}
+]
+readme = "README.md"
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "langchain (>=1.4.6,<2.0.0)",
+    "langchain-community (>=0.4.2,<0.5.0)",
+    "langchain-core (>=1.6.12,<2.0.0)",
+    "langgraph (>=1.2.16,<2.0.0)",
+    "chromadb (>=1.5.9,<2.0.0)",
+    "sentence-transformers (>=6.1.0,<7.0.0)",
+    "ollama (>=0.6.3,<0.7.0)",
+    "pandas (>=2.2.0,<3.0.0)",
+    "sqlalchemy (>=2.0.0,<3.0.0)",
+    "python-dotenv (>=1.2.4,<2.0.0)",
+    "tqdm (>=4.70.1,<5.0.0)",
+    "rich (>=15.0.0,<16.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false

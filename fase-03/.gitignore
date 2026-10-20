@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtualenv
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Vectorstore (gerado em tempo de execução)
+data/vectorstore/*
+!data/vectorstore/.gitkeep
+
+# Logs
+outputs/logs/*.jsonl
+!outputs/logs/.gitkeep
+
+# Banco de dados SQLite (gerado no código)
+*.db

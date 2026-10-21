@@ -21,3 +21,6 @@ outputs/logs/*.jsonl
 
 # Modelo GGUF fine-tunado (~2 GB, não vai para o repo)
 models/*.gguf
+
+# Resultados brutos da avaliação do RAG (o resumo .csv pode ser versionado)
+outputs/rag_eval/*.json

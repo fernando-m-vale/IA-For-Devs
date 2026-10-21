@@ -45,7 +45,7 @@ COLLECTION_NAME = "protocolos_internos"
 
 MODELO_PADRAO = "medassist"
 K_PADRAO = 2               # mesmo formato do treino: protocolo correto + 1 distrator
-LIMIAR_RELEVANCIA = 0.30   # provisório: será calibrado com src.evaluate_rag --calibrar
+LIMIAR_RELEVANCIA = 0.47   # calibrado em conjunto separado (ver outputs/rag_eval/calibracao_limiar.csv)
 
 # Variante A: system prompt idêntico ao do fine-tuning.
 # Variante B: acrescenta uma instrução de completude (teste A/B).
@@ -111,10 +111,12 @@ def carregar_protocolos(path: Path = DATA_DIR / "protocolos.json") -> list[Docum
 
 
 def get_embeddings() -> HuggingFaceEmbeddings:
-    return HuggingFaceEmbeddings(
-        model_name=EMBEDDING_MODEL,
-        encode_kwargs={"normalize_embeddings": True},
-    )
+    """Usa a cópia local do modelo de embeddings; baixa só se ainda não existir."""
+    kwargs = {"model_name": EMBEDDING_MODEL, "encode_kwargs": {"normalize_embeddings": True}}
+    try:
+        return HuggingFaceEmbeddings(**kwargs, model_kwargs={"local_files_only": True})
+    except Exception:
+        return HuggingFaceEmbeddings(**kwargs)
 
 
 def _abrir_colecao(embeddings: HuggingFaceEmbeddings) -> Chroma:
@@ -252,6 +254,9 @@ if __name__ == "__main__":
         format="%(asctime)s | %(levelname)-8s | %(message)s",
         datefmt="%H:%M:%S",
     )
+    for ruidoso in ("httpx", "httpcore", "huggingface_hub", "sentence_transformers"):
+        logging.getLogger(ruidoso).setLevel(logging.WARNING)
+
     if "--rebuild" in sys.argv:
         build_vectorstore(rebuild=True)
 

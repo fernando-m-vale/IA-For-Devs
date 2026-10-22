@@ -59,7 +59,7 @@
     "id": "PROT-009",
     "titulo": "Uso do Sistema BI-RADS na Mamografia",
     "categoria": "radiologia",
-    "conteudo": "O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia.",
+    "conteudo": "O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia.",
     "fonte": "Protocolo Interno HOSP-2024-RAD-001"
   },
   {

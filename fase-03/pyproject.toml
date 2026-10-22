@@ -22,7 +22,8 @@ dependencies = [
     "rich (>=15.0.0,<16.0.0)",
     "langchain-ollama (>=1.1.0,<2.0.0)",
     "langchain-chroma (>=1.1.0,<2.0.0)",
-    "langchain-huggingface (>=1.2.3,<2.0.0)"
+    "langchain-huggingface (>=1.2.3,<2.0.0)",
+    "rank-bm25 (>=0.2.2,<0.3.0)"
 ]
 
 

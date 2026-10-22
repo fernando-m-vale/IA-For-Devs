@@ -156,7 +156,9 @@ PROTOCOLOS = [
             "definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), "
             "seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). "
             "BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta "
-            "suspeita (>50% e <95%). BI-RADS 5: altamente sugestivo de malignidade "
+            "suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a "
+            "biópsia está indicada para esclarecimento histológico. "
+            "BI-RADS 5: altamente sugestivo de malignidade "
             "(≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por "
             "biópsia prévia."
         ),

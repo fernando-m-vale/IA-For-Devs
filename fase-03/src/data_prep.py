@@ -4,7 +4,9 @@ Módulo de preparação de dados sintéticos médicos.
 Gera três artefatos para o assistente médico:
 1. protocolos.json   — protocolos clínicos para o pipeline RAG (ChromaDB)
 2. perguntas_medicas.json — pares Q&A para fine-tuning (formato MedQuAD)
-3. prontuarios.db    — banco SQLite com pacientes sintéticos para o SQL Agent
+3. prontuarios.db    — banco SQLite normalizado para o SQL Agent:
+   pacientes, exames (um exame por linha, com status e datas) e
+   paciente_protocolos (vínculo paciente → código de protocolo)
 
 Todos os dados são completamente sintéticos e anonimizados por construção
 (não derivam de nenhum dado real de paciente).
@@ -13,8 +15,14 @@ Todos os dados são completamente sintéticos e anonimizados por construção
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from pathlib import Path
+
+try:
+    from .config import DATA_REFERENCIA
+except ImportError:  # executado como script: python src/data_prep.py
+    from config import DATA_REFERENCIA
 
 # ---------------------------------------------------------------------------
 # Protocolos médicos sintéticos (para ChromaDB / RAG)
@@ -79,7 +87,9 @@ PROTOCOLOS = [
             "em estágios iniciais. O esquema preferencial é AC-T (adriamicina + "
             "ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar "
             "trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada "
-            "2 ciclos."
+            "2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função "
+            "cardíaca com ecocardiograma antes do início e a cada 3 meses durante "
+            "o tratamento."
         ),
         "fonte": "Protocolo Interno HOSP-2024-ONCO-004",
     },
@@ -336,47 +346,124 @@ PERGUNTAS_MEDICAS = [
 # Prontuários sintéticos (SQLite)
 # ---------------------------------------------------------------------------
 
+# Pendências e atrasos não são armazenados: derivam de `exames` pelas regras
+# de src/config.py (pendente = solicitado/agendado; atrasado = pendente com
+# data_prevista < DATA_REFERENCIA).
+
 PACIENTES_SINTETICOS = [
     {"id": "P001", "nome_anonimizado": "Paciente A", "idade": 52, "sexo": "F",
      "diagnostico": "Carcinoma ductal invasivo NST", "estadio": "IIA",
-     "status_tratamento": "em_tratamento", "ultima_consulta": "2026-09-15",
-     "exames_pendentes": "HbA1c, hemograma completo",
-     "alerta": None},
+     "status_tratamento": "em_tratamento", "ultima_consulta": "2026-09-15"},
     {"id": "P002", "nome_anonimizado": "Paciente B", "idade": 45, "sexo": "F",
      "diagnostico": "Nódulo mamário BI-RADS 4B", "estadio": None,
-     "status_tratamento": "aguardando_biópsia", "ultima_consulta": "2026-10-01",
-     "exames_pendentes": "core biopsy agendada 2026-10-25",
-     "alerta": "BIÓPSIA PENDENTE — seguimento obrigatório"},
+     "status_tratamento": "aguardando_biópsia", "ultima_consulta": "2026-10-01"},
     {"id": "P003", "nome_anonimizado": "Paciente C", "idade": 67, "sexo": "F",
      "diagnostico": "Carcinoma ductal in situ (CDIS)", "estadio": "0",
-     "status_tratamento": "pós_cirurgia", "ultima_consulta": "2026-08-20",
-     "exames_pendentes": "mamografia controle",
-     "alerta": None},
+     "status_tratamento": "pós_cirurgia", "ultima_consulta": "2026-08-20"},
     {"id": "P004", "nome_anonimizado": "Paciente D", "idade": 38, "sexo": "F",
      "diagnostico": "Carcinoma triplo-negativo", "estadio": "IIIA",
-     "status_tratamento": "quimioterapia_neoadjuvante", "ultima_consulta": "2026-10-10",
-     "exames_pendentes": "PET-CT avaliação resposta",
-     "alerta": "AVALIAÇÃO DE RESPOSTA PENDENTE — 2 ciclos completados"},
+     "status_tratamento": "quimioterapia_neoadjuvante", "ultima_consulta": "2026-10-10"},
     {"id": "P005", "nome_anonimizado": "Paciente E", "idade": 71, "sexo": "F",
      "diagnostico": "Carcinoma lobular invasivo", "estadio": "IIB",
-     "status_tratamento": "hormonioterapia", "ultima_consulta": "2026-07-30",
-     "exames_pendentes": "densitometria óssea",
-     "alerta": None},
+     "status_tratamento": "hormonioterapia", "ultima_consulta": "2026-07-30"},
     {"id": "P006", "nome_anonimizado": "Paciente F", "idade": 55, "sexo": "F",
      "diagnostico": "Seguimento pós-tratamento — remissão completa", "estadio": "I",
-     "status_tratamento": "seguimento", "ultima_consulta": "2026-09-05",
-     "exames_pendentes": "mamografia anual",
-     "alerta": None},
+     "status_tratamento": "seguimento", "ultima_consulta": "2026-09-05"},
     {"id": "P007", "nome_anonimizado": "Paciente G", "idade": 48, "sexo": "F",
      "diagnostico": "Nódulo BI-RADS 3 — provavelmente benigno", "estadio": None,
-     "status_tratamento": "seguimento_imagem", "ultima_consulta": "2026-04-15",
-     "exames_pendentes": "USG mamária controle (prazo: outubro 2026)",
-     "alerta": "SEGUIMENTO EM ATRASO — USG deveria ter sido realizada"},
+     "status_tratamento": "seguimento_imagem", "ultima_consulta": "2026-04-15"},
     {"id": "P008", "nome_anonimizado": "Paciente H", "idade": 60, "sexo": "F",
      "diagnostico": "Carcinoma ductal invasivo HER2+", "estadio": "IIB",
-     "status_tratamento": "em_tratamento", "ultima_consulta": "2026-10-12",
-     "exames_pendentes": "ecocardiograma (toxicidade por trastuzumabe)",
-     "alerta": "ECOCARDIOGRAMA OBRIGATÓRIO — terapia anti-HER2 em andamento"},
+     "status_tratamento": "em_tratamento", "ultima_consulta": "2026-10-12"},
+    # Casos-limite
+    {"id": "P009", "nome_anonimizado": "Paciente I", "idade": 58, "sexo": "F",
+     "diagnostico": "Nódulo mamário BI-RADS 2 — achado benigno", "estadio": None,
+     "status_tratamento": "seguimento", "ultima_consulta": "2026-09-10"},
+    {"id": "P010", "nome_anonimizado": "Paciente J", "idade": 63, "sexo": "F",
+     "diagnostico": "Carcinoma ductal invasivo NST — pós-tratamento", "estadio": "I",
+     "status_tratamento": "seguimento", "ultima_consulta": "2026-10-05"},
+    {"id": "P011", "nome_anonimizado": "Paciente K", "idade": 47, "sexo": "F",
+     "diagnostico": "Carcinoma ductal invasivo NST", "estadio": "IIA",
+     "status_tratamento": "em_tratamento", "ultima_consulta": "2026-10-14"},
+    {"id": "P012", "nome_anonimizado": "Paciente L", "idade": 41, "sexo": "F",
+     "diagnostico": "Nódulo mamário BI-RADS 4A", "estadio": None,
+     "status_tratamento": "aguardando_biópsia", "ultima_consulta": "2026-10-06"},
+]
+
+
+def _exame(paciente_id, exame, solicitacao, status, prevista=None,
+           data_resultado=None, resultado=None, protocolo=None):
+    return {"paciente_id": paciente_id, "exame": exame, "data_solicitacao": solicitacao,
+            "data_prevista": prevista, "data_resultado": data_resultado,
+            "resultado": resultado, "status": status, "protocolo_codigo": protocolo}
+
+
+# protocolo_codigo = protocolo que respalda o exame (deve estar vinculado ao
+# paciente em PACIENTE_PROTOCOLOS); None = exame sem respaldo específico.
+EXAMES_SINTETICOS = [
+    # P001-P008: migrados do antigo campo exames_pendentes (solicitados na última consulta)
+    _exame("P001", "HbA1c", "2026-09-15", "solicitado", "2026-10-27",
+           protocolo="HOSP-2024-ENDO-001"),
+    _exame("P001", "Hemograma completo", "2026-09-15", "solicitado", "2026-10-27"),
+    _exame("P002", "Biópsia por agulha grossa (core biopsy)", "2026-10-01", "agendado", "2026-10-25",
+           protocolo="HOSP-2024-RAD-001"),
+    _exame("P003", "Mamografia de controle", "2026-08-20", "solicitado", "2027-02-20",
+           protocolo="HOSP-2024-ONCO-005"),
+    _exame("P004", "PET-CT de avaliação de resposta", "2026-10-10", "agendado", "2026-10-24",
+           protocolo="HOSP-2024-ONCO-004"),
+    _exame("P005", "Densitometria óssea", "2026-07-30", "solicitado", "2026-11-30",
+           protocolo="HOSP-2024-ONCO-005"),
+    _exame("P006", "Mamografia anual", "2026-09-05", "solicitado", "2027-09-05",
+           protocolo="HOSP-2024-ONCO-005"),
+    # BI-RADS 3: seguimento em 6 meses -> 2026-04-15 + 6 meses
+    _exame("P007", "USG mamária de controle", "2026-04-15", "solicitado", "2026-10-15",
+           protocolo="HOSP-2024-RAD-001"),
+    _exame("P008", "Ecocardiograma", "2026-10-12", "solicitado", "2026-10-26",
+           protocolo="HOSP-2024-ONCO-004"),
+    # P009: só exames realizados (nenhuma pendência)
+    _exame("P009", "Mamografia digital", "2026-08-20", "realizado", "2026-09-01",
+           "2026-09-01", "BI-RADS 2: achado benigno", protocolo="HOSP-2024-ONCO-001"),
+    _exame("P009", "USG mamária bilateral", "2026-08-20", "realizado", "2026-09-01",
+           "2026-09-01", "Cisto simples, sem sinais de malignidade"),
+    # P010: resultado registrado + exame agendado no futuro
+    _exame("P010", "Mamografia anual", "2026-09-20", "realizado", "2026-10-01",
+           "2026-10-01", "Sem sinais de recidiva", protocolo="HOSP-2024-ONCO-005"),
+    _exame("P010", "Densitometria óssea", "2026-10-05", "agendado", "2026-12-10"),
+    # P011: 3 exames em status diferentes
+    _exame("P011", "Glicemia de jejum", "2026-09-25", "realizado", "2026-09-30",
+           "2026-09-30", "112 mg/dL", protocolo="HOSP-2024-ENDO-001"),
+    _exame("P011", "HbA1c", "2026-10-14", "agendado", "2026-11-04",
+           protocolo="HOSP-2024-ENDO-001"),
+    _exame("P011", "Cintilografia óssea", "2026-09-25", "cancelado", "2026-10-08",
+           None, "Cancelado: sem indicação de rastreamento de metástases em paciente assintomática"),
+    # P012: data_prevista igual à DATA_REFERENCIA (pendente, mas não atrasado)
+    _exame("P012", "Biópsia por agulha grossa (core biopsy)", "2026-10-06", "agendado",
+           DATA_REFERENCIA, protocolo="HOSP-2024-RAD-001"),
+]
+
+PACIENTE_PROTOCOLOS = [
+    ("P001", "HOSP-2024-ONCO-003", "Estadiamento TNM: estádio IIA"),
+    ("P001", "HOSP-2024-ENDO-001", "Triagem de DM2 (≥45 anos): HbA1c solicitada"),
+    ("P002", "HOSP-2024-RAD-001", "BI-RADS 4B: biópsia indicada"),
+    ("P002", "HOSP-2024-ONCO-001", "Nódulo suspeito BI-RADS 4: core biopsy"),
+    ("P003", "HOSP-2024-ONCO-002", "Laudo de carcinoma ductal in situ"),
+    ("P003", "HOSP-2024-ONCO-005", "Seguimento pós-tratamento"),
+    ("P004", "HOSP-2024-ONCO-004", "Neoadjuvância em triplo-negativo: avaliação de resposta a cada 2 ciclos"),
+    ("P004", "HOSP-2024-ONCO-003", "Estadiamento TNM: estádio IIIA"),
+    ("P005", "HOSP-2024-ONCO-005", "Hormonioterapia: densitometria óssea a cada 2 anos"),
+    ("P005", "HOSP-2024-ONCO-002", "Laudo de carcinoma lobular invasivo"),
+    ("P006", "HOSP-2024-ONCO-005", "Seguimento pós-tratamento: mamografia anual"),
+    ("P007", "HOSP-2024-RAD-001", "BI-RADS 3: seguimento em 6 meses"),
+    ("P007", "HOSP-2024-ONCO-001", "BI-RADS 3: seguimento em 6 meses"),
+    ("P008", "HOSP-2024-ONCO-004", "HER2 positivo: terapia anti-HER2 (trastuzumabe)"),
+    ("P008", "HOSP-2024-ONCO-003", "Estadiamento TNM: estádio IIB"),
+    ("P009", "HOSP-2024-RAD-001", "BI-RADS 2: achado benigno"),
+    ("P009", "HOSP-2024-ONCO-001", "BI-RADS 2: seguimento de rotina anual"),
+    ("P010", "HOSP-2024-ONCO-005", "Seguimento pós-tratamento"),
+    ("P011", "HOSP-2024-ONCO-003", "Estadiamento TNM: estádio IIA"),
+    ("P011", "HOSP-2024-ENDO-001", "Glicemia de jejum 100–125 mg/dL: pré-diabetes"),
+    ("P012", "HOSP-2024-RAD-001", "BI-RADS 4A: biópsia indicada"),
+    ("P012", "HOSP-2024-ONCO-001", "Nódulo suspeito BI-RADS 4: core biopsy"),
 ]
 
 
@@ -402,39 +489,90 @@ def generate_qa_pairs(output_dir: Path) -> None:
     print(f"[data_prep] {len(PERGUNTAS_MEDICAS)} pares Q&A salvos em {path}")
 
 
+SCHEMA_PRONTUARIOS = """
+CREATE TABLE pacientes (
+    id TEXT PRIMARY KEY,
+    nome_anonimizado TEXT NOT NULL,
+    idade INTEGER NOT NULL,
+    sexo TEXT NOT NULL CHECK (sexo IN ('F', 'M')),
+    diagnostico TEXT NOT NULL,
+    estadio TEXT,
+    status_tratamento TEXT NOT NULL,
+    ultima_consulta TEXT NOT NULL
+);
+
+CREATE TABLE exames (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    paciente_id TEXT NOT NULL REFERENCES pacientes(id),
+    exame TEXT NOT NULL,
+    data_solicitacao TEXT NOT NULL,
+    data_prevista TEXT,
+    data_resultado TEXT,
+    resultado TEXT,
+    status TEXT NOT NULL CHECK (status IN ('solicitado', 'agendado', 'realizado', 'cancelado')),
+    protocolo_codigo TEXT,
+    CHECK (status != 'realizado' OR data_resultado IS NOT NULL)
+);
+
+CREATE TABLE paciente_protocolos (
+    paciente_id TEXT NOT NULL REFERENCES pacientes(id),
+    protocolo_codigo TEXT NOT NULL,
+    motivo TEXT NOT NULL,
+    PRIMARY KEY (paciente_id, protocolo_codigo)
+);
+"""
+
+CODIGO_PROTOCOLO_RE = re.compile(r"^HOSP-\d{4}-[A-Z]+-\d{3}$")
+
+
+def _validar_codigos_protocolo(protocolos_path: Path) -> None:
+    """Falha se algum vínculo usar um código fora do formato ou ausente em protocolos.json."""
+    protocolos = json.loads(protocolos_path.read_text(encoding="utf-8"))
+    existentes = {re.search(r"HOSP-\d{4}-[A-Z]+-\d{3}", p["fonte"]).group() for p in protocolos}
+    invalidos = sorted({c for _, c, _ in PACIENTE_PROTOCOLOS
+                        if not CODIGO_PROTOCOLO_RE.match(c) or c not in existentes})
+    if invalidos:
+        raise ValueError(f"Códigos de protocolo inválidos ou ausentes em {protocolos_path}: {invalidos}")
+
+    vinculos = {(p, c) for p, c, _ in PACIENTE_PROTOCOLOS}
+    sem_vinculo = [(e["paciente_id"], e["exame"], e["protocolo_codigo"]) for e in EXAMES_SINTETICOS
+                   if e["protocolo_codigo"] and (e["paciente_id"], e["protocolo_codigo"]) not in vinculos]
+    if sem_vinculo:
+        raise ValueError(f"Exames com protocolo não vinculado ao paciente: {sem_vinculo}")
+
+
 def generate_prontuarios_db(output_dir: Path) -> None:
-    """Cria o banco SQLite com prontuários sintéticos."""
+    """
+    Recria o banco SQLite normalizado: pacientes, exames e paciente_protocolos.
+    O arquivo é apagado e refeito a cada execução (é um artefato gerado).
+    """
     output_dir.mkdir(parents=True, exist_ok=True)
+    _validar_codigos_protocolo(output_dir / "protocolos.json")
+
     db_path = output_dir / "prontuarios.db"
+    db_path.unlink(missing_ok=True)
 
     conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS pacientes (
-            id TEXT PRIMARY KEY,
-            nome_anonimizado TEXT,
-            idade INTEGER,
-            sexo TEXT,
-            diagnostico TEXT,
-            estadio TEXT,
-            status_tratamento TEXT,
-            ultima_consulta TEXT,
-            exames_pendentes TEXT,
-            alerta TEXT
+    conn.execute("PRAGMA foreign_keys = ON")
+    with conn:
+        conn.executescript(SCHEMA_PRONTUARIOS)
+        conn.executemany(
+            """INSERT INTO pacientes VALUES
+               (:id, :nome_anonimizado, :idade, :sexo, :diagnostico, :estadio,
+                :status_tratamento, :ultima_consulta)""",
+            PACIENTES_SINTETICOS,
         )
-    """)
-
-    cursor.executemany(
-        """INSERT OR REPLACE INTO pacientes VALUES
-           (:id, :nome_anonimizado, :idade, :sexo, :diagnostico, :estadio,
-            :status_tratamento, :ultima_consulta, :exames_pendentes, :alerta)""",
-        PACIENTES_SINTETICOS,
-    )
-
-    conn.commit()
+        conn.executemany(
+            """INSERT INTO exames (paciente_id, exame, data_solicitacao, data_prevista,
+                                   data_resultado, resultado, status, protocolo_codigo)
+               VALUES (:paciente_id, :exame, :data_solicitacao, :data_prevista,
+                       :data_resultado, :resultado, :status, :protocolo_codigo)""",
+            EXAMES_SINTETICOS,
+        )
+        conn.executemany("INSERT INTO paciente_protocolos VALUES (?, ?, ?)", PACIENTE_PROTOCOLOS)
     conn.close()
-    print(f"[data_prep] {len(PACIENTES_SINTETICOS)} pacientes salvos em {db_path}")
+    print(f"[data_prep] {len(PACIENTES_SINTETICOS)} pacientes, {len(EXAMES_SINTETICOS)} exames e "
+          f"{len(PACIENTE_PROTOCOLOS)} vínculos com protocolos salvos em {db_path}")
 
 
 def generate_all(base_dir: Path | None = None) -> None:

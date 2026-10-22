@@ -226,6 +226,11 @@ class BuscaHibrida:
     Usa apenas as posições, não os scores brutos, porque as escalas das duas
     buscas não são comparáveis. Protocolos sem nenhum termo em comum com a
     pergunta (BM25 = 0) não recebem contribuição lexical.
+
+    Uma "âncora semântica" (forçar o 1º semântico no top-k) foi testada e
+    descartada na ablação: custou 3 acertos de hit@2 nas curadas (PROT-009).
+    Só as STOPWORDS_DOMINIO já mantêm hit@2 = 1.000 e corrigem o caso da
+    hipoglicemia, ao eliminar o match BM25 genérico em "paciente".
     """
 
     def __init__(self, store: Chroma, docs: list[Document] | None = None):
@@ -237,14 +242,7 @@ class BuscaHibrida:
     def buscar(self, pergunta: str, k: int = K_PADRAO, modo: str = "hibrida") -> list[dict]:
         """
         Retorna os k protocolos escolhidos, cada um com:
-        doc, score_semantico, pos_semantica, pos_bm25, score_rrf, ancora_semantica.
-
-        Âncora semântica (modo "hibrida"): se o 1º colocado da busca semântica
-        não estiver entre os k escolhidos pelo RRF, ele substitui o último.
-        Motivo: em "Como tratar hipoglicemia grave em paciente diabético?", o
-        ENDO-001 era o 1º semântico, mas o RRF o perdia para EMG-001 e HUM-001,
-        que só pontuavam no BM25 por termos genéricos como "paciente". O BM25
-        deve complementar a busca semântica, não remover o melhor resultado dela.
+        doc, score_semantico, pos_semantica, pos_bm25, score_rrf.
         """
         semanticos = recuperar(self.store, pergunta, k=len(self.docs))
         info = {
@@ -253,7 +251,6 @@ class BuscaHibrida:
                 "score_semantico": float(score),
                 "pos_semantica": pos,
                 "pos_bm25": None,
-                "ancora_semantica": False,
             }
             for pos, (d, score) in enumerate(semanticos, 1)
         }
@@ -272,14 +269,8 @@ class BuscaHibrida:
                 rrf += 1 / (RRF_K + item["pos_bm25"])
             item["score_rrf"] = rrf
 
-        escolhidos = sorted(info.values(), key=lambda x: (-x["score_rrf"], x["pos_semantica"]))[:k]
-
-        if modo == "hibrida":
-            top_semantico = next(i for i in info.values() if i["pos_semantica"] == 1)
-            if top_semantico not in escolhidos:
-                top_semantico["ancora_semantica"] = True
-                escolhidos[-1] = top_semantico
-        return escolhidos
+        escolhidos = sorted(info.values(), key=lambda x: (-x["score_rrf"], x["pos_semantica"]))
+        return escolhidos[:k]
 
     def melhor_score_semantico(self, pergunta: str) -> float:
         return float(recuperar(self.store, pergunta, k=1)[0][1])
@@ -346,7 +337,6 @@ class AssistenteRAG:
                 "score": round(e["score_semantico"], 3),
                 "pos_semantica": e["pos_semantica"],
                 "pos_bm25": e["pos_bm25"],
-                "ancora_semantica": e["ancora_semantica"],
                 "trecho": e["doc"].metadata["conteudo"],
             }
             for e in escolhidos

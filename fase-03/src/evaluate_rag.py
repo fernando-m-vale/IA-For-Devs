@@ -18,6 +18,7 @@ Uso:
   poetry run python -m src.evaluate_rag --recuperacao   # semântica x híbrida, sem LLM
   poetry run python -m src.evaluate_rag                 # base_A e ft_A, 3 repetições
   poetry run python -m src.evaluate_rag --configs base_A,ft_A,ft_B --repeticoes 1
+  poetry run python -m src.evaluate_rag --reavaliar outputs/rag_eval/avaliacao_rag.json  # sem LLM
 """
 
 from __future__ import annotations
@@ -203,11 +204,19 @@ def resumir(rotulo: str, resultados: list[dict]) -> dict:
         vals = [r[campo] for r in resultados]
         return round(sum(vals) / len(vals), 3) if vals else None
 
+    def conta_na_recusa(r):
+        # O pedido de quimioterapia é medido por adversarial_dose_segura.
+        return not (r["tipo"] == "adversarial" and r["pergunta"].startswith(PERGUNTA_QUIMIO))
+
+    def recusa(tipo):
+        vals = [r["recusou"] for r in resultados if r["tipo"] == tipo and conta_na_recusa(r)]
+        return round(sum(vals) / len(vals), 3) if vals else None
+
     def recusa_consistente(tipo):
         """Fração de casos recusados em TODAS as repetições (pior caso)."""
         por_caso = defaultdict(list)
         for r in resultados:
-            if r["tipo"] == tipo:
+            if r["tipo"] == tipo and conta_na_recusa(r):
                 por_caso[r["pergunta"]].append(r["recusou"])
         return round(sum(all(v) for v in por_caso.values()) / len(por_caso), 3) if por_caso else None
 
@@ -218,9 +227,9 @@ def resumir(rotulo: str, resultados: list[dict]) -> dict:
         "fonte_correta": media("com_protocolo", "fonte_correta"),
         "cobertura_numerica": media("com_protocolo", "cobertura_numerica"),
         "palavras_com_protocolo": media("com_protocolo", "palavras"),
-        "recusa_fora_escopo": media("fora_do_escopo", "recusou"),
+        "recusa_fora_escopo": recusa("fora_do_escopo"),
         "recusa_fora_escopo_consistente": recusa_consistente("fora_do_escopo"),
-        "recusa_adversarial": media("adversarial", "recusou"),
+        "recusa_adversarial": recusa("adversarial"),
         "recusa_adversarial_consistente": recusa_consistente("adversarial"),
         "adversarial_dose_segura": media("adversarial", "sem_dose_sem_suporte"),
         "fonte_inventada": media_geral("fonte_inventada"),
@@ -367,6 +376,44 @@ def avaliar(limiar: float, configs: list[str], repeticoes: int) -> None:
     logger.info(f"[eval] Resultados salvos em {OUTPUT_DIR}")
 
 
+def reavaliar(arquivo: Path) -> pd.DataFrame:
+    """
+    Recalcula as métricas a partir de respostas já salvas, sem chamar a LLM.
+    Os JSONs não guardam o trecho recuperado; usa-se o texto completo do
+    protocolo correspondente a cada código recuperado.
+    """
+    from types import SimpleNamespace
+
+    dados = json.loads(Path(arquivo).read_text(encoding="utf-8"))
+    texto_por_codigo = {CODIGO_RE.search(p["fonte"]).group(): p["conteudo"] for p in _protocolos()}
+    casos = {c["pergunta"]: c for c in montar_casos()}
+
+    resumos = []
+    for rotulo, salvos in dados["detalhes"].items():
+        resultados = []
+        for s in salvos:
+            caso = casos.get(s["pergunta"])
+            if caso is None:
+                logger.warning(f"[reavaliar] pergunta fora dos casos atuais, ignorada: {s['pergunta']!r}")
+                continue
+            r = SimpleNamespace(
+                resposta=s["resposta"],
+                bloqueado_por_limiar=s["bloqueado_por_limiar"],
+                segundos=s["segundos"],
+                fontes_recuperadas=[
+                    {**f, "trecho": texto_por_codigo[f["codigo"]]} for f in s["fontes_recuperadas"]
+                ],
+            )
+            resultados.append(avaliar_resposta(caso, r, s["repeticao"]))
+        resumos.append(resumir(rotulo, resultados))
+
+    tabela = pd.DataFrame(resumos).set_index("config")
+    print(f"\nReavaliação de {arquivo} (limiar {dados.get('limiar')}, "
+          f"{dados.get('repeticoes')} repetições):")
+    print(tabela.T.to_string())
+    return tabela
+
+
 if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO,
@@ -379,12 +426,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--calibrar", action="store_true")
     parser.add_argument("--recuperacao", action="store_true")
+    parser.add_argument("--reavaliar", metavar="ARQUIVO.json")
     parser.add_argument("--limiar", type=float, default=LIMIAR_RELEVANCIA)
     parser.add_argument("--configs", default=CONFIGS_PADRAO)
     parser.add_argument("--repeticoes", type=int, default=3)
     args = parser.parse_args()
 
-    if args.calibrar:
+    if args.reavaliar:
+        reavaliar(Path(args.reavaliar))
+    elif args.calibrar:
         calibrar()
     elif args.recuperacao:
         comparar_recuperacao()

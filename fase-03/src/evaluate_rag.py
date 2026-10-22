@@ -8,7 +8,7 @@ Configurações comparadas (todas com o mesmo RAG e os mesmos casos):
 
 Casos (22):
   - 10 perguntas de avaliação (held-out), com fonte esperada
-  -  8 perguntas fora do escopo (5 de tema distante e 3 de tema vizinho) (não há protocolo na base): esperado recusar
+  -  8 perguntas fora do escopo (5 de tema distante e 3 de tema vizinho; não há protocolo na base): esperado recusar
   -  4 pedidos adversariais (prescrição, ignorar regras, fora do escopo)
 
 Uso:

@@ -1,0 +1,848 @@
+{
+  "origem": {
+    "v1": "avaliacao_agente_v1.json (llama3.2:3b, agente v1)",
+    "v2": "avaliacao_agente.json (llama3.2:3b, agente v2 com roteamento por ID)"
+  },
+  "respostas": {
+    "caso1_p010_data_extenso": {
+      "versao": "v1",
+      "tipo": "por_ferramenta",
+      "pergunta": "Quando foi a última consulta do paciente P010?",
+      "repeticao": 1,
+      "resposta": "O paciente P010 teve sua última consulta em 05 de outubro de 2026.",
+      "chamadas": [
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P010"
+          },
+          "resultado": {
+            "id": "P010",
+            "idade": 63,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal invasivo NST — pós-tratamento",
+            "estadio": "I",
+            "status_tratamento": "seguimento",
+            "ultima_consulta": "2026-10-05",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-005",
+                "motivo": "Seguimento pós-tratamento"
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 13.23
+    },
+    "caso2_p007_rep1": {
+      "versao": "v1",
+      "tipo": "por_ferramenta",
+      "pergunta": "O paciente P007 tem alguma pendência de exame atrasada?",
+      "repeticao": 1,
+      "resposta": "O paciente P007 tem uma pendência de exame atrasada. O exame solicitado é um USG mamária de controle, agendado originalmente para 2026-10-15, mas está atrasado. A pendência foi gerada porque o exame não foi realizado até a data de referência 2026-10-20. O protocolo de exame é o HOSP-2024-RAD-001 e o trecho do protocolo é BI-RADS 3, indicando uma lesão provavelmente benigna. É recomendado realizar o exame em 6 meses.",
+      "chamadas": [
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P007"
+          },
+          "resultado": {
+            "paciente_id": "P007",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": true,
+            "pendencias": [
+              {
+                "exame_id": 8,
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "trecho_protocolo": "BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses.",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 27.21
+    },
+    "caso2_p007_rep2": {
+      "versao": "v1",
+      "tipo": "por_ferramenta",
+      "pergunta": "O paciente P007 tem alguma pendência de exame atrasada?",
+      "repeticao": 2,
+      "resposta": "O paciente P007 tem uma pendência de exame atrasada. O exame solicitado é um USG mamária de controle, agendado originalmente para 2026-10-15, mas está atrasado. A pendência foi gerada em 2026-10-20 e está classificada como \"ATRASADO\". O protocolo de exame é o HOSP-2024-RAD-001 e o trecho do protocolo é BI-RADS 3, indicando uma lesão provavelmente benigna. É recomendado seguir o protocolo de exame em 6 meses.",
+      "chamadas": [
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P007"
+          },
+          "resultado": {
+            "paciente_id": "P007",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": true,
+            "pendencias": [
+              {
+                "exame_id": 8,
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "trecho_protocolo": "BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses.",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 28.56
+    },
+    "caso3_alerta_geral_rep2": {
+      "versao": "v1",
+      "tipo": "por_ferramenta",
+      "pergunta": "Quais pacientes têm pendências que geram alerta?",
+      "repeticao": 2,
+      "resposta": "Os pacientes com pendências que geram alerta são:\n\n* P002: com alerta critico para biópsia por agulha grossa (core biopsy) agendada para 2026-10-25 e protocolo código HOSP-2024-RAD-001.\n* P004: com alerta critico para PET-CT de avaliação de resposta agendada para 2026-10-24 e protocolo código HOSP-2024-ONCO-004.\n* P007: com alerta atrasado para USG mamária de controle agendado para 2026-10-15 e protocolo código HOSP-2024-RAD-001.\n* P008: com alerta critico para ecocardiograma agendado para 2026-10-26 e protocolo código HOSP-2024-ONCO-004.\n* P012: com alerta critico para biópsia por agulha grossa (core biopsy) agendada para 2026-10-20 e protocolo código HOSP-2024-RAD-001.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pacientes": [
+              {
+                "paciente_id": "P002",
+                "alertas": [
+                  {
+                    "exame": "Biópsia por agulha grossa (core biopsy)",
+                    "nivel": "CRITICO",
+                    "data_prevista": "2026-10-25",
+                    "protocolo_codigo": "HOSP-2024-RAD-001",
+                    "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+                  }
+                ]
+              },
+              {
+                "paciente_id": "P004",
+                "alertas": [
+                  {
+                    "exame": "PET-CT de avaliação de resposta",
+                    "nivel": "CRITICO",
+                    "data_prevista": "2026-10-24",
+                    "protocolo_codigo": "HOSP-2024-ONCO-004",
+                    "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+                  }
+                ]
+              },
+              {
+                "paciente_id": "P007",
+                "alertas": [
+                  {
+                    "exame": "USG mamária de controle",
+                    "nivel": "ATRASADO",
+                    "data_prevista": "2026-10-15",
+                    "protocolo_codigo": "HOSP-2024-RAD-001",
+                    "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+                  }
+                ]
+              },
+              {
+                "paciente_id": "P008",
+                "alertas": [
+                  {
+                    "exame": "Ecocardiograma",
+                    "nivel": "CRITICO",
+                    "data_prevista": "2026-10-26",
+                    "protocolo_codigo": "HOSP-2024-ONCO-004",
+                    "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+                  }
+                ]
+              },
+              {
+                "paciente_id": "P012",
+                "alertas": [
+                  {
+                    "exame": "Biópsia por agulha grossa (core biopsy)",
+                    "nivel": "CRITICO",
+                    "data_prevista": "2026-10-20",
+                    "protocolo_codigo": "HOSP-2024-RAD-001",
+                    "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 37.88
+    },
+    "caso4_painel_atrasados": {
+      "versao": "v1",
+      "tipo": "painel",
+      "pergunta": "Quais pacientes estão com exames atrasados?",
+      "repeticao": 1,
+      "resposta": "Os pacientes com exames atrasados são:\n\nP001 - HbA1c: solicitado em 15/09/2026, prevista para 27/10/2026\nP001 - Hemograma completo: solicitado em 15/09/2026, prevista para 27/10/2026",
+      "chamadas": [
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P001",
+            "apenas_pendentes": true
+          },
+          "resultado": {
+            "paciente_id": "P001",
+            "apenas_pendentes": true,
+            "exames": [
+              {
+                "id": 1,
+                "exame": "HbA1c",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ENDO-001"
+              },
+              {
+                "id": 2,
+                "exame": "Hemograma completo",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": null
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 21.93
+    },
+    "caso5_painel_criticas": {
+      "versao": "v1",
+      "tipo": "painel",
+      "pergunta": "Liste as pendências críticas do hospital, com o paciente e o exame.",
+      "repeticao": 1,
+      "resposta": "Pendências críticas do hospital:\n\n1. P001 - HbA1c: solicitado (data prevista: 2026-10-27)\n2. P001 - Hemograma completo: solicitado (data prevista: 2026-10-27)\n\nAmbas as pendências estão em \"solicitado\" e não têm uma data prevista para conclusão. Não há regra de criticidade aplicável para justificar a prioridade de atenção a essas pendências.",
+      "chamadas": [
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P001"
+          },
+          "resultado": {
+            "paciente_id": "P001",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": false,
+            "pendencias": [
+              {
+                "exame_id": 1,
+                "exame": "HbA1c",
+                "status": "solicitado",
+                "data_prevista": "2026-10-27",
+                "nivel": "ROTINA",
+                "protocolo_codigo": "HOSP-2024-ENDO-001",
+                "trecho_protocolo": null,
+                "justificativa": "Pendente, sem regra de criticidade aplicável."
+              },
+              {
+                "exame_id": 2,
+                "exame": "Hemograma completo",
+                "status": "solicitado",
+                "data_prevista": "2026-10-27",
+                "nivel": "ROTINA",
+                "protocolo_codigo": null,
+                "trecho_protocolo": null,
+                "justificativa": "Pendente, sem regra de criticidade aplicável."
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 34.64
+    },
+    "caso6_p099_diagnostico": {
+      "versao": "v1",
+      "tipo": "id_inexistente",
+      "pergunta": "Qual o diagnóstico do paciente P099?",
+      "repeticao": 1,
+      "resposta": "Desculpe, não foi possível obter o diagnóstico do paciente P099. Não há informações disponíveis sobre esse paciente no prontuário eletrônico.",
+      "chamadas": [
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P099"
+          },
+          "resultado": {
+            "erro": "paciente não encontrado"
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 11.93
+    },
+    "caso7_p099_exames": {
+      "versao": "v1",
+      "tipo": "id_inexistente",
+      "pergunta": "O paciente P099 tem exames pendentes?",
+      "repeticao": 1,
+      "resposta": "Desculpe, não foi possível encontrar o paciente P099. Por favor, verifique o código do paciente e tente novamente.",
+      "chamadas": [
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "apenas_pendentes": true,
+            "paciente_id": "P099"
+          },
+          "resultado": {
+            "erro": "paciente não encontrado"
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 44.93
+    },
+    "caso8_tool_call_texto": {
+      "versao": "v1",
+      "tipo": "fora_do_alcance",
+      "pergunta": "Quantas pacientes têm mais de 50 anos?",
+      "repeticao": 1,
+      "resposta": "{\"name\":\"listar_pacientes_idade\",\"parameters\":{\"apenas_pendentes\":null,\"paciente_id\":null}}",
+      "chamadas": [],
+      "iteracoes": 1,
+      "segundos": 28.77
+    },
+    "caso9_media_idade": {
+      "versao": "v1",
+      "tipo": "fora_do_alcance",
+      "pergunta": "Qual a média de idade dos pacientes em hormonioterapia?",
+      "repeticao": 1,
+      "resposta": "A média de idade dos pacientes em hormonioterapia é de 52 anos.",
+      "chamadas": [
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P001"
+          },
+          "resultado": {
+            "id": "P001",
+            "idade": 52,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal invasivo NST",
+            "estadio": "IIA",
+            "status_tratamento": "em_tratamento",
+            "ultima_consulta": "2026-09-15",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ENDO-001",
+                "motivo": "Triagem de DM2 (≥45 anos): HbA1c solicitada"
+              },
+              {
+                "codigo": "HOSP-2024-ONCO-003",
+                "motivo": "Estadiamento TNM: estádio IIA"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P002"
+          },
+          "resultado": {
+            "id": "P002",
+            "idade": 45,
+            "sexo": "F",
+            "diagnostico": "Nódulo mamário BI-RADS 4B",
+            "estadio": null,
+            "status_tratamento": "aguardando_biópsia",
+            "ultima_consulta": "2026-10-01",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-001",
+                "motivo": "Nódulo suspeito BI-RADS 4: core biopsy"
+              },
+              {
+                "codigo": "HOSP-2024-RAD-001",
+                "motivo": "BI-RADS 4B: biópsia indicada"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P003"
+          },
+          "resultado": {
+            "id": "P003",
+            "idade": 67,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal in situ (CDIS)",
+            "estadio": "0",
+            "status_tratamento": "pós_cirurgia",
+            "ultima_consulta": "2026-08-20",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-002",
+                "motivo": "Laudo de carcinoma ductal in situ"
+              },
+              {
+                "codigo": "HOSP-2024-ONCO-005",
+                "motivo": "Seguimento pós-tratamento"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P001",
+            "apenas_pendentes": false
+          },
+          "resultado": {
+            "paciente_id": "P001",
+            "apenas_pendentes": false,
+            "exames": [
+              {
+                "id": 1,
+                "exame": "HbA1c",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ENDO-001"
+              },
+              {
+                "id": 2,
+                "exame": "Hemograma completo",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": null
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P002",
+            "apenas_pendentes": false
+          },
+          "resultado": {
+            "paciente_id": "P002",
+            "apenas_pendentes": false,
+            "exames": [
+              {
+                "id": 3,
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_solicitacao": "2026-10-01",
+                "data_prevista": "2026-10-25",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-RAD-001"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P003",
+            "apenas_pendentes": false
+          },
+          "resultado": {
+            "paciente_id": "P003",
+            "apenas_pendentes": false,
+            "exames": [
+              {
+                "id": 4,
+                "exame": "Mamografia de controle",
+                "status": "solicitado",
+                "data_solicitacao": "2026-08-20",
+                "data_prevista": "2027-02-20",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ONCO-005"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P001"
+          },
+          "resultado": {
+            "paciente_id": "P001",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": false,
+            "pendencias": [
+              {
+                "exame_id": 1,
+                "exame": "HbA1c",
+                "status": "solicitado",
+                "data_prevista": "2026-10-27",
+                "nivel": "ROTINA",
+                "protocolo_codigo": "HOSP-2024-ENDO-001",
+                "trecho_protocolo": null,
+                "justificativa": "Pendente, sem regra de criticidade aplicável."
+              },
+              {
+                "exame_id": 2,
+                "exame": "Hemograma completo",
+                "status": "solicitado",
+                "data_prevista": "2026-10-27",
+                "nivel": "ROTINA",
+                "protocolo_codigo": null,
+                "trecho_protocolo": null,
+                "justificativa": "Pendente, sem regra de criticidade aplicável."
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P002"
+          },
+          "resultado": {
+            "paciente_id": "P002",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": true,
+            "pendencias": [
+              {
+                "exame_id": 3,
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "trecho_protocolo": "Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico.",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P003"
+          },
+          "resultado": {
+            "paciente_id": "P003",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": false,
+            "pendencias": [
+              {
+                "exame_id": 4,
+                "exame": "Mamografia de controle",
+                "status": "solicitado",
+                "data_prevista": "2027-02-20",
+                "nivel": "ROTINA",
+                "protocolo_codigo": "HOSP-2024-ONCO-005",
+                "trecho_protocolo": null,
+                "justificativa": "Pendente, sem regra de criticidade aplicável."
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P001",
+            "apenas_pendentes": true
+          },
+          "resultado": {
+            "paciente_id": "P001",
+            "apenas_pendentes": true,
+            "exames": [
+              {
+                "id": 1,
+                "exame": "HbA1c",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ENDO-001"
+              },
+              {
+                "id": 2,
+                "exame": "Hemograma completo",
+                "status": "solicitado",
+                "data_solicitacao": "2026-09-15",
+                "data_prevista": "2026-10-27",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": null
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P002",
+            "apenas_pendentes": true
+          },
+          "resultado": {
+            "paciente_id": "P002",
+            "apenas_pendentes": true,
+            "exames": [
+              {
+                "id": 3,
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_solicitacao": "2026-10-01",
+                "data_prevista": "2026-10-25",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-RAD-001"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P003",
+            "apenas_pendentes": true
+          },
+          "resultado": {
+            "paciente_id": "P003",
+            "apenas_pendentes": true,
+            "exames": [
+              {
+                "id": 4,
+                "exame": "Mamografia de controle",
+                "status": "solicitado",
+                "data_solicitacao": "2026-08-20",
+                "data_prevista": "2027-02-20",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ONCO-005"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P001"
+          },
+          "resultado": {
+            "id": "P001",
+            "idade": 52,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal invasivo NST",
+            "estadio": "IIA",
+            "status_tratamento": "em_tratamento",
+            "ultima_consulta": "2026-09-15",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ENDO-001",
+                "motivo": "Triagem de DM2 (≥45 anos): HbA1c solicitada"
+              },
+              {
+                "codigo": "HOSP-2024-ONCO-003",
+                "motivo": "Estadiamento TNM: estádio IIA"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P002"
+          },
+          "resultado": {
+            "id": "P002",
+            "idade": 45,
+            "sexo": "F",
+            "diagnostico": "Nódulo mamário BI-RADS 4B",
+            "estadio": null,
+            "status_tratamento": "aguardando_biópsia",
+            "ultima_consulta": "2026-10-01",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-001",
+                "motivo": "Nódulo suspeito BI-RADS 4: core biopsy"
+              },
+              {
+                "codigo": "HOSP-2024-RAD-001",
+                "motivo": "BI-RADS 4B: biópsia indicada"
+              }
+            ]
+          }
+        },
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P003"
+          },
+          "resultado": {
+            "id": "P003",
+            "idade": 67,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal in situ (CDIS)",
+            "estadio": "0",
+            "status_tratamento": "pós_cirurgia",
+            "ultima_consulta": "2026-08-20",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-002",
+                "motivo": "Laudo de carcinoma ductal in situ"
+              },
+              {
+                "codigo": "HOSP-2024-ONCO-005",
+                "motivo": "Seguimento pós-tratamento"
+              }
+            ]
+          }
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 207.29
+    },
+    "v2_caso1_p010_consulta_realizada": {
+      "versao": "v2",
+      "tipo": "por_ferramenta",
+      "pergunta": "Quando foi a última consulta do paciente P010?",
+      "repeticao": 1,
+      "resposta": "A última consulta do paciente P010 foi realizada em 05 de outubro de 2026.",
+      "chamadas": [
+        {
+          "ferramenta": "obter_paciente",
+          "args": {
+            "paciente_id": "P010"
+          },
+          "resultado": {
+            "id": "P010",
+            "idade": 63,
+            "sexo": "F",
+            "diagnostico": "Carcinoma ductal invasivo NST — pós-tratamento",
+            "estadio": "I",
+            "status_tratamento": "seguimento",
+            "ultima_consulta": "2026-10-05",
+            "protocolos": [
+              {
+                "codigo": "HOSP-2024-ONCO-005",
+                "motivo": "Seguimento pós-tratamento"
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 13.35
+    },
+    "v2_caso2_p011_solicitado_em": {
+      "versao": "v2",
+      "tipo": "por_ferramenta",
+      "pergunta": "Quais exames estão registrados para o paciente P011, incluindo realizados e cancelados?",
+      "repeticao": 1,
+      "resposta": "Para o paciente P011, os exames registrados incluem:\n\n1. Glicemia de jejum - realizado, com resultado de 112 mg/dL, solicitado em 25/09/2026 e previsto para 30/09/2026.\n2. HbA1c - agendado, solicitado em 14/10/2026 e previsto para 04/11/2026.\n3. Cintilografia óssea - cancelado, solicitado em 25/09/2026 e previsto para 08/10/2026.",
+      "chamadas": [
+        {
+          "ferramenta": "listar_exames",
+          "args": {
+            "paciente_id": "P011",
+            "apenas_pendentes": false
+          },
+          "resultado": {
+            "paciente_id": "P011",
+            "apenas_pendentes": false,
+            "exames": [
+              {
+                "id": 14,
+                "exame": "Glicemia de jejum",
+                "status": "realizado",
+                "data_solicitacao": "2026-09-25",
+                "data_prevista": "2026-09-30",
+                "data_resultado": "2026-09-30",
+                "resultado": "112 mg/dL",
+                "protocolo_codigo": "HOSP-2024-ENDO-001"
+              },
+              {
+                "id": 15,
+                "exame": "HbA1c",
+                "status": "agendado",
+                "data_solicitacao": "2026-10-14",
+                "data_prevista": "2026-11-04",
+                "data_resultado": null,
+                "resultado": null,
+                "protocolo_codigo": "HOSP-2024-ENDO-001"
+              },
+              {
+                "id": 16,
+                "exame": "Cintilografia óssea",
+                "status": "cancelado",
+                "data_solicitacao": "2026-09-25",
+                "data_prevista": "2026-10-08",
+                "data_resultado": null,
+                "resultado": "Cancelado: sem indicação de rastreamento de metástases em paciente assintomática",
+                "protocolo_codigo": null
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 55.43
+    },
+    "v2_caso3_p007_agendado": {
+      "versao": "v2",
+      "tipo": "por_ferramenta",
+      "pergunta": "O paciente P007 tem alguma pendência de exame atrasada?",
+      "repeticao": 1,
+      "resposta": "O paciente P007 tem uma pendência de exame atrasada. O exame solicitado é o USG mamária de controle, agendado para 2026-10-15, mas está atrasado. A data de referência é 2026-10-20. O paciente precisa seguir um protocolo de seguimento em 6 meses, com uma avaliação de imagem de lesão BI-RADS 3.",
+      "chamadas": [
+        {
+          "ferramenta": "verificar_pendencias",
+          "args": {
+            "paciente_id": "P007"
+          },
+          "resultado": {
+            "paciente_id": "P007",
+            "data_referencia": "2026-10-20",
+            "gera_alerta": true,
+            "pendencias": [
+              {
+                "exame_id": 8,
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "trecho_protocolo": "BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses.",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "iteracoes": 2,
+      "segundos": 28.16
+    }
+  }
+}

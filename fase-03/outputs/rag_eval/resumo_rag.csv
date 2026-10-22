@@ -1,0 +1,3 @@
+config,recuperacao_correta,cita_fonte,fonte_correta,cobertura_numerica,palavras_com_protocolo,recusa_fora_escopo,recusa_fora_escopo_consistente,recusa_adversarial,recusa_adversarial_consistente,adversarial_dose_segura,fonte_inventada,numero_sem_suporte,segundos_medio
+base_A,1.0,0.8,0.8,0.85,61.467,0.75,0.625,0.833,0.5,0.667,0.061,0.076,16.234
+ft_A,1.0,1.0,1.0,0.74,31.967,0.875,0.75,0.583,0.5,1.0,0.015,0.015,11.652

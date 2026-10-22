@@ -77,6 +77,13 @@ STOPWORDS = set(
     "a o as os de da do das dos e em no na nos nas um uma uns umas para por com "
     "que se ao aos a e ou como qual quais quando onde ser deve devem".split()
 )
+# Termos genéricos do domínio: aparecem em quase toda pergunta e em vários
+# protocolos, então no BM25 só geram matches espúrios.
+STOPWORDS_DOMINIO = {
+    "paciente", "pacientes", "tratar", "tratamento", "conduta",
+    "protocolo", "protocolos", "hospital", "caso", "casos", "manejar", "manejo",
+}
+STOPWORDS_BM25 = STOPWORDS | STOPWORDS_DOMINIO
 NUMERO_RE = re.compile(r"\d+(?:[.,]\d+)?")
 
 # ---------------------------------------------------------------------------
@@ -106,7 +113,7 @@ def tokenizar(texto: str) -> list[str]:
     """Minúsculas, sem acentos, sem pontuação e sem stopwords (para o BM25)."""
     texto = unicodedata.normalize("NFKD", texto.lower())
     texto = "".join(c for c in texto if not unicodedata.combining(c))
-    return [t for t in re.findall(r"[a-z0-9]+", texto) if t not in STOPWORDS]
+    return [t for t in re.findall(r"[a-z0-9]+", texto) if t not in STOPWORDS_BM25]
 
 
 def extrair_numeros(texto: str) -> set[str]:
@@ -198,8 +205,14 @@ def build_vectorstore(rebuild: bool = False) -> Chroma:
 
 
 def recuperar(store: Chroma, pergunta: str, k: int = K_PADRAO) -> list[tuple[Document, float]]:
-    """Busca apenas semântica: k protocolos com score de relevância (0 a 1)."""
-    return store.similarity_search_with_relevance_scores(pergunta, k=k)
+    """
+    Busca apenas semântica: k protocolos com score de relevância.
+
+    Score = 1 - distância de cosseno (a mesma fórmula que o LangChain aplica em
+    similarity_search_with_relevance_scores para cosseno), calculado aqui para
+    evitar o UserWarning que ele emite quando o valor sai de [0, 1].
+    """
+    return [(d, 1.0 - dist) for d, dist in store.similarity_search_with_score(pergunta, k=k)]
 
 # ---------------------------------------------------------------------------
 # Busca híbrida (semântica + BM25 com Reciprocal Rank Fusion)
@@ -224,17 +237,23 @@ class BuscaHibrida:
     def buscar(self, pergunta: str, k: int = K_PADRAO, modo: str = "hibrida") -> list[dict]:
         """
         Retorna os k protocolos escolhidos, cada um com:
-        doc, score_semantico, pos_semantica, pos_bm25, score_rrf.
+        doc, score_semantico, pos_semantica, pos_bm25, score_rrf, ancora_semantica.
+
+        Âncora semântica (modo "hibrida"): se o 1º colocado da busca semântica
+        não estiver entre os k escolhidos pelo RRF, ele substitui o último.
+        Motivo: em "Como tratar hipoglicemia grave em paciente diabético?", o
+        ENDO-001 era o 1º semântico, mas o RRF o perdia para EMG-001 e HUM-001,
+        que só pontuavam no BM25 por termos genéricos como "paciente". O BM25
+        deve complementar a busca semântica, não remover o melhor resultado dela.
         """
-        semanticos = self.store.similarity_search_with_relevance_scores(
-            pergunta, k=len(self.docs)
-        )
+        semanticos = recuperar(self.store, pergunta, k=len(self.docs))
         info = {
             d.metadata["id"]: {
                 "doc": self.por_id[d.metadata["id"]],
                 "score_semantico": float(score),
                 "pos_semantica": pos,
                 "pos_bm25": None,
+                "ancora_semantica": False,
             }
             for pos, (d, score) in enumerate(semanticos, 1)
         }
@@ -253,8 +272,14 @@ class BuscaHibrida:
                 rrf += 1 / (RRF_K + item["pos_bm25"])
             item["score_rrf"] = rrf
 
-        escolhidos = sorted(info.values(), key=lambda x: (-x["score_rrf"], x["pos_semantica"]))
-        return escolhidos[:k]
+        escolhidos = sorted(info.values(), key=lambda x: (-x["score_rrf"], x["pos_semantica"]))[:k]
+
+        if modo == "hibrida":
+            top_semantico = next(i for i in info.values() if i["pos_semantica"] == 1)
+            if top_semantico not in escolhidos:
+                top_semantico["ancora_semantica"] = True
+                escolhidos[-1] = top_semantico
+        return escolhidos
 
     def melhor_score_semantico(self, pergunta: str) -> float:
         return float(recuperar(self.store, pergunta, k=1)[0][1])
@@ -321,6 +346,7 @@ class AssistenteRAG:
                 "score": round(e["score_semantico"], 3),
                 "pos_semantica": e["pos_semantica"],
                 "pos_bm25": e["pos_bm25"],
+                "ancora_semantica": e["ancora_semantica"],
                 "trecho": e["doc"].metadata["conteudo"],
             }
             for e in escolhidos

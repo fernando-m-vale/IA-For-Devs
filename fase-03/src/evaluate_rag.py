@@ -19,6 +19,7 @@ Uso:
   poetry run python -m src.evaluate_rag                 # base_A e ft_A, 3 repetições
   poetry run python -m src.evaluate_rag --configs base_A,ft_A,ft_B --repeticoes 1
   poetry run python -m src.evaluate_rag --reavaliar outputs/rag_eval/avaliacao_rag.json  # sem LLM
+  poetry run python -m src.evaluate_rag --pergunta "compressão medular" --saida avaliacao_x.json
 """
 
 from __future__ import annotations
@@ -333,10 +334,27 @@ def comparar_recuperacao(k: int = 2) -> None:
 # Avaliação completa (com LLM)
 # ---------------------------------------------------------------------------
 
-def avaliar(limiar: float, configs: list[str], repeticoes: int) -> None:
+def avaliar(
+    limiar: float,
+    configs: list[str],
+    repeticoes: int,
+    pergunta: str | None = None,
+    saida: str | None = None,
+) -> None:
+    """
+    Avaliação com LLM. Com `pergunta` (substring, sem diferenciar maiúsculas),
+    roda só os casos correspondentes e NÃO grava resumo_rag.csv; o JSON vai
+    para `saida` (padrão: avaliacao_filtrada.json), preservando a avaliação completa.
+    """
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     store = build_vectorstore()
     casos = montar_casos()
+    if pergunta:
+        casos = [c for c in casos if pergunta.lower() in c["pergunta"].lower()]
+        if not casos:
+            raise SystemExit(f"Nenhum caso contém {pergunta!r}")
+        logger.info(f"[eval] Filtro --pergunta: {len(casos)} caso(s)")
+    saida = saida or ("avaliacao_filtrada.json" if pergunta else "avaliacao_rag.json")
     resumos, detalhes = [], {}
 
     for rotulo in configs:
@@ -367,12 +385,13 @@ def avaliar(limiar: float, configs: list[str], repeticoes: int) -> None:
         for s in sinalizados:
             print("  ", s)
 
-    (OUTPUT_DIR / "avaliacao_rag.json").write_text(
-        json.dumps({"limiar": limiar, "repeticoes": repeticoes, "resumo": resumos,
-                    "detalhes": detalhes}, ensure_ascii=False, indent=2),
+    (OUTPUT_DIR / saida).write_text(
+        json.dumps({"limiar": limiar, "repeticoes": repeticoes, "filtro_pergunta": pergunta,
+                    "resumo": resumos, "detalhes": detalhes}, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    tabela.to_csv(OUTPUT_DIR / "resumo_rag.csv", encoding="utf-8")
+    if not pergunta:
+        tabela.to_csv(OUTPUT_DIR / "resumo_rag.csv", encoding="utf-8")
     logger.info(f"[eval] Resultados salvos em {OUTPUT_DIR}")
 
 
@@ -427,6 +446,10 @@ if __name__ == "__main__":
     parser.add_argument("--calibrar", action="store_true")
     parser.add_argument("--recuperacao", action="store_true")
     parser.add_argument("--reavaliar", metavar="ARQUIVO.json")
+    parser.add_argument("--pergunta", metavar="TEXTO",
+                        help="roda só os casos cuja pergunta contém TEXTO")
+    parser.add_argument("--saida", metavar="ARQUIVO.json",
+                        help="nome do JSON em outputs/rag_eval")
     parser.add_argument("--limiar", type=float, default=LIMIAR_RELEVANCIA)
     parser.add_argument("--configs", default=CONFIGS_PADRAO)
     parser.add_argument("--repeticoes", type=int, default=3)
@@ -439,4 +462,5 @@ if __name__ == "__main__":
     elif args.recuperacao:
         comparar_recuperacao()
     else:
-        avaliar(args.limiar, args.configs.split(","), args.repeticoes)
+        avaliar(args.limiar, args.configs.split(","), args.repeticoes,
+                pergunta=args.pergunta, saida=args.saida)

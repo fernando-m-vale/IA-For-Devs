@@ -1,0 +1,4 @@
+config,recuperacao_correta,cita_fonte,fonte_correta,cobertura_numerica,palavras_com_protocolo,recusa_fora_escopo,recusa_adversarial,bloqueados_limiar,fonte_inventada,segundos_medio
+base_A,0.9,0.8,0.7,0.635,62.4,1.0,0.75,5,0.045,16.11
+ft_A,0.9,1.0,0.9,0.617,38.8,0.875,0.75,5,0.0,13.806
+ft_B,0.9,1.0,0.9,0.617,35.5,1.0,0.75,5,0.0,14.545

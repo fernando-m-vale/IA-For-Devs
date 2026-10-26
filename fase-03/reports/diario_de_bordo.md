@@ -1,11 +1,12 @@
 # Diário de Bordo — Tech Challenge Fase 3 (Fine-tuning + LangChain + LangGraph)
 
-> Esse documento descreve as decisões tomadas ao longo do desenvolvimento do proejto.
+> Rascunho vivo do relatório técnico final. Cada decisão e achado relevante
+> é registrado aqui na ordem em que aconteceu.
 
 ## 1. Escopo e decisões iniciais
 
 ### 1.1 Restrições do ambiente
-- Máquina local apenas com CPU (16 GB RAM).
+- Máquina local apenas com CPU (16 GB RAM) e prazo inferior a 2 semanas.
 - Fine-tuning real de LLM exige GPU: a etapa de treino roda no **Google Colab
   (GPU T4, 15 GB)**; inferência e pipeline do assistente rodam localmente via
   **Ollama**.
@@ -352,14 +353,173 @@ Defesa em camadas, em que cada uma cobre o que a anterior não pega:
    insulina e sepse.
 4. **Humano no circuito:** toda resposta é apoio à decisão e é validada pelo médico.
 
-## 5. Próximos passos
+## 5. Agente para os prontuários (Etapa 4)
+
+### 5.1 Normalização do banco
+- O banco original tinha uma única tabela, com `exames_pendentes` em texto
+  livre e um `alerta` escrito à mão (a resposta já estava no dado). Não havia
+  como separar "solicitado", "agendado" e "atrasado" com SQL.
+- **Novo schema:** `pacientes`, `exames` (um exame por linha, com status e
+  datas) e `paciente_protocolos` (N:N com `motivo`, porque um paciente pode
+  ter mais de um protocolo: o P001 é oncológico e tem rastreio de diabetes).
+  Integridade no banco: `NOT NULL`, `CHECK` nos status, FKs ativas e validação
+  de que todo código de protocolo existe na base de conhecimento.
+- **Coluna `alerta` removida:** o alerta passa a ser **calculado**, não copiado.
+- **`DATA_REFERENCIA = 2026-10-20` fixa** (em `config.py`): sem ela, "atrasado"
+  mudaria conforme o dia de execução (mesmo princípio da semente fixa).
+- **4 pacientes de casos-limite** (P009–P012): sem pendências, com resultado
+  registrado, com vários protocolos e com prazo exatamente na data de
+  referência (P012: não está atrasado, porque a regra usa `<`).
+
+### 5.2 Regras clínicas com o trecho do protocolo validado
+- **Primeira tentativa:** as regras de pendência e atraso não reproduziram os
+  alertas antigos. O alerta antigo misturava duas coisas: a **pendência** (um
+  fato) e a **criticidade** (um julgamento clínico que não estava em lugar nenhum).
+- **Opções consideradas:** uma coluna de prioridade preenchida à mão (a resposta
+  voltaria a estar no banco), o LLM julgar (não determinístico) ou **regras
+  explícitas que citam o protocolo**. Escolhida a terceira.
+- **`regras_clinicas.py`:** 4 regras (biópsia em BI-RADS 4, avaliação de resposta
+  na neoadjuvância, ecocardiograma em anti-HER2, seguimento de BI-RADS 3). Cada
+  regra cita um trecho do protocolo, e **a importação falha se o trecho não
+  existir literalmente no texto**.
+- **Níveis:** ATRASADO (pendente com `data_prevista < referência`) > CRITICO
+  (casa uma regra) > ROTINA (sem alerta). Os 4 alertas antigos são reproduzidos
+  **por regra**, e os pacientes de rotina ficam sem alerta.
+- **Lacuna na base:** o PROT-004 não falava em ecocardiograma. Completado com o
+  monitoramento cardíaco em anti-HER2 (prática padrão). Efeitos colaterais
+  medidos sem LLM: hit@1 das curadas 0,792 → 0,812, por acaso (o BM25 penaliza
+  documento longo), e métricas das respostas salvas idênticas. Os datasets de
+  fine-tuning e as respostas da avaliação do RAG usaram o texto anterior.
+- **Bug corrigido antes do commit:** a regra 4 casava só protocolo e exame,
+  então uma USG de paciente BI-RADS 4 seria tratada como seguimento de BI-RADS 3.
+  Foi incluído o campo `padrao_diagnostico`, com teste unitário para o caso
+  positivo e para o negativo.
+
+### 5.3 Três abordagens consideradas
+| Abordagem | Decisão |
+|---|---|
+| A. Text-to-SQL livre (`create_sql_agent`) | Descartada: o modelo de 3B escreve SQL ruim, há risco de consulta indevida e é difícil de auditar |
+| B. Ferramentas parametrizadas (SQL fixo) | **Base**: segura, auditável e alinhada ao fluxo da Etapa 5 |
+| C. Text-to-SQL com guardrails | **Experimento comparativo** |
+
+- **Modelo:** `llama3.2:3b` base escolhe as ferramentas (o `medassist` foi
+  treinado só no formato RAG); temperatura 0.
+
+### 5.4 Opção B: ferramentas parametrizadas
+- **Garantias de arquitetura, não de prompt:**
+  - conexão SQLite somente leitura (`mode=ro`);
+  - ID validado por regex (barra `P001' OR '1'='1`);
+  - **nenhuma ferramenta devolve o nome do paciente** (minimização de dados,
+    LGPD art. 6º, III): o modelo não revela o que nunca recebeu.
+- **Ferramentas:** `obter_paciente`, `listar_exames`, `verificar_pendencias`
+  e `pacientes_com_alerta` (painel).
+- **v1 (15 casos × 3 repetições):** escolha de ferramenta e argumentos 100%
+  corretos quando a pergunta cita um paciente. Falhas:
+  - painel sem ID: o modelo "chutou" o P001 e afirmou atrasos falsos (6/6);
+  - agregação: **acessou P001–P003 (15 chamadas) sem que ninguém pedisse** e
+    inventou "média de 52 anos" (a única paciente em hormonioterapia tem 71);
+  - escreveu uma chamada de ferramenta como texto (JSON cru para o usuário);
+  - na redação, trocou "solicitado" por "agendado".
+- **v2, tirando do modelo as decisões em que ele erra:**
+  - **roteamento estrutural pelo ID** extraído da pergunta: com ID, só as
+    ferramentas de paciente, e cada chamada só é aceita para os IDs citados;
+    sem ID, só o painel. **O agente só acessa pacientes que o médico citou.**
+  - limite de 4 chamadas por iteração;
+  - **curto-circuitos determinísticos:** paciente inexistente gera resposta fixa
+    ("não foi encontrado no cadastro"; "não há informações" foi considerado
+    ambíguo, porque sugere paciente existente sem dados); chamada de ferramenta
+    em texto é substituída por "não é possível responder com as ferramentas";
+  - status explícito em todas as saídas, inclusive no painel.
+
+| Métrica B (avaliador final) | v1 | v2 |
+|---|---|---|
+| Ferramenta / argumentos corretos | 0,769 / 0,818 | 1,000 / 1,000 |
+| Fatos do gabarito presentes | 0,778 | 1,000 |
+| Painel sem falha | 0,000 | 1,000 |
+| Fora do alcance (recusa) | 0,000 | 1,000 |
+| Status sem suporte | — | 0,091 |
+| Fato ou nome inventado | 0 | 0 |
+| **Sem falha (geral)** | 0,556 | **0,933** |
+
+- **Erro que restou:** "agendado para 2026-10-15" num exame "solicitado"
+  (P007, 3/3). O modelo lê `data_prevista` e escreve a forma natural em
+  português; a instrução no prompt não resolveu. Fica como evidência para o
+  guardrail de saída da Etapa 6 (detectar, gerar de novo com o erro apontado e,
+  se persistir, usar template).
+- **Agregados em B (4 perguntas novas):** recusou 2, e respondeu 2 com
+  contagens erradas ("5 exames pendentes", que na verdade são 12; o 5 era o
+  número de pendências com alerta). A checagem numérica pegou o "5", mas não o
+  "4", que existe em "BI-RADS 4".
+
+### 5.5 O avaliador também foi testado
+- Duas rodadas seguidas revelaram falhas nas próprias métricas (data por
+  extenso, negação "não foi realizado", "solicitado em <data>" lido como
+  status). **As respostas reais rotuladas pela análise humana viraram um teste
+  de regressão do avaliador** (`tests/fixtures`), que cresce a cada rodada.
+- **Detalhes de desenho:** números da pergunta contam como fonte permitida (o
+  "50" de "mais de 50 anos"); chamadas rejeitadas não contam como fonte de
+  fatos.
+- **Limitação documentada com `@unittest.expectedFailure`:** a checagem
+  verifica se o número existe nos resultados, não a quem foi atribuído (o "52"
+  era a idade do P001). O rótulo humano **não foi alterado** para o teste
+  passar. É a mesma classe de erro do BI-RADS no RAG, e o alvo do juiz de
+  fidelidade.
+- **Critérios por resultado, não por caminho:** na injeção e no fora do
+  alcance, consultar uma ferramenta inofensiva não é falha. Falha é vazar,
+  inventar ou exceder a autorização.
+
+### 5.6 Opção C: text-to-SQL protegido
+- **Guardrails no banco e no código, não no prompt:**
+  - `mode=ro` e **`set_authorizer` do SQLite**: só leitura nas 3 tabelas, com a
+    coluna `nome_anonimizado` negada (controle de acesso por coluna, imune a
+    injeção de prompt);
+  - uma única instrução, `LIMIT`, timeout (`set_progress_handler`);
+  - **só agregados** (COUNT/AVG/SUM/MIN/MAX), sem `GROUP BY` por ID;
+  - **supressão de células pequenas (k=3):** agregados de grupos pequenos
+    reidentificam pessoas. A "média de idade em hormonioterapia" é a idade da
+    única paciente (n=1). O gabarito dessa pergunta é a supressão, e não "71".
+  - validações acrescentadas após a primeira rodada: rótulo do `GROUP BY` no
+    `SELECT`, rejeição de filtro por paciente, literal categórico inexistente
+    devolvido ao modelo com os valores válidos, e fim da correção quando o SQL
+    se repete.
+
+| C (19 casos × 3) | v1 | v2 |
+|---|---|---|
+| Sem falha (geral) | 0,684 | **0,789** |
+| ID inexistente | 0,500 | 1,000 |
+| Supressão correta | 0,333 | 0,667 |
+| Segundos por resposta | 7,7 | 9,5 (B: ~30) |
+
+- **Privacidade: 100% em todas as rodadas.** Nenhum nome, nenhum dado
+  individual, todas as injeções contidas. As camadas determinísticas funcionaram.
+- **Correção: o ponto fraco.** O modelo gera SQL válido que responde a outra pergunta:
+  - "Pacientes com exames atrasados?" → `data_prevista < data_solicitacao AND
+    status = 'realizado'` → **"0"**. O P007 está atrasado. É um **falso negativo
+    tranquilizador**, o erro mais perigoso do projeto, porque faz o médico deixar de agir;
+  - "Pendências que geram alerta?": o modelo inventou um critério de alerta
+    por status de tratamento.
+- **Causa:** "atrasado" e "alerta" são regras que existem em um único lugar
+  (`regras_clinicas.py`). O C obriga o LLM a recriá-las em SQL, e ele cria uma
+  versão diferente. Nenhuma validação de forma pega isso.
+
+### 5.7 Decisão: arquitetura híbrida
+| Pergunta | Caminho |
+|---|---|
+| Com ID de paciente | B (ferramentas, acesso só ao paciente citado) |
+| Sem ID, sobre alertas, atrasos ou pendências | B (painel): conceitos derivados das regras nunca são recalculados pelo LLM |
+| Sem ID, contagem ou média | C (estatística protegida) |
+
+O roteamento entra como nó do grafo LangGraph (Etapa 5). Em caso de dúvida
+entre painel e estatística, a pergunta vai para o painel (caminho seguro).
+
+## 6. Próximos passos
 
 - [x] Etapa 0: setup da Fase 3
 - [x] Etapa 1: dataset sintético e curadoria
 - [x] Etapa 2: fine-tuning QLoRA (v1 e v2)
 - [x] Etapa 2b: registrar o modelo fine-tunado no Ollama local
 - [x] Etapa 3: pipeline RAG com LangChain
-- [ ] Etapa 4: agente SQL para prontuários
+- [x] Etapa 4: agente SQL para prontuários
 - [ ] Etapa 5: fluxo LangGraph
 - [ ] Etapa 6: segurança, logging e explainability
 - [ ] Etapa 7: documentação e relatório técnico

@@ -1,0 +1,46 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	extrair_ids(extrair_ids)
+	rotear(rotear)
+	agente_b(agente_b)
+	painel(painel)
+	agente_c(agente_c)
+	rag(rag)
+	carregar_paciente(carregar_paciente)
+	avaliar_pendencias(avaliar_pendencias)
+	buscar_protocolos(buscar_protocolos)
+	sugerir_conduta(sugerir_conduta)
+	verificar_saida(verificar_saida)
+	gerar_alertas(gerar_alertas)
+	aprovacao_medica(aprovacao_medica)
+	registrar_decisao(registrar_decisao)
+	__end__([<p>__end__</p>]):::last
+	__start__ -. &nbsp;revisao&nbsp; .-> carregar_paciente;
+	__start__ -. &nbsp;pergunta&nbsp; .-> extrair_ids;
+	agente_b --> verificar_saida;
+	agente_c --> verificar_saida;
+	aprovacao_medica --> registrar_decisao;
+	avaliar_pendencias --> buscar_protocolos;
+	buscar_protocolos --> sugerir_conduta;
+	carregar_paciente -. &nbsp;fim&nbsp; .-> __end__;
+	carregar_paciente -. &nbsp;seguir&nbsp; .-> avaliar_pendencias;
+	extrair_ids --> rotear;
+	gerar_alertas --> aprovacao_medica;
+	painel --> verificar_saida;
+	rag --> verificar_saida;
+	rotear -.-> agente_b;
+	rotear -.-> agente_c;
+	rotear -.-> painel;
+	rotear -.-> rag;
+	sugerir_conduta --> verificar_saida;
+	verificar_saida -. &nbsp;pergunta&nbsp; .-> __end__;
+	verificar_saida -. &nbsp;revisao&nbsp; .-> gerar_alertas;
+	registrar_decisao --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

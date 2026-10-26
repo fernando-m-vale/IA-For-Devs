@@ -1,0 +1,715 @@
+{
+  "modelo": "medassist",
+  "repeticoes": 1,
+  "pacientes": [
+    {
+      "paciente_id": "P001",
+      "aguardando_aprovacao": true,
+      "segundos": 54.88,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ENDO-001",
+        "HOSP-2024-ONCO-003"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ENDO-001"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é a realização dos exames solicitados, pois o paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento. O HbA1c deve ser avaliado para monitorar a condição de diabetes, que pode afetar a resposta ao tratamento. O hemograma completo é importante para monitorar a condição do paciente durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é a realização dos exames solicitados, pois o paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento. O HbA1c deve ser avaliado para monitorar a condição de diabetes, que pode afetar a resposta ao tratamento. O hemograma completo é importante para monitorar a condição do paciente durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:29:55",
+          "segundos": 0.016,
+          "resumo": "P001: Carcinoma ductal invasivo NST"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:29:55",
+          "segundos": 0.003,
+          "resumo": "2 pendência(s): ['ROTINA', 'ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:29:55",
+          "segundos": 0.001,
+          "resumo": "vinculados: ['HOSP-2024-ENDO-001', 'HOSP-2024-ONCO-003']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:29:55",
+          "segundos": 54.856,
+          "resumo": "fontes citadas: ['HOSP-2024-ENDO-001']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P002",
+      "aguardando_aprovacao": true,
+      "segundos": 34.37,
+      "alertas": [
+        {
+          "nivel": "CRITICO",
+          "exame": "Biópsia por agulha grossa (core biopsy)"
+        }
+      ],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-001",
+        "HOSP-2024-RAD-001"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-RAD-001"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita intermediária (BI-RADS 4B) justifica a necessidade de biópsia. A biópsia está indicada para esclarecimento histológico em todas as subcategorias de BI-RADS 4.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita intermediária (BI-RADS 4B) justifica a necessidade de biópsia. A biópsia está indicada para esclarecimento histológico em todas as subcategorias de BI-RADS 4.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001\n\nAlertas:\n- [CRITICO] Biópsia por agulha grossa (core biopsy) (agendado, previsto para 2026-10-25): Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita. Protocolo HOSP-2024-RAD-001: \"Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico.\"\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 0.005,
+          "resumo": "P002: Nódulo mamário BI-RADS 4B"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 0.003,
+          "resumo": "1 pendência(s): ['CRITICO']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-001', 'HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:30:50",
+          "segundos": 34.359,
+          "resumo": "fontes citadas: ['HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 0.0,
+          "resumo": "1 alerta(s): ['CRITICO']"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P003",
+      "aguardando_aprovacao": true,
+      "segundos": 31.92,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-002",
+        "HOSP-2024-ONCO-005"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-002"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [
+        "0"
+      ],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é a realização de mamografia de controle, pois a paciente está em estádio 0 e a conduta é rotineira para pacientes com CDIS. A conduta não indica a necessidade de exame de imagem adicional, pois a imagem não suspeita a lesão.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é a realização de mamografia de controle, pois a paciente está em estádio 0 e a conduta é rotineira para pacientes com CDIS. A conduta não indica a necessidade de exame de imagem adicional, pois a imagem não suspeita a lesão.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 0.004,
+          "resumo": "P003: Carcinoma ductal in situ (CDIS)"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 0.004,
+          "resumo": "1 pendência(s): ['ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-002', 'HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:31:24",
+          "segundos": 31.914,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-002']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P004",
+      "aguardando_aprovacao": true,
+      "segundos": 37.7,
+      "alertas": [
+        {
+          "nivel": "CRITICO",
+          "exame": "PET-CT de avaliação de resposta"
+        }
+      ],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-003",
+        "HOSP-2024-ONCO-004"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-004"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é a realização da quimioterapia neoadjuvante, considerando a biologia agressiva do tumor e o estágio IIIA. O esquema preferencial é AC-T, com adição de trastuzumabe e pertuzumabe em caso de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é a realização da quimioterapia neoadjuvante, considerando a biologia agressiva do tumor e o estágio IIIA. O esquema preferencial é AC-T, com adição de trastuzumabe e pertuzumabe em caso de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004\n\nAlertas:\n- [CRITICO] PET-CT de avaliação de resposta (agendado, previsto para 2026-10-24): Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema. Protocolo HOSP-2024-ONCO-004: \"Avaliação de resposta por imagem a cada 2 ciclos.\"\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 0.006,
+          "resumo": "P004: Carcinoma triplo-negativo"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 0.006,
+          "resumo": "1 pendência(s): ['CRITICO']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-003', 'HOSP-2024-ONCO-004']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:31:56",
+          "segundos": 37.688,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-004']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 0.0,
+          "resumo": "1 alerta(s): ['CRITICO']"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P005",
+      "aguardando_aprovacao": true,
+      "segundos": 16.63,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-002",
+        "HOSP-2024-ONCO-005"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-005"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é realizar a densitometria óssea, pois a avaliação de densidade mineral óssea é recomendada a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase. O protocolo indica avaliação a cada 2 anos, independentemente da idade. O seguimento é aconselhado, mas não é a conduta principal para esta pendência.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é realizar a densitometria óssea, pois a avaliação de densidade mineral óssea é recomendada a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase. O protocolo indica avaliação a cada 2 anos, independentemente da idade. O seguimento é aconselhado, mas não é a conduta principal para esta pendência.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 0.006,
+          "resumo": "P005: Carcinoma lobular invasivo"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 0.008,
+          "resumo": "1 pendência(s): ['ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-002', 'HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:32:34",
+          "segundos": 16.617,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P006",
+      "aguardando_aprovacao": true,
+      "segundos": 18.84,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-005"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-005"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "Mamografia anual, pois a paciente está em seguimento e o estadio é I, com remissão completa. A conduta é sugerida pelo protocolo que estabelece a frequência de mamografia anual para pacientes em seguimento, independentemente da idade ou status do tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "resposta": "Conduta sugerida:\nMamografia anual, pois a paciente está em seguimento e o estadio é I, com remissão completa. A conduta é sugerida pelo protocolo que estabelece a frequência de mamografia anual para pacientes em seguimento, independentemente da idade ou status do tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 0.003,
+          "resumo": "P006: Seguimento pós-tratamento — remissão completa"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 0.003,
+          "resumo": "1 pendência(s): ['ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:32:50",
+          "segundos": 18.834,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P007",
+      "aguardando_aprovacao": true,
+      "segundos": 16.14,
+      "alertas": [
+        {
+          "nivel": "ATRASADO",
+          "exame": "USG mamária de controle"
+        }
+      ],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-001",
+        "HOSP-2024-RAD-001"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-001"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é seguir o seguimento em 6 meses, pois o nódulo foi classificado como provavelmente benigno. A biópsia não é necessária, pois o nódulo é considerado de baixa suspeita de malignidade. A conduta deve ser comunicada ao paciente e ao seu acompanhante.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é seguir o seguimento em 6 meses, pois o nódulo foi classificado como provavelmente benigno. A biópsia não é necessária, pois o nódulo é considerado de baixa suspeita de malignidade. A conduta deve ser comunicada ao paciente e ao seu acompanhante.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001\n\nAlertas:\n- [ATRASADO] USG mamária de controle (solicitado, previsto para 2026-10-15): Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3. Protocolo HOSP-2024-RAD-001: \"BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses.\"\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 0.004,
+          "resumo": "P007: Nódulo BI-RADS 3 — provavelmente benigno"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 0.003,
+          "resumo": "1 pendência(s): ['ATRASADO']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-001', 'HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:33:09",
+          "segundos": 16.129,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-001']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 0.0,
+          "resumo": "1 alerta(s): ['ATRASADO']"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P008",
+      "aguardando_aprovacao": true,
+      "segundos": 20.93,
+      "alertas": [
+        {
+          "nivel": "CRITICO",
+          "exame": "Ecocardiograma"
+        }
+      ],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-003",
+        "HOSP-2024-ONCO-004"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-004"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento. Fonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento. Fonte: Protocolo Interno HOSP-2024-ONCO-004\n\nAlertas:\n- [CRITICO] Ecocardiograma (solicitado, previsto para 2026-10-26): Monitorização de cardiotoxicidade durante terapia anti-HER2. Protocolo HOSP-2024-ONCO-004: \"Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.\"\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 0.007,
+          "resumo": "P008: Carcinoma ductal invasivo HER2+"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 0.004,
+          "resumo": "1 pendência(s): ['CRITICO']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-003', 'HOSP-2024-ONCO-004']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:33:25",
+          "segundos": 20.924,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-004']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 0.0,
+          "resumo": "1 alerta(s): ['CRITICO']"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P009",
+      "aguardando_aprovacao": true,
+      "segundos": 17.54,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-001",
+        "HOSP-2024-RAD-001"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-001"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é seguir a conduta de seguimento anual, pois o achado é benigno e não há pendências de exames. O protocolo não estabelece conduta diferente para estadios não informados ou status de tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é seguir a conduta de seguimento anual, pois o achado é benigno e não há pendências de exames. O protocolo não estabelece conduta diferente para estadios não informados ou status de tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 0.004,
+          "resumo": "P009: Nódulo mamário BI-RADS 2 — achado benigno"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 0.004,
+          "resumo": "0 pendência(s): []"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-001', 'HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:33:46",
+          "segundos": 17.531,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-001']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P010",
+      "aguardando_aprovacao": true,
+      "segundos": 14.16,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-005"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-005"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é agendar o exame de densidade mineral óssea, pois a paciente está em hormonioterapia e o protocolo recomenda avaliação a cada 2 anos. Fonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é agendar o exame de densidade mineral óssea, pois a paciente está em hormonioterapia e o protocolo recomenda avaliação a cada 2 anos. Fonte: Protocolo Interno HOSP-2024-ONCO-005\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 0.005,
+          "resumo": "P010: Carcinoma ductal invasivo NST — pós-tratamento"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 0.006,
+          "resumo": "1 pendência(s): ['ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:34:04",
+          "segundos": 14.151,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-005']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P011",
+      "aguardando_aprovacao": true,
+      "segundos": 17.02,
+      "alertas": [],
+      "protocolos_vinculados": [
+        "HOSP-2024-ENDO-001",
+        "HOSP-2024-ONCO-003"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-ONCO-003"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é agendar o exame de HbA1c para a data prevista, pois o paciente está em tratamento e a conduta é de monitoramento contínuo. O protocolo não cobre a conduta para o paciente, pois o contexto não cobre a conduta; a conduta é sugerida com base na conduta geral para pacientes com câncer de mama.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-003",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é agendar o exame de HbA1c para a data prevista, pois o paciente está em tratamento e a conduta é de monitoramento contínuo. O protocolo não cobre a conduta para o paciente, pois o contexto não cobre a conduta; a conduta é sugerida com base na conduta geral para pacientes com câncer de mama.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-003\n\nAlertas: nenhum.\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 0.007,
+          "resumo": "P011: Carcinoma ductal invasivo NST"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 0.004,
+          "resumo": "1 pendência(s): ['ROTINA']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ENDO-001', 'HOSP-2024-ONCO-003']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:34:18",
+          "segundos": 17.007,
+          "resumo": "fontes citadas: ['HOSP-2024-ONCO-003']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 0.0,
+          "resumo": "0 alerta(s): []"
+        }
+      ]
+    },
+    {
+      "paciente_id": "P012",
+      "aguardando_aprovacao": true,
+      "segundos": 11.95,
+      "alertas": [
+        {
+          "nivel": "CRITICO",
+          "exame": "Biópsia por agulha grossa (core biopsy)"
+        }
+      ],
+      "protocolos_vinculados": [
+        "HOSP-2024-ONCO-001",
+        "HOSP-2024-RAD-001"
+      ],
+      "fontes_citadas": [
+        "HOSP-2024-RAD-001"
+      ],
+      "cita_fonte": true,
+      "fontes_ok": true,
+      "numeros_sem_suporte": [],
+      "numeros_fora_dos_dados": [],
+      "conduta": "A conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e ≤10%.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "resposta": "Conduta sugerida:\nA conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e ≤10%.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001\n\nAlertas:\n- [CRITICO] Biópsia por agulha grossa (core biopsy) (agendado, previsto para 2026-10-20): Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita. Protocolo HOSP-2024-RAD-001: \"Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico.\"\n\nSugestão de apoio à decisão — requer validação médica.",
+      "caminho": [
+        {
+          "no": "carregar_paciente",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 0.004,
+          "resumo": "P012: Nódulo mamário BI-RADS 4A"
+        },
+        {
+          "no": "avaliar_pendencias",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 0.003,
+          "resumo": "1 pendência(s): ['CRITICO']"
+        },
+        {
+          "no": "buscar_protocolos",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 0.0,
+          "resumo": "vinculados: ['HOSP-2024-ONCO-001', 'HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "sugerir_conduta",
+          "inicio": "2026-10-26T11:34:35",
+          "segundos": 11.947,
+          "resumo": "fontes citadas: ['HOSP-2024-RAD-001']"
+        },
+        {
+          "no": "verificar_saida",
+          "inicio": "2026-10-26T11:34:47",
+          "segundos": 0.0,
+          "resumo": "passagem (guardrails na Etapa 6)"
+        },
+        {
+          "no": "gerar_alertas",
+          "inicio": "2026-10-26T11:34:47",
+          "segundos": 0.0,
+          "resumo": "1 alerta(s): ['CRITICO']"
+        }
+      ]
+    }
+  ]
+}

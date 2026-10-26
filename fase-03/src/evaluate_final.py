@@ -127,34 +127,46 @@ def _sistema(estado: dict, esperado: str, segundos: float) -> dict:
 def _chamadas_b(estado: dict) -> list[dict]:
     if estado.get("rota") == "agente_b":
         return estado.get("chamadas_b", [])
-    if estado.get("rota") == "painel":  # o painel é montado a partir desta mesma consulta
+    if estado.get("rota") == "painel":
+        # O painel é montado por template a partir desta mesma consulta; as contagens
+        # que o template escreve ("1 pendência(s) em 1 paciente(s)") entram como suporte.
+        resultado = prontuarios.pacientes_com_alerta()
+        contagens = {}
+        for nivel in ("ATRASADO", "CRITICO", None):
+            sel = [p for p in resultado["pendencias"] if nivel in (None, p["nivel"])]
+            contagens[nivel or "todos"] = [len(sel), len({p["paciente_id"] for p in sel})]
         return [{"ferramenta": "pacientes_com_alerta", "args": {}, "rejeitada": False,
-                 "resultado": prontuarios.pacientes_com_alerta()}]
+                 "resultado": {**resultado, "contagens_do_template": contagens}}]
     return []
 
 
-def metricas_rag(caso: dict, estado: dict, texto: str, rep: int) -> dict:
+def metricas_rag(caso: dict, estado: dict, texto: str, rep: int, segundos: float) -> dict:
     por_codigo = grafo._protocolos_por_codigo()
     fontes = [{"codigo": c, "id": por_codigo[c]["id"], "trecho": por_codigo[c]["conteudo"]}
               for c in estado.get("fontes", [])] if estado.get("rota") == "rag" else []
     r = SimpleNamespace(resposta=texto, fontes_recuperadas=fontes,
-                        bloqueado_por_limiar=bool(estado.get("rag_bloqueado_limiar")), segundos=0.0)
+                        bloqueado_por_limiar=bool(estado.get("rag_bloqueado_limiar")), segundos=segundos)
     return er.avaliar_resposta(caso["caso"], r, rep)
 
 
-def metricas_agente(caso: dict, estado: dict, texto: str, rep: int) -> dict:
+def metricas_agente(caso: dict, estado: dict, texto: str, rep: int, segundos: float) -> dict:
     c = caso["caso"]
     gabarito_b = list(dict.fromkeys(c.gabarito()))
     if caso["rota_esperada"] == "agente_c":
         rc = estado.get("resposta_c") or {}
         r = SimpleNamespace(resposta=texto, chamadas=rc.get("chamadas", []), iteracoes=rc.get("iteracoes", 0),
-                            segundos=0.0, caminho=rc.get("caminho"), tentativas=rc.get("tentativas", []),
+                            segundos=segundos, caminho=rc.get("caminho"), tentativas=rc.get("tentativas", []),
                             sql_executado=rc.get("sql_executado"), linhas_visiveis=rc.get("linhas_visiveis", []),
                             linhas_suprimidas=rc.get("linhas_suprimidas", []), n_base=rc.get("n_base"))
         return {"avaliador": "agente_c", **ec.avaliar_resposta_sql(c, gabarito_b, ec.calcular_gabarito(c.pergunta),
                                                                     r, rep)}
-    r = SimpleNamespace(resposta=texto, chamadas=_chamadas_b(estado), iteracoes=0, segundos=0.0)
-    return {"avaliador": "agente_b", **ea.avaliar_resposta(c, gabarito_b, r, rep)}
+    r = SimpleNamespace(resposta=texto, chamadas=_chamadas_b(estado), iteracoes=0, segundos=segundos)
+    m = {"avaliador": "agente_b", **ea.avaliar_resposta(c, gabarito_b, r, rep)}
+    if c.tipo == "injecao":
+        # Mesma régua da Etapa 4: injeção julgada pelo RESULTADO (injecao_contida), sem
+        # exigir recusa por texto (a injeção sem ID cai no RAG, que recusa com outra frase).
+        m["recusou"] = None
+    return m
 
 
 def metricas_revisao(pid: str, estado: dict) -> dict:
@@ -191,8 +203,8 @@ def executar_caso(g, caso: dict, rep: int) -> dict:
         estado = grafo.perguntar(g, caso["pergunta"])
         segundos = time.time() - inicio
         texto = texto_final(estado.get("resposta", ""))
-        metricas = (metricas_rag(caso, estado, texto, rep) if caso["grupo"] == "rag"
-                    else metricas_agente(caso, estado, texto, rep))
+        metricas = (metricas_rag(caso, estado, texto, rep, segundos) if caso["grupo"] == "rag"
+                    else metricas_agente(caso, estado, texto, rep, segundos))
     return {"chave": f"{caso['caso_id']}|{rep}", "grupo": caso["grupo"], "caso_id": caso["caso_id"],
             "repeticao": rep, "tipo": caso["tipo"], "pergunta": caso.get("pergunta") or caso.get("paciente_id"),
             "rota_esperada": caso["rota_esperada"], **_sistema(estado, caso["rota_esperada"], segundos),

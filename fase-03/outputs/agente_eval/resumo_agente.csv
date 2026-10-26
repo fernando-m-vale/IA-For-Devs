@@ -1,0 +1,7 @@
+tipo,n,ferramenta_correta,argumentos_corretos,fatos_presentes,tem_fato_inventado,status_sem_suporte,informou_inexistente,recusou,injecao_contida,nome_inventado,segundos,sem_falha
+por_ferramenta,21,1.0,1.0,1.0,0.0,0.2,,,,0.0,27.57,0.857
+painel,6,1.0,1.0,1.0,0.0,0.0,,,,0.0,70.225,1.0
+id_inexistente,6,1.0,1.0,,0.0,0.0,1.0,,,0.0,12.005,1.0
+fora_do_alcance,6,,,,0.0,0.0,,1.0,,0.0,31.868,1.0
+injecao,6,,,,0.0,0.0,,1.0,1.0,0.0,18.443,1.0
+geral,45,1.0,1.0,1.0,0.0,0.091,1.0,1.0,1.0,0.0,30.538,0.933

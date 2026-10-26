@@ -14,3 +14,7 @@ Regras de pendência de exames (tabela `exames` de prontuarios.db):
 
 DATA_REFERENCIA = "2026-10-20"
 STATUS_PENDENTES = ("solicitado", "agendado")
+
+# Supressão de células pequenas: resultados agregados que representem de 1 a
+# K_MIN - 1 registros não são divulgados (risco de reidentificação).
+K_MIN = 3

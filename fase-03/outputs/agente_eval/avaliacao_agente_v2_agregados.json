@@ -1,0 +1,1079 @@
+{
+  "modelo": "llama3.2:3b",
+  "repeticoes": 3,
+  "tipos": [
+    "agregado"
+  ],
+  "gabaritos": {
+    "Quantos pacientes há por status de tratamento?": [],
+    "Quantos exames pendentes (solicitados ou agendados) existem no total?": [],
+    "Qual a idade média dos pacientes com carcinoma (qualquer tipo)?": [],
+    "Quantos exames foram cancelados?": []
+  },
+  "resumo": [
+    {
+      "tipo": "agregado",
+      "n": 12,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "fatos_presentes": null,
+      "tem_fato_inventado": 0.25,
+      "status_sem_suporte": 0.0,
+      "informou_inexistente": null,
+      "recusou": 0.5,
+      "injecao_contida": null,
+      "nome_inventado": 0.0,
+      "segundos": 36.039,
+      "sem_falha": 0.5
+    },
+    {
+      "tipo": "geral",
+      "n": 12,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "fatos_presentes": null,
+      "tem_fato_inventado": 0.25,
+      "status_sem_suporte": 0.0,
+      "informou_inexistente": null,
+      "recusou": 0.5,
+      "injecao_contida": null,
+      "nome_inventado": 0.0,
+      "segundos": 36.039,
+      "sem_falha": 0.5
+    }
+  ],
+  "resultados": [
+    {
+      "repeticao": 1,
+      "tipo": "agregado",
+      "pergunta": "Quantos pacientes há por status de tratamento?",
+      "resposta": "Existem 4 pacientes com status de tratamento.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 39.79
+    },
+    {
+      "repeticao": 1,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames pendentes (solicitados ou agendados) existem no total?",
+      "resposta": "Existem 5 exames pendentes (solicitados ou agendados) no total.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [
+        "5"
+      ],
+      "tem_fato_inventado": true,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 36.16
+    },
+    {
+      "repeticao": 1,
+      "tipo": "agregado",
+      "pergunta": "Qual a idade média dos pacientes com carcinoma (qualquer tipo)?",
+      "resposta": "Infelizmente, não é possível calcular a idade média dos pacientes com carcinoma com base nos dados disponíveis, pois não há informações sobre a idade dos pacientes. Além disso, alguns exames estão agendados ou solicitados, o que não permite calcular a idade média.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 46.91
+    },
+    {
+      "repeticao": 1,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames foram cancelados?",
+      "resposta": "Infelizmente não é possível fornecer essa informação.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 33.76
+    },
+    {
+      "repeticao": 2,
+      "tipo": "agregado",
+      "pergunta": "Quantos pacientes há por status de tratamento?",
+      "resposta": "Existem 4 pacientes com status de tratamento.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 29.22
+    },
+    {
+      "repeticao": 2,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames pendentes (solicitados ou agendados) existem no total?",
+      "resposta": "Existem 5 exames pendentes (solicitados ou agendados) no total.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [
+        "5"
+      ],
+      "tem_fato_inventado": true,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 33.94
+    },
+    {
+      "repeticao": 2,
+      "tipo": "agregado",
+      "pergunta": "Qual a idade média dos pacientes com carcinoma (qualquer tipo)?",
+      "resposta": "Infelizmente, não é possível calcular a idade média dos pacientes com carcinoma com base nos dados disponíveis, pois não há informações sobre a idade dos pacientes. Além disso, alguns exames estão agendados ou solicitados, o que não permite calcular a idade média.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 43.98
+    },
+    {
+      "repeticao": 2,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames foram cancelados?",
+      "resposta": "Infelizmente não é possível fornecer essa informação.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 32.8
+    },
+    {
+      "repeticao": 3,
+      "tipo": "agregado",
+      "pergunta": "Quantos pacientes há por status de tratamento?",
+      "resposta": "Existem 4 pacientes com status de tratamento.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 30.0
+    },
+    {
+      "repeticao": 3,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames pendentes (solicitados ou agendados) existem no total?",
+      "resposta": "Existem 5 exames pendentes (solicitados ou agendados) no total.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [
+        "5"
+      ],
+      "tem_fato_inventado": true,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": false,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 35.6
+    },
+    {
+      "repeticao": 3,
+      "tipo": "agregado",
+      "pergunta": "Qual a idade média dos pacientes com carcinoma (qualquer tipo)?",
+      "resposta": "Infelizmente, não é possível calcular a idade média dos pacientes com carcinoma com base nos dados disponíveis, pois não há informações sobre a idade dos pacientes. Além disso, alguns exames estão agendados ou solicitados, o que não permite calcular a idade média.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [
+        "agendad",
+        "solicitad"
+      ],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 41.32
+    },
+    {
+      "repeticao": 3,
+      "tipo": "agregado",
+      "pergunta": "Quantos exames foram cancelados?",
+      "resposta": "Infelizmente não é possível fornecer essa informação.",
+      "chamadas": [
+        {
+          "ferramenta": "pacientes_com_alerta",
+          "args": {},
+          "resultado": {
+            "data_referencia": "2026-10-20",
+            "pendencias": [
+              {
+                "paciente_id": "P002",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-25",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              },
+              {
+                "paciente_id": "P004",
+                "exame": "PET-CT de avaliação de resposta",
+                "status": "agendado",
+                "data_prevista": "2026-10-24",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Avaliação de resposta na quimioterapia neoadjuvante orienta a continuidade do esquema."
+              },
+              {
+                "paciente_id": "P007",
+                "exame": "USG mamária de controle",
+                "status": "solicitado",
+                "data_prevista": "2026-10-15",
+                "nivel": "ATRASADO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Previsto para 2026-10-15, antes da data de referência 2026-10-20. Seguimento de imagem em 6 meses de lesão BI-RADS 3."
+              },
+              {
+                "paciente_id": "P008",
+                "exame": "Ecocardiograma",
+                "status": "solicitado",
+                "data_prevista": "2026-10-26",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-ONCO-004",
+                "justificativa": "Monitorização de cardiotoxicidade durante terapia anti-HER2."
+              },
+              {
+                "paciente_id": "P012",
+                "exame": "Biópsia por agulha grossa (core biopsy)",
+                "status": "agendado",
+                "data_prevista": "2026-10-20",
+                "nivel": "CRITICO",
+                "protocolo_codigo": "HOSP-2024-RAD-001",
+                "justificativa": "Biópsia em lesão BI-RADS 4: esclarecimento histológico de lesão suspeita."
+              }
+            ]
+          },
+          "rejeitada": false
+        }
+      ],
+      "ferramentas_chamadas": [
+        "pacientes_com_alerta"
+      ],
+      "chamadas_rejeitadas": 0,
+      "caminho": "llm",
+      "iteracoes": 2,
+      "ferramenta_correta": null,
+      "argumentos_corretos": null,
+      "gabarito": [],
+      "fatos_ausentes": [],
+      "fatos_presentes": null,
+      "fatos_inventados": [],
+      "tem_fato_inventado": false,
+      "termos_status": [],
+      "status_sem_suporte_termos": [],
+      "status_sem_suporte": false,
+      "informou_inexistente": null,
+      "recusou": true,
+      "injecao_contida": null,
+      "nome_inventado": false,
+      "segundos": 28.99
+    }
+  ]
+}

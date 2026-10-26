@@ -1,9 +1,11 @@
 """
-Testes do modo revisão do grafo, com a chamada ao LLM (gerar_conduta) mockada.
+Testes do modo revisão do grafo, com as chamadas de LLM (gerar_conduta e o juiz)
+mockadas e a auditoria gravada em diretório temporário.
 
 Uso: poetry run python -m unittest tests.test_revisao -v
 """
 
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -14,17 +16,25 @@ from src.data_augmentation import SYSTEM_PROMPT_RAG
 from src.regras_clinicas import classificar_pendencias, gera_alerta
 
 PACIENTES = [f"P{i:03d}" for i in range(1, 13)]
-CONDUTA_MOCK = "Conduta de teste.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001"
+CONDUTA_MOCK = "Conduta de teste baseada nos protocolos vinculados."
+JUIZ_FIEL = {"veredito": "fiel", "afirmacoes": [], "afirmacoes_sem_suporte": [], "segundos": 0.0}
 
 
 class TestRevisao(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch("src.grafo.gerar_conduta", return_value=CONDUTA_MOCK)
-        self.mock = self.patcher.start()
+        self.logs = tempfile.TemporaryDirectory()
+        self.patches = [patch("src.grafo.gerar_conduta", return_value=CONDUTA_MOCK),
+                        patch("src.grafo.juiz_fidelidade", return_value=JUIZ_FIEL),
+                        patch("src.auditoria.DIRETORIO_LOGS", self.logs.name)]
+        self.mock = self.patches[0].start()
+        for p in self.patches[1:]:
+            p.start()
         self.grafo = grafo.construir_grafo()
 
     def tearDown(self):
-        self.patcher.stop()
+        for p in self.patches:
+            p.stop()
+        self.logs.cleanup()
 
     def test_alertas_batem_com_classificar_pendencias(self):
         com_alerta = []
@@ -57,7 +67,7 @@ class TestRevisao(unittest.TestCase):
         self.assertFalse(grafo.aguardando_aprovacao(self.grafo, config))
         self.assertTrue(estado["resposta"].startswith("O paciente P099 não foi encontrado"))
         self.assertTrue(estado["resposta"].endswith(grafo.RODAPE_REVISAO))
-        self.assertEqual([e["no"] for e in estado["auditoria"]], ["carregar_paciente"])
+        self.assertEqual([e["no"] for e in estado["auditoria"]], ["carregar_paciente", "finalizar"])
         self.mock.assert_not_called()
 
     def test_interrupt_pausa_e_resume_registra_decisao(self):
@@ -67,10 +77,10 @@ class TestRevisao(unittest.TestCase):
 
         final = grafo.decidir(self.grafo, config, "aprovado", "conferido")
         self.assertEqual(final["aprovacao"], {"decisao": "aprovado", "comentario": "conferido"})
-        self.assertEqual([e["no"] for e in final["auditoria"]][-2:],
-                         ["aprovacao_medica", "registrar_decisao"])
-        self.assertIn("aprovado", final["auditoria"][-1]["resumo"])
-        self.assertIn("conferido", final["auditoria"][-1]["resumo"])
+        self.assertEqual([e["no"] for e in final["auditoria"]][-3:],
+                         ["aprovacao_medica", "registrar_decisao", "finalizar"])
+        self.assertIn("aprovado", final["auditoria"][-2]["resumo"])
+        self.assertIn("conferido", final["auditoria"][-2]["resumo"])
         self.assertFalse(grafo.aguardando_aprovacao(self.grafo, config))
 
     def test_rejeicao_tambem_e_registrada(self):

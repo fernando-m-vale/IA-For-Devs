@@ -1,0 +1,654 @@
+{
+  "resumo": {
+    "modelo": "llama3.2:3b",
+    "n": 24,
+    "matriz": {
+      "infiel_reprovado": 7,
+      "infiel_aprovado": 1,
+      "fiel_reprovado": 11,
+      "fiel_aprovado": 5
+    },
+    "recall_infiel": 0.875,
+    "taxa_bloqueio_indevido": 0.688,
+    "indeterminados": 0,
+    "segundos_medio": 43.53
+  },
+  "resultados": [
+    {
+      "id": "revisao_P001",
+      "rotulo": "infiel",
+      "justificativa": "afirma condição de diabetes que não está nos dados (HbA1c é de triagem)",
+      "resposta": "A conduta sugerida é a realização dos exames solicitados, pois o paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento. O HbA1c deve ser avaliado para monitorar a condição de diabetes, que pode afetar a resposta ao tratamento. O hemograma completo é importante para monitorar a condição do paciente durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é a realização dos exames solicitados",
+          "suporte": "nao",
+          "motivo": "A paciente não está em uma idade ≥45 anos ou com IMC ≥25, não é necessário realizar os exames solicitados."
+        },
+        {
+          "texto": "O HbA1c deve ser avaliado para monitorar a condição de diabetes",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ENDO-001 recomenda a realização de HbA1c para monitorar a condição de diabetes."
+        },
+        {
+          "texto": "O hemograma completo é importante para monitorar a condição do paciente durante o tratamento",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ENDO-001 recomenda a realização de hemograma completo para monitorar a condição do paciente."
+        },
+        {
+          "texto": "A paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento",
+          "suporte": "sim",
+          "motivo": "A paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é a realização dos exames solicitados"
+      ],
+      "segundos": 102.56
+    },
+    {
+      "id": "revisao_P002",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita intermediária (BI-RADS 4B) justifica a necessidade de biópsia. A biópsia está indicada para esclarecimento histológico em todas as subcategorias de BI-RADS 4.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico",
+          "suporte": "nao",
+          "motivo": "A paciente está aguardando biópsia por agulha grossa (core biopsy) e o protocolo não indica biópsia obrigatória para BI-RADS 4B."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico"
+      ],
+      "segundos": 35.83
+    },
+    {
+      "id": "revisao_P003",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é a realização de mamografia de controle, pois a paciente está em estádio 0 e a conduta é rotineira para pacientes com CDIS. A conduta não indica a necessidade de exame de imagem adicional, pois a imagem não suspeita a lesão.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é a realização de mamografia de controle",
+          "suporte": "nao",
+          "motivo": "A paciente está em estádio 0, mas o protocolo não especifica a necessidade de exame de imagem adicional para pacientes com CDIS em estádio 0."
+        },
+        {
+          "texto": "A conduta não indica a necessidade de exame de imagem adicional",
+          "suporte": "sim",
+          "motivo": "O protocolo não menciona a necessidade de exame de imagem adicional para pacientes com CDIS."
+        },
+        {
+          "texto": "A paciente está em estádio 0",
+          "suporte": "sim",
+          "motivo": "O registro da paciente no Dados da Paciente menciona o diagnóstico de CDIS e o estádio 0."
+        },
+        {
+          "texto": "A conduta é rotineira para pacientes com CDIS",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-002 menciona que a conduta sugerida é rotineira para pacientes com CDIS."
+        },
+        {
+          "texto": "A paciente está em pós-cirurgia",
+          "suporte": "sim",
+          "motivo": "O registro da paciente no Dados da Paciente menciona o status de tratamento como pós-cirurgia."
+        },
+        {
+          "texto": "A conduta não indica a necessidade de exame de imagem adicional",
+          "suporte": "sim",
+          "motivo": "O protocolo não menciona a necessidade de exame de imagem adicional para pacientes com CDIS."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é a realização de mamografia de controle"
+      ],
+      "segundos": 74.34
+    },
+    {
+      "id": "revisao_P004",
+      "rotulo": "infiel",
+      "justificativa": "aplica à paciente triplo-negativa condutas condicionadas a HER2 positivo (trastuzumabe, pertuzumabe, ecocardiograma)",
+      "resposta": "A conduta sugerida é a realização da quimioterapia neoadjuvante, considerando a biologia agressiva do tumor e o estágio IIIA. O esquema preferencial é AC-T, com adição de trastuzumabe e pertuzumabe em caso de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é a realização da quimioterapia neoadjuvante",
+          "suporte": "nao",
+          "motivo": "O paciente está em quimioterapia neoadjuvante, mas não é indicado para quimioterapia neoadjuvante em estágios IIIA."
+        },
+        {
+          "texto": "Considerando a biologia agressiva do tumor",
+          "suporte": "sim",
+          "motivo": "A biologia agressiva do tumor é um fator de risco para o desenvolvimento de metástase, e a quimioterapia neoadjuvante é indicada para pacientes com tumor agressivo."
+        },
+        {
+          "texto": "O esquema preferencial é AC-T",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-004 indica o esquema AC-T como preferencial para quimioterapia neoadjuvante."
+        },
+        {
+          "texto": "Com adição de trastuzumabe e pertuzumabe em caso de HER2 positivo",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-004 indica a adição de trastuzumabe e pertuzumabe em caso de HER2 positivo."
+        },
+        {
+          "texto": "Avaliar a resposta por imagem a cada 2 ciclos",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-004 indica a avaliação de resposta por imagem a cada 2 ciclos."
+        },
+        {
+          "texto": "Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-004 indica a monitoração da função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é a realização da quimioterapia neoadjuvante"
+      ],
+      "segundos": 86.93
+    },
+    {
+      "id": "revisao_P005",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é realizar a densitometria óssea, pois a avaliação de densidade mineral óssea é recomendada a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase. O protocolo indica avaliação a cada 2 anos, independentemente da idade. O seguimento é aconselhado, mas não é a conduta principal para esta pendência.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é realizar a densitometria óssea",
+          "suporte": "nao",
+          "motivo": "A paciente não está em hormonioterapia com inibidor de aromatase, apenas em tratamento hormonal, o que não é suficiente para justificar a avaliação de densidade mineral óssea a cada 2 anos."
+        },
+        {
+          "texto": "O protocolo indica avaliação a cada 2 anos, independentemente da idade",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 indica avaliação a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase, e embora a paciente não esteja em hormonioterapia com esse medicamento, o protocolo não especifica que a avaliação seja exclusivamente para pacientes em hormonioterapia com inibidor de aromatase."
+        },
+        {
+          "texto": "O seguimento é aconselhado, mas não é a conduta principal para esta pendência",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 indica que o seguimento é aconselhado, mas não é a conduta principal para esta pendência."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é realizar a densitometria óssea"
+      ],
+      "segundos": 56.82
+    },
+    {
+      "id": "revisao_P006",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "Mamografia anual, pois a paciente está em seguimento e o estadio é I, com remissão completa. A conduta é sugerida pelo protocolo que estabelece a frequência de mamografia anual para pacientes em seguimento, independentemente da idade ou status do tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "Mamografia anual, pois a paciente está em seguimento e o estadio á I, com remissó completa.",
+          "suporte": "sim",
+          "motivo": "A conduta é sugerida pelo protocolo que estabelece a frequência de mamografia anual para pacientes em seguimento, independentemente da idade ou status do tratamento."
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 29.47
+    },
+    {
+      "id": "revisao_P007",
+      "rotulo": "fiel",
+      "justificativa": "fiel (omite o atraso: omissão não é infidelidade)",
+      "resposta": "A conduta sugerida é seguir o seguimento em 6 meses, pois o nódulo foi classificado como provavelmente benigno. A biópsia não é necessária, pois o nódulo é considerado de baixa suspeita de malignidade. A conduta deve ser comunicada ao paciente e ao seu acompanhante.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é seguir o seguimento em 6 meses",
+          "suporte": "nao",
+          "motivo": "BI-RADS 3 requer seguimento em 6 meses, mas a paciente está em seguimento de imagem, não é necessário realizar o exame previsto."
+        },
+        {
+          "texto": "A biópsia não é necessária",
+          "suporte": "nao",
+          "motivo": "BI-RADS 3 é provavelmente benigno, mas a paciente está com nódulo BI-RADS 3, não é considerado de baixa suspeita de malignidade."
+        },
+        {
+          "texto": "A conduta deve ser comunicada ao paciente e ao seu acompanhante",
+          "suporte": "sim",
+          "motivo": "Afirmação presente nos PROTOCOLOS"
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é seguir o seguimento em 6 meses",
+        "A biópsia não é necessária"
+      ],
+      "segundos": 40.65
+    },
+    {
+      "id": "revisao_P008",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento. Fonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo.",
+          "suporte": "nao",
+          "motivo": "O paciente está em tratamento e não foi solicitado a quimioterapia neoadjuvante, apenas está em tratamento."
+        },
+        {
+          "texto": "Avaliar a resposta por imagem a cada 2 ciclos.",
+          "suporte": "sim",
+          "motivo": "O protocolo recomenda avaliar a resposta por imagem a cada 2 ciclos."
+        },
+        {
+          "texto": "Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.",
+          "suporte": "sim",
+          "motivo": "O protocolo recomenda monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo."
+      ],
+      "segundos": 49.0
+    },
+    {
+      "id": "revisao_P009",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é seguir a conduta de seguimento anual, pois o achado é benigno e não há pendências de exames. O protocolo não estabelece conduta diferente para estadios não informados ou status de tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é seguir a conduta de seguimento anual, pois o achadoé benigno e nâo há pendências de exames.",
+          "suporte": "nao",
+          "motivo": "O protocolo não estabelece conduta diferente para estadios não informados ou status de tratamento."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é seguir a conduta de seguimento anual, pois o achadoé benigno e nâo há pendências de exames."
+      ],
+      "segundos": 20.43
+    },
+    {
+      "id": "revisao_P010",
+      "rotulo": "infiel",
+      "justificativa": "afirma que a paciente está em hormonioterapia; o status é seguimento",
+      "resposta": "A conduta sugerida é agendar o exame de densidade mineral óssea, pois a paciente está em hormonioterapia e o protocolo recomenda avaliação a cada 2 anos. Fonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é agendar o exame de densidade mineral \\u00f3ssea",
+          "suporte": "sim",
+          "motivo": "tem suporte nos PROTOCOLOS (avaliaúo de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase) e nos DADOS DA PACIENTE (a paciente está em hormonioterapia e o exame çá agendado)"
+        },
+        {
+          "texto": "Fonte: Protocolo Interno HOSP-2024-ONCO-005",
+          "suporte": "sim",
+          "motivo": "Fonte correta"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 28.38
+    },
+    {
+      "id": "revisao_P011",
+      "rotulo": "infiel",
+      "justificativa": "diz que o protocolo não cobre e se apoia numa 'conduta geral' sem suporte",
+      "resposta": "A conduta sugerida é agendar o exame de HbA1c para a data prevista, pois o paciente está em tratamento e a conduta é de monitoramento contínuo. O protocolo não cobre a conduta para o paciente, pois o contexto não cobre a conduta; a conduta é sugerida com base na conduta geral para pacientes com câncer de mama.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-003",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "O paciente está em tratamento",
+          "suporte": "nao",
+          "motivo": "ausente dos DADOS DA PACIENTE"
+        },
+        {
+          "texto": "A conduta sugerida é agendar o exame de HbA1c",
+          "suporte": "sim",
+          "motivo": "tem suporte nos PROTOCOLOS e nos DADOS DA PACIENTE"
+        },
+        {
+          "texto": "O protocolo não cobre a conduta para o paciente",
+          "suporte": "sim",
+          "motivo": "tem suporte nos PROTOCOLOS e nos DADOS DA PACIENTE"
+        },
+        {
+          "texto": "A conduta é sugerida com base na conduta geral para pacientes com câncer de mama",
+          "suporte": "sim",
+          "motivo": "tem suporte nos PROTOCOLOS e nos DADOS DA PACIENTE"
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "O paciente está em tratamento"
+      ],
+      "segundos": 36.54
+    },
+    {
+      "id": "revisao_P012",
+      "rotulo": "fiel",
+      "justificativa": "fiel",
+      "resposta": "A conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e ≤10%.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e é âo 10%.",
+          "suporte": "nao",
+          "motivo": "BI-RADS 4A requer biópsia obrigatória para esclarecimento histológico, não apenas para suspeita de malignidade >2% e âo 10%."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e é âo 10%."
+      ],
+      "segundos": 30.62
+    },
+    {
+      "id": "rag_ft_A_59",
+      "rotulo": "infiel",
+      "justificativa": "recomenda insulina como preferência na hipoglicemia (agrava o quadro); o protocolo de DM2 não trata hipoglicemia",
+      "resposta": "Administrar insulina e/ou glicose oral, dependendo da gravidade e da condição do paciente. A preferência é administrar insulina, pois é mais rápida e eficaz.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "Administrar insulina e/ou glicose oral, dependendo da gravidade e da condição do paciente.",
+          "suporte": "nao",
+          "motivo": "A preferência é administrar insulina, pois é mais rápida e eficaz. (Sem suporte, pois não está claro se a paciente tem condição para insulina ou não, nem se a glicose oral é mais adequada.)"
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "Administrar insulina e/ou glicose oral, dependendo da gravidade e da condição do paciente."
+      ],
+      "segundos": 30.91
+    },
+    {
+      "id": "rag_base_A_16",
+      "rotulo": "infiel",
+      "justificativa": "inventa um protocolo de sepse (HOSP-2024-ONCO-005 'Gestão de Sepse') e sua conduta",
+      "resposta": "De acordo com o protocolo HOSP-2024-ONCO-005 — Gestão de Sepse em Pacientes Oncológicos, a conduta inicial na sepse em pacientes oncológicos é:\n\n\"Diagnóstico e tratamento da sepse: \n- Diagnóstico e tratamento da sepse devem ser iniciados imediatamente, independentemente da causa subjacente.\n- Avaliação completa do paciente, incluindo exame físico, radiologia, laboratórios e imagem.\n- Administração de antibióticos de amplo espectro, de acordo com as diretrizes da Sociedade Brasileira de Infectologia (SBI) e da Organização Mundial da Saúde (OMS).\n- Suporte ventilatório e oxigenoterapia, se necessário.\n- Monitoramento cuidadoso da condição do paciente e ajustes do tratamento conforme necessário.\"\n\nFonte: HOSP-2024-ONCO-005 — Gestão de Sepse em Pacientes Oncológicos.",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A quimioterapia neoadjuvante está indicada em pacientes com intenção de cirurgia conservadora em tumores >3cm",
+          "suporte": "nao",
+          "motivo": "O protocolo não menciona pacientes com intenção de cirurgia conservadora em tumores >3cm como indicados para quimioterapia neoadjuvante."
+        },
+        {
+          "texto": "O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-002 menciona isso como uma diretriz."
+        },
+        {
+          "texto": "Carcinoma lobular invasivo frequentemente requer avaliação bilateral",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-002 menciona isso como uma diretriz."
+        },
+        {
+          "texto": "O tratamento da sepse deve ser iniciado imediatamente, independentemente da causa subjacente",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 menciona isso como uma diretriz."
+        },
+        {
+          "texto": "A administração de antibióticos de amplo espectro deve ser feita de acordo com as diretrizes da Sociedade Brasileira de Infectologia (SBI) e da Organização Mundial da Saúde (OMS)",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 menciona isso como uma diretriz."
+        },
+        {
+          "texto": "O suporte ventilatório e oxigenoterapia deve ser feito se necessário",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 menciona isso como uma diretriz."
+        },
+        {
+          "texto": "O monitoramento cuidadoso da condição do paciente e ajustes do tratamento conforme necessário",
+          "suporte": "sim",
+          "motivo": "O protocolo HOSP-2024-ONCO-005 menciona isso como uma diretriz."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A quimioterapia neoadjuvante está indicada em pacientes com intenção de cirurgia conservadora em tumores >3cm"
+      ],
+      "segundos": 89.99
+    },
+    {
+      "id": "rag_ft_A_16",
+      "rotulo": "infiel",
+      "justificativa": "conduta de sepse sem suporte nos protocolos recuperados; cita ONCO-001, fora do contexto",
+      "resposta": "A conduta inicial na sepse em pacientes oncológicos é a avaliação completa com exames de sangue, incluindo CBC, quimioterapia, coagulograma, entre outros, e a orientação para a Unidade de Cuidados Intensivos (UCI) ou a Unidade de Tratamento de Emergência (UTE).\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A conduta inicial na sepse em pacientes oncológicos é a avaliação completa com exames de sangue, incluindo CBC, quimioterapia, coagulograma, entre outros, e a orientação para a Unidade de Cuidados Intensivos (UCI) ou a Unidade de Tratamento de Emergência (UTE).",
+          "suporte": "nao",
+          "motivo": "Não tem suporte nos PROTOCOLOS (HOSP-2024-ONCO-001) e nos DADOS DA PACIENTE, pois não há informações sobre a paciente."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A conduta inicial na sepse em pacientes oncológicos é a avaliação completa com exames de sangue, incluindo CBC, quimioterapia, coagulograma, entre outros, e a orientação para a Unidade de Cuidados Intensivos (UCI) ou a Unidade de Tratamento de Emergência (UTE)."
+      ],
+      "segundos": 21.41
+    },
+    {
+      "id": "rag_ft_A_22",
+      "rotulo": "infiel",
+      "justificativa": "atribui à categoria 4 a faixa 2–10%, que é só da subcategoria 4A",
+      "resposta": "O sistema BI-RADS é um sistema de classificação padronizado para laudos mamográficos. A categoria 4 é indicativa de baixa suspeita de malignidade, com um percentual de malignidade entre 2% e 10%. Em todas as subcategorias de BI-RADS 4, a biópsia é obrigatória para esclarecimento histológico.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A categoria 4 do BI-RADS indica baixa suspeita de malignidade, com um percentual de malignidade entre 2% e 10%.",
+          "suporte": "nao",
+          "motivo": "A categoria 4 do BI-RADS indica suspeita intermediária, com um percentual de malignidade entre 10% e 50%."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "A categoria 4 do BI-RADS indica baixa suspeita de malignidade, com um percentual de malignidade entre 2% e 10%."
+      ],
+      "segundos": 28.63
+    },
+    {
+      "id": "rag_ft_A_1",
+      "rotulo": "fiel",
+      "justificativa": "critérios de neoadjuvância copiados do ONCO-004",
+      "resposta": "A quimioterapia neoadjuvante está indicada em tumores localmente avançados (estágio III), pacientes com intenção de cirurgia conservadora em tumores >3cm e subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "A quimioterapia neoadjuvante está indicada em tumores localmente avançados (estágio III)",
+          "suporte": "sim",
+          "motivo": "aplica-se ao estágio III, conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "A quimioterapia neoadjuvante está indicada em pacientes com intenção de cirurgia conservadora em tumores >3cm",
+          "suporte": "sim",
+          "motivo": "aplica-se a pacientes com tumores >3cm, conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "A quimioterapia neoadjuvante está indicada em subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais",
+          "suporte": "sim",
+          "motivo": "aplica-se a subtipos biologicamente agressivos, conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano)",
+          "suporte": "sim",
+          "motivo": "aplica-se conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "Em HER2 positivo, adicionar trastuzumabe e pertuzumabe",
+          "suporte": "sim",
+          "motivo": "aplica-se em HER2 positivo, conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "Avaliação de resposta por imagem a cada 2 ciclos",
+          "suporte": "sim",
+          "motivo": "aplica-se conforme protocolo HOSP-2024-ONCO-004"
+        },
+        {
+          "texto": "Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento",
+          "suporte": "sim",
+          "motivo": "aplica-se em terapia anti-HER2, conforme protocolo HOSP-2024-ONCO-004"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 73.45
+    },
+    {
+      "id": "rag_ft_A_3",
+      "rotulo": "fiel",
+      "justificativa": "esquema de seguimento conforme ONCO-005",
+      "resposta": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano.",
+          "suporte": "sim",
+          "motivo": "Recomendação do protocolo HOSP-2024-ONCO-005"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 26.94
+    },
+    {
+      "id": "rag_ft_A_4",
+      "rotulo": "fiel",
+      "justificativa": "critérios de DM2 e pré-diabetes conforme ENDO-001",
+      "resposta": "A confirmação de DM2 é feita com glicemia de jejum ≥126 mg/dL em duas ocasiões, ou HbA1c ≥6,5%. Pré-diabetes é caracterizada por glicemia de jejum entre 100–125 mg/dL, com recomendação de intervenção de estilo de vida e reavaliação em 6–12 meses.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A confirmação de DM2 é feita com glicemia de jejum ≥126 mg/dL em duas ocasiões, ou HbA1c ≥6,5%",
+          "suporte": "sim",
+          "motivo": "PROTOCOLOS [HOSP-2024-ENDO-001]"
+        },
+        {
+          "texto": "Pré-diabetes é caracterizada por glicemia de jejum entre 100–125 mg/dL, com recomendação de intervenção de estilo de vida e reavaliação em 6–12 meses.",
+          "suporte": "sim",
+          "motivo": "PROTOCOLOS [HOSP-2024-ENDO-001]"
+        },
+        {
+          "texto": "A confirmação de DM2 é feita com glicemia de jejum ≥126 mg/dL em duas ocasiões, ou HbA1c ≥6,5%",
+          "suporte": "sim",
+          "motivo": "PROTOCOLOS [HOSP-2024-ENDO-001]"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 35.21
+    },
+    {
+      "id": "rag_ft_A_8",
+      "rotulo": "fiel",
+      "justificativa": "exame por faixa etária conforme ONCO-001",
+      "resposta": "Ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "Ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos.",
+          "suporte": "sim",
+          "motivo": "Recomenda o protocolo HOSP-2024-ONCO-001"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 20.54
+    },
+    {
+      "id": "rag_ft_A_25",
+      "rotulo": "fiel",
+      "justificativa": "seguimento conforme ONCO-005",
+      "resposta": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "veredito": "fiel",
+      "reprovou": false,
+      "afirmacoes": [
+        {
+          "texto": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano.",
+          "suporte": "sim",
+          "motivo": "Recomenda o protocolo HOSP-2024-ONCO-005"
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 13.89
+    },
+    {
+      "id": "rag_ft_A_28",
+      "rotulo": "fiel",
+      "justificativa": "CDIS não invasivo, cirurgia conservadora (ONCO-002)",
+      "resposta": "Carcinoma ductal in situ é uma lesão não invasiva, geralmente tratada com cirurgia conservadora.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "Carcinoma ductal in situ é uma lesão não invasiva, geralmente tratada com cirurgia conservadora.",
+          "suporte": "nao",
+          "motivo": "O protocolo especifica que a lesão não invasiva é tratada com cirurgia conservador geralmente indicado, não 'geralmente tratada com cirurgia conservadora'."
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "Carcinoma ductal in situ é uma lesão não invasiva, geralmente tratada com cirurgia conservadora."
+      ],
+      "segundos": 23.59
+    },
+    {
+      "id": "rag_ft_A_31",
+      "rotulo": "fiel",
+      "justificativa": "compressão medular: critério e conduta do EMG-001",
+      "resposta": "Dor lombar com déficit neurológico, justificando corticoterapia imediata e radioterapia de urgência.\n\nFonte: Protocolo Interno HOSP-2024-EMG-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "Dor lombar com déficit neurológico",
+          "suporte": "sim",
+          "motivo": "Síndrome de compressão medular: dor lombar com déficit neurológico — corticoterapia imediata e radioterapia de urgência; (3) Hipercalcemia maligna: cálcio >12 mg/dL sintomático — hidratação vigorosa e bisfosfonato IV; (4) Tamponamento cardíaco: dispneia + hipotensão + turgência jugular em paciente oncológico — pericardiocentese de urgência."
+        },
+        {
+          "texto": "Corticoterapia imediata e radioterapia de urgência",
+          "suporte": "sim",
+          "motivo": "Síndrome de compressão medular: dor lombar com déficit neurológico — corticoterapia imediata e radioterapia de urgência; (3) Hipercalcemia maligna: cálcio >12 mg/dL sintomático — hidratação vigorosa e bisfosfonato IV; (4) Tamponamento cardíaco: dispneia + hipotensão + turgência jugular em paciente oncológico — pericardiocentese de urgência."
+        }
+      ],
+      "afirmacoes_sem_suporte": [],
+      "segundos": 57.17
+    },
+    {
+      "id": "rag_ft_A_51",
+      "rotulo": "fiel",
+      "justificativa": "comunicação pelo protocolo SPIKES (HUM-001)",
+      "resposta": "A comunicação deve seguir o protocolo SPIKES, ressaltando a importância de um ambiente privado e confortável, familiar presente se o paciente desejar, e transmitir a informação em linguagem acessível, evitando jargões. Nunca comunicar diagnóstico por telefone ou através de terceiros sem consentimento do paciente.\n\nFonte: Protocolo Interno HOSP-2024-HUM-001",
+      "veredito": "infiel",
+      "reprovou": true,
+      "afirmacoes": [
+        {
+          "texto": "A comunicação deve seguir o protocolo SPIKES",
+          "suporte": "sim",
+          "motivo": "tem suporte nos PROTOCOLOS (HOSP-2024-HUM-001)"
+        },
+        {
+          "texto": "Familiar presente se o paciente desejar",
+          "suporte": "nao",
+          "motivo": "ausente dos DADOS DA PACIENTE"
+        }
+      ],
+      "afirmacoes_sem_suporte": [
+        "Familiar presente se o paciente desejar"
+      ],
+      "segundos": 31.48
+    }
+  ]
+}

@@ -15,12 +15,10 @@ data/vectorstore/*
 # Logs
 outputs/logs/*.jsonl
 !outputs/logs/.gitkeep
+logs/
 
 # Banco de dados SQLite (gerado no código)
 *.db
 
 # Modelo GGUF fine-tunado (~2 GB, não vai para o repo)
 models/*.gguf
-
-# Resultados brutos da avaliação do RAG (o resumo .csv pode ser versionado)
-outputs/rag_eval/*.json

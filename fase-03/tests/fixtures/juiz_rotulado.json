@@ -1,0 +1,494 @@
+{
+  "descricao": "Conjunto rotulado à mão para avaliar o juiz de fidelidade",
+  "itens": [
+    {
+      "id": "revisao_P001",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é a realização dos exames solicitados, pois o paciente está em tratamento e as pendências de exames devem ser atendidas para garantir a segurança e a eficácia do tratamento. O HbA1c deve ser avaliado para monitorar a condição de diabetes, que pode afetar a resposta ao tratamento. O hemograma completo é importante para monitorar a condição do paciente durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ENDO-001] Triagem para DM2 recomendada em adultos ≥45 anos, ou mais jovens com IMC ≥25 e pelo menos um fator de risco adicional: familiar de 1º grau com DM, hipertensão, dislipidemia, síndrome dos ovários policísticos, histórico de diabetes gestacional. Exames: glicemia de jejum ≥126 mg/dL em duas ocasiões confirma DM2. HbA1c ≥6,5% confirma DM2. Glicemia de jejum 100–125 mg/dL caracteriza pré-diabetes — intervenção de estilo de vida recomendada, reavaliação em 6–12 meses.",
+        "[HOSP-2024-ONCO-003] O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1."
+      ],
+      "dados_paciente": {
+        "id": "P001",
+        "idade": 52,
+        "sexo": "F",
+        "diagnostico": "Carcinoma ductal invasivo NST",
+        "estadio": "IIA",
+        "status_tratamento": "em_tratamento",
+        "ultima_consulta": "2026-09-15",
+        "pendencias": [
+          {
+            "exame": "HbA1c",
+            "status": "solicitado",
+            "data_prevista": "2026-10-27",
+            "nivel": "ROTINA"
+          },
+          {
+            "exame": "Hemograma completo",
+            "status": "solicitado",
+            "data_prevista": "2026-10-27",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "infiel",
+      "justificativa": "afirma condição de diabetes que não está nos dados (HbA1c é de triagem)"
+    },
+    {
+      "id": "revisao_P002",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é agendar biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita intermediária (BI-RADS 4B) justifica a necessidade de biópsia. A biópsia está indicada para esclarecimento histológico em todas as subcategorias de BI-RADS 4.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+        "[HOSP-2024-RAD-001] O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia."
+      ],
+      "dados_paciente": {
+        "id": "P002",
+        "idade": 45,
+        "sexo": "F",
+        "diagnostico": "Nódulo mamário BI-RADS 4B",
+        "estadio": null,
+        "status_tratamento": "aguardando_biópsia",
+        "ultima_consulta": "2026-10-01",
+        "pendencias": [
+          {
+            "exame": "Biópsia por agulha grossa (core biopsy)",
+            "status": "agendado",
+            "data_prevista": "2026-10-25",
+            "nivel": "CRITICO"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P003",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é a realização de mamografia de controle, pois a paciente está em estádio 0 e a conduta é rotineira para pacientes com CDIS. A conduta não indica a necessidade de exame de imagem adicional, pois a imagem não suspeita a lesão.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-002] O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado discordante (imagem suspeita com histologia benigna): repetir biópsia em local diferente, pois a amostra pode não ter representado a lesão.",
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase."
+      ],
+      "dados_paciente": {
+        "id": "P003",
+        "idade": 67,
+        "sexo": "F",
+        "diagnostico": "Carcinoma ductal in situ (CDIS)",
+        "estadio": "0",
+        "status_tratamento": "pós_cirurgia",
+        "ultima_consulta": "2026-08-20",
+        "pendencias": [
+          {
+            "exame": "Mamografia de controle",
+            "status": "solicitado",
+            "data_prevista": "2027-02-20",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P004",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é a realização da quimioterapia neoadjuvante, considerando a biologia agressiva do tumor e o estágio IIIA. O esquema preferencial é AC-T, com adição de trastuzumabe e pertuzumabe em caso de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-003] O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": {
+        "id": "P004",
+        "idade": 38,
+        "sexo": "F",
+        "diagnostico": "Carcinoma triplo-negativo",
+        "estadio": "IIIA",
+        "status_tratamento": "quimioterapia_neoadjuvante",
+        "ultima_consulta": "2026-10-10",
+        "pendencias": [
+          {
+            "exame": "PET-CT de avaliação de resposta",
+            "status": "agendado",
+            "data_prevista": "2026-10-24",
+            "nivel": "CRITICO"
+          }
+        ]
+      },
+      "rotulo": "infiel",
+      "justificativa": "aplica à paciente triplo-negativa condutas condicionadas a HER2 positivo (trastuzumabe, pertuzumabe, ecocardiograma)"
+    },
+    {
+      "id": "revisao_P005",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é realizar a densitometria óssea, pois a avaliação de densidade mineral óssea é recomendada a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase. O protocolo indica avaliação a cada 2 anos, independentemente da idade. O seguimento é aconselhado, mas não é a conduta principal para esta pendência.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-002] O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado discordante (imagem suspeita com histologia benigna): repetir biópsia em local diferente, pois a amostra pode não ter representado a lesão.",
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase."
+      ],
+      "dados_paciente": {
+        "id": "P005",
+        "idade": 71,
+        "sexo": "F",
+        "diagnostico": "Carcinoma lobular invasivo",
+        "estadio": "IIB",
+        "status_tratamento": "hormonioterapia",
+        "ultima_consulta": "2026-07-30",
+        "pendencias": [
+          {
+            "exame": "Densitometria óssea",
+            "status": "solicitado",
+            "data_prevista": "2026-11-30",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P006",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "Mamografia anual, pois a paciente está em seguimento e o estadio é I, com remissão completa. A conduta é sugerida pelo protocolo que estabelece a frequência de mamografia anual para pacientes em seguimento, independentemente da idade ou status do tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase."
+      ],
+      "dados_paciente": {
+        "id": "P006",
+        "idade": 55,
+        "sexo": "F",
+        "diagnostico": "Seguimento pós-tratamento — remissão completa",
+        "estadio": "I",
+        "status_tratamento": "seguimento",
+        "ultima_consulta": "2026-09-05",
+        "pendencias": [
+          {
+            "exame": "Mamografia anual",
+            "status": "solicitado",
+            "data_prevista": "2027-09-05",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P007",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é seguir o seguimento em 6 meses, pois o nódulo foi classificado como provavelmente benigno. A biópsia não é necessária, pois o nódulo é considerado de baixa suspeita de malignidade. A conduta deve ser comunicada ao paciente e ao seu acompanhante.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+        "[HOSP-2024-RAD-001] O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia."
+      ],
+      "dados_paciente": {
+        "id": "P007",
+        "idade": 48,
+        "sexo": "F",
+        "diagnostico": "Nódulo BI-RADS 3 — provavelmente benigno",
+        "estadio": null,
+        "status_tratamento": "seguimento_imagem",
+        "ultima_consulta": "2026-04-15",
+        "pendencias": [
+          {
+            "exame": "USG mamária de controle",
+            "status": "solicitado",
+            "data_prevista": "2026-10-15",
+            "nivel": "ATRASADO"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel (omite o atraso: omissão não é infidelidade)"
+    },
+    {
+      "id": "revisao_P008",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é realizar a quimioterapia neoadjuvante com esquema AC-T, adicionando trastuzumabe e pertuzumabe, devido à presença de HER2 positivo. Avaliar a resposta por imagem a cada 2 ciclos. Monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento. Fonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-003] O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": {
+        "id": "P008",
+        "idade": 60,
+        "sexo": "F",
+        "diagnostico": "Carcinoma ductal invasivo HER2+",
+        "estadio": "IIB",
+        "status_tratamento": "em_tratamento",
+        "ultima_consulta": "2026-10-12",
+        "pendencias": [
+          {
+            "exame": "Ecocardiograma",
+            "status": "solicitado",
+            "data_prevista": "2026-10-26",
+            "nivel": "CRITICO"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P009",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é seguir a conduta de seguimento anual, pois o achado é benigno e não há pendências de exames. O protocolo não estabelece conduta diferente para estadios não informados ou status de tratamento.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+        "[HOSP-2024-RAD-001] O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia."
+      ],
+      "dados_paciente": {
+        "id": "P009",
+        "idade": 58,
+        "sexo": "F",
+        "diagnostico": "Nódulo mamário BI-RADS 2 — achado benigno",
+        "estadio": null,
+        "status_tratamento": "seguimento",
+        "ultima_consulta": "2026-09-10",
+        "pendencias": []
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "revisao_P010",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é agendar o exame de densidade mineral óssea, pois a paciente está em hormonioterapia e o protocolo recomenda avaliação a cada 2 anos. Fonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase."
+      ],
+      "dados_paciente": {
+        "id": "P010",
+        "idade": 63,
+        "sexo": "F",
+        "diagnostico": "Carcinoma ductal invasivo NST — pós-tratamento",
+        "estadio": "I",
+        "status_tratamento": "seguimento",
+        "ultima_consulta": "2026-10-05",
+        "pendencias": [
+          {
+            "exame": "Densitometria óssea",
+            "status": "agendado",
+            "data_prevista": "2026-12-10",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "infiel",
+      "justificativa": "afirma que a paciente está em hormonioterapia; o status é seguimento"
+    },
+    {
+      "id": "revisao_P011",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é agendar o exame de HbA1c para a data prevista, pois o paciente está em tratamento e a conduta é de monitoramento contínuo. O protocolo não cobre a conduta para o paciente, pois o contexto não cobre a conduta; a conduta é sugerida com base na conduta geral para pacientes com câncer de mama.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-003",
+      "protocolos_texto": [
+        "[HOSP-2024-ENDO-001] Triagem para DM2 recomendada em adultos ≥45 anos, ou mais jovens com IMC ≥25 e pelo menos um fator de risco adicional: familiar de 1º grau com DM, hipertensão, dislipidemia, síndrome dos ovários policísticos, histórico de diabetes gestacional. Exames: glicemia de jejum ≥126 mg/dL em duas ocasiões confirma DM2. HbA1c ≥6,5% confirma DM2. Glicemia de jejum 100–125 mg/dL caracteriza pré-diabetes — intervenção de estilo de vida recomendada, reavaliação em 6–12 meses.",
+        "[HOSP-2024-ONCO-003] O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1."
+      ],
+      "dados_paciente": {
+        "id": "P011",
+        "idade": 47,
+        "sexo": "F",
+        "diagnostico": "Carcinoma ductal invasivo NST",
+        "estadio": "IIA",
+        "status_tratamento": "em_tratamento",
+        "ultima_consulta": "2026-10-14",
+        "pendencias": [
+          {
+            "exame": "HbA1c",
+            "status": "agendado",
+            "data_prevista": "2026-11-04",
+            "nivel": "ROTINA"
+          }
+        ]
+      },
+      "rotulo": "infiel",
+      "justificativa": "diz que o protocolo não cobre e se apoia numa 'conduta geral' sem suporte"
+    },
+    {
+      "id": "revisao_P012",
+      "origem": "outputs/grafo_eval/revisao_baseline.json",
+      "resposta": "A conduta sugerida é a realização de biópsia por agulha grossa (core biopsy) para esclarecimento histológico, pois a suspeita de malignidade é >2% e ≤10%.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+        "[HOSP-2024-RAD-001] O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia."
+      ],
+      "dados_paciente": {
+        "id": "P012",
+        "idade": 41,
+        "sexo": "F",
+        "diagnostico": "Nódulo mamário BI-RADS 4A",
+        "estadio": null,
+        "status_tratamento": "aguardando_biópsia",
+        "ultima_consulta": "2026-10-06",
+        "pendencias": [
+          {
+            "exame": "Biópsia por agulha grossa (core biopsy)",
+            "status": "agendado",
+            "data_prevista": "2026-10-20",
+            "nivel": "CRITICO"
+          }
+        ]
+      },
+      "rotulo": "fiel",
+      "justificativa": "fiel"
+    },
+    {
+      "id": "rag_ft_A_59",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][59]",
+      "pergunta": "Como tratar hipoglicemia grave em paciente diabético?",
+      "resposta": "Administrar insulina e/ou glicose oral, dependendo da gravidade e da condição do paciente. A preferência é administrar insulina, pois é mais rápida e eficaz.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ENDO-001] Triagem para DM2 recomendada em adultos ≥45 anos, ou mais jovens com IMC ≥25 e pelo menos um fator de risco adicional: familiar de 1º grau com DM, hipertensão, dislipidemia, síndrome dos ovários policísticos, histórico de diabetes gestacional. Exames: glicemia de jejum ≥126 mg/dL em duas ocasiões confirma DM2. HbA1c ≥6,5% confirma DM2. Glicemia de jejum 100–125 mg/dL caracteriza pré-diabetes — intervenção de estilo de vida recomendada, reavaliação em 6–12 meses.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": null,
+      "rotulo": "infiel",
+      "justificativa": "recomenda insulina como preferência na hipoglicemia (agrava o quadro); o protocolo de DM2 não trata hipoglicemia"
+    },
+    {
+      "id": "rag_base_A_16",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [base_A][16]",
+      "pergunta": "Qual a conduta inicial na sepse em pacientes oncológicos?",
+      "resposta": "De acordo com o protocolo HOSP-2024-ONCO-005 — Gestão de Sepse em Pacientes Oncológicos, a conduta inicial na sepse em pacientes oncológicos é:\n\n\"Diagnóstico e tratamento da sepse: \n- Diagnóstico e tratamento da sepse devem ser iniciados imediatamente, independentemente da causa subjacente.\n- Avaliação completa do paciente, incluindo exame físico, radiologia, laboratórios e imagem.\n- Administração de antibióticos de amplo espectro, de acordo com as diretrizes da Sociedade Brasileira de Infectologia (SBI) e da Organização Mundial da Saúde (OMS).\n- Suporte ventilatório e oxigenoterapia, se necessário.\n- Monitoramento cuidadoso da condição do paciente e ajustes do tratamento conforme necessário.\"\n\nFonte: HOSP-2024-ONCO-005 — Gestão de Sepse em Pacientes Oncológicos.",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.",
+        "[HOSP-2024-ONCO-002] O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado discordante (imagem suspeita com histologia benigna): repetir biópsia em local diferente, pois a amostra pode não ter representado a lesão."
+      ],
+      "dados_paciente": null,
+      "rotulo": "infiel",
+      "justificativa": "inventa um protocolo de sepse (HOSP-2024-ONCO-005 'Gestão de Sepse') e sua conduta"
+    },
+    {
+      "id": "rag_ft_A_16",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][16]",
+      "pergunta": "Qual a conduta inicial na sepse em pacientes oncológicos?",
+      "resposta": "A conduta inicial na sepse em pacientes oncológicos é a avaliação completa com exames de sangue, incluindo CBC, quimioterapia, coagulograma, entre outros, e a orientação para a Unidade de Cuidados Intensivos (UCI) ou a Unidade de Tratamento de Emergência (UTE).\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.",
+        "[HOSP-2024-ONCO-002] O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado discordante (imagem suspeita com histologia benigna): repetir biópsia em local diferente, pois a amostra pode não ter representado a lesão."
+      ],
+      "dados_paciente": null,
+      "rotulo": "infiel",
+      "justificativa": "conduta de sepse sem suporte nos protocolos recuperados; cita ONCO-001, fora do contexto"
+    },
+    {
+      "id": "rag_ft_A_22",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][22]",
+      "pergunta": "O que é o sistema BI-RADS e como interpretar a categoria 4?",
+      "resposta": "O sistema BI-RADS é um sistema de classificação padronizado para laudos mamográficos. A categoria 4 é indicativa de baixa suspeita de malignidade, com um percentual de malignidade entre 2% e 10%. Em todas as subcategorias de BI-RADS 4, a biópsia é obrigatória para esclarecimento histológico.\n\nFonte: Protocolo Interno HOSP-2024-RAD-001",
+      "protocolos_texto": [
+        "[HOSP-2024-RAD-001] O sistema BI-RADS (Breast Imaging-Reporting and Data System) padroniza laudos mamográficos: BI-RADS 0: avaliação incompleta, exame adicional necessário. BI-RADS 1: negativo, sem achados. BI-RADS 2: achado benigno definitivo. BI-RADS 3: provavelmente benigno (<2% de malignidade), seguimento em 6 meses. BI-RADS 4A: baixa suspeita (>2% e ≤10%). BI-RADS 4B: suspeita intermediária (>10% e ≤50%). BI-RADS 4C: alta suspeita (>50% e <95%). Em todas as subcategorias de BI-RADS 4, a biópsia está indicada para esclarecimento histológico. BI-RADS 5: altamente sugestivo de malignidade (≥95%), biópsia obrigatória. BI-RADS 6: malignidade confirmada por biópsia prévia.",
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual."
+      ],
+      "dados_paciente": null,
+      "rotulo": "infiel",
+      "justificativa": "atribui à categoria 4 a faixa 2–10%, que é só da subcategoria 4A"
+    },
+    {
+      "id": "rag_ft_A_1",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][1]",
+      "pergunta": "Quais são os critérios para indicar quimioterapia neoadjuvante?",
+      "resposta": "A quimioterapia neoadjuvante está indicada em tumores localmente avançados (estágio III), pacientes com intenção de cirurgia conservadora em tumores >3cm e subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-004",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento.",
+        "[HOSP-2024-EMG-001] Emergências oncológicas que requerem internação imediata: (1) Neutropenia febril: temperatura >38,3°C uma vez ou >38°C por 1h, com neutrófilos <500/mm³ — antibioticoterapia empírica em até 1h; (2) Síndrome de compressão medular: dor lombar com déficit neurológico — corticoterapia imediata e radioterapia de urgência; (3) Hipercalcemia maligna: cálcio >12 mg/dL sintomático — hidratação vigorosa e bisfosfonato IV; (4) Tamponamento cardíaco: dispneia + hipotensão + turgência jugular em paciente oncológico — pericardiocentese de urgência."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "critérios de neoadjuvância copiados do ONCO-004"
+    },
+    {
+      "id": "rag_ft_A_3",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][3]",
+      "pergunta": "Qual o esquema de seguimento após tratamento de câncer de mama?",
+      "resposta": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase.",
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "esquema de seguimento conforme ONCO-005"
+    },
+    {
+      "id": "rag_ft_A_4",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][4]",
+      "pergunta": "Como diagnosticar diabetes mellitus tipo 2?",
+      "resposta": "A confirmação de DM2 é feita com glicemia de jejum ≥126 mg/dL em duas ocasiões, ou HbA1c ≥6,5%. Pré-diabetes é caracterizada por glicemia de jejum entre 100–125 mg/dL, com recomendação de intervenção de estilo de vida e reavaliação em 6–12 meses.\n\nFonte: Protocolo Interno HOSP-2024-ENDO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ENDO-001] Triagem para DM2 recomendada em adultos ≥45 anos, ou mais jovens com IMC ≥25 e pelo menos um fator de risco adicional: familiar de 1º grau com DM, hipertensão, dislipidemia, síndrome dos ovários policísticos, histórico de diabetes gestacional. Exames: glicemia de jejum ≥126 mg/dL em duas ocasiões confirma DM2. HbA1c ≥6,5% confirma DM2. Glicemia de jejum 100–125 mg/dL caracteriza pré-diabetes — intervenção de estilo de vida recomendada, reavaliação em 6–12 meses.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "critérios de DM2 e pré-diabetes conforme ENDO-001"
+    },
+    {
+      "id": "rag_ft_A_8",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][8]",
+      "pergunta": "Quais exames solicitar na triagem de nódulo mamário?",
+      "resposta": "Ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-001",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual.",
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "exame por faixa etária conforme ONCO-001"
+    },
+    {
+      "id": "rag_ft_A_25",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][25]",
+      "pergunta": "Qual o esquema de seguimento após tratamento de câncer de mama?",
+      "resposta": "Consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-005",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-005] Após término do tratamento primário, o seguimento recomendado é: consultas a cada 3–4 meses nos primeiros 2 anos, semestrais do 3º ao 5º ano, e anuais a partir do 6º ano. Exames de imagem: mamografia anual da mama residual/contralateral. Não há evidência de benefício para rastreamento rotineiro de metástases com PET-CT ou cintilografia óssea em pacientes assintomáticas. Avaliação de densidade mineral óssea a cada 2 anos em pacientes em hormonioterapia com inibidor de aromatase.",
+        "[HOSP-2024-ONCO-001] Diante de nódulo mamário detectado em exame clínico ou de imagem, o protocolo recomenda: (1) classificar o nódulo pelo sistema BI-RADS; (2) solicitar ultrassonografia mamária bilateral para nódulos em pacientes abaixo de 35 anos, ou mamografia digital para pacientes acima de 35 anos; (3) encaminhar para biópsia por agulha grossa (core biopsy) em lesões BI-RADS 4 ou 5; (4) BI-RADS 3 requer seguimento em 6 meses; (5) BI-RADS 1 e 2 são achados benignos — seguimento de rotina anual."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "seguimento conforme ONCO-005"
+    },
+    {
+      "id": "rag_ft_A_28",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][28]",
+      "pergunta": "O que é carcinoma ductal in situ e como é tratado?",
+      "resposta": "Carcinoma ductal in situ é uma lesão não invasiva, geralmente tratada com cirurgia conservadora.\n\nFonte: Protocolo Interno HOSP-2024-ONCO-002",
+      "protocolos_texto": [
+        "[HOSP-2024-ONCO-002] O laudo de biópsia mamária deve ser interpretado em conjunto com a clínica e a imagem. Carcinoma ductal in situ (CDIS): lesão não invasiva, tratamento cirúrgico conservador geralmente indicado. Carcinoma invasivo sem tipo especial (NST): tipo mais comum, prognóstico baseado em grau histológico, status de receptores hormonais (RE, RP) e HER2. Carcinoma lobular invasivo: frequentemente multifocal, requer avaliação bilateral. Resultado discordante (imagem suspeita com histologia benigna): repetir biópsia em local diferente, pois a amostra pode não ter representado a lesão.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "CDIS não invasivo, cirurgia conservadora (ONCO-002)"
+    },
+    {
+      "id": "rag_ft_A_31",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][31]",
+      "pergunta": "O que caracteriza uma emergência de compressão medular em oncologia?",
+      "resposta": "Dor lombar com déficit neurológico, justificando corticoterapia imediata e radioterapia de urgência.\n\nFonte: Protocolo Interno HOSP-2024-EMG-001",
+      "protocolos_texto": [
+        "[HOSP-2024-EMG-001] Emergências oncológicas que requerem internação imediata: (1) Neutropenia febril: temperatura >38,3°C uma vez ou >38°C por 1h, com neutrófilos <500/mm³ — antibioticoterapia empírica em até 1h; (2) Síndrome de compressão medular: dor lombar com déficit neurológico — corticoterapia imediata e radioterapia de urgência; (3) Hipercalcemia maligna: cálcio >12 mg/dL sintomático — hidratação vigorosa e bisfosfonato IV; (4) Tamponamento cardíaco: dispneia + hipotensão + turgência jugular em paciente oncológico — pericardiocentese de urgência.",
+        "[HOSP-2024-ONCO-004] A quimioterapia neoadjuvante (antes da cirurgia) está indicada em: (1) tumores localmente avançados (estágio III); (2) pacientes com intenção de cirurgia conservadora em tumores >3cm; (3) subtipos biologicamente agressivos (triplo-negativo e HER2 positivo) mesmo em estágios iniciais. O esquema preferencial é AC-T (adriamicina + ciclofosfamida seguido de taxano). Em HER2 positivo, adicionar trastuzumabe e pertuzumabe. Avaliação de resposta por imagem a cada 2 ciclos. Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do início e a cada 3 meses durante o tratamento."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "compressão medular: critério e conduta do EMG-001"
+    },
+    {
+      "id": "rag_ft_A_51",
+      "origem": "outputs/rag_eval/avaliacao_rag.json [ft_A][51]",
+      "pergunta": "Como comunicar um diagnóstico de câncer ao paciente?",
+      "resposta": "A comunicação deve seguir o protocolo SPIKES, ressaltando a importância de um ambiente privado e confortável, familiar presente se o paciente desejar, e transmitir a informação em linguagem acessível, evitando jargões. Nunca comunicar diagnóstico por telefone ou através de terceiros sem consentimento do paciente.\n\nFonte: Protocolo Interno HOSP-2024-HUM-001",
+      "protocolos_texto": [
+        "[HOSP-2024-HUM-001] A comunicação de diagnóstico oncológico deve seguir o protocolo SPIKES: S (Setting): ambiente privado e confortável, familiar presente se o paciente desejar; P (Perception): avaliar o que o paciente já sabe; I (Invitation): verificar quanto o paciente deseja saber; K (Knowledge): transmitir a informação em linguagem acessível, evitando jargões; E (Emotions): reconhecer e validar emoções, oferecer silêncio; S (Strategy): apresentar o plano de tratamento de forma clara, ressaltar que não está sozinho. Nunca comunicar diagnóstico por telefone ou através de terceiros sem consentimento do paciente.",
+        "[HOSP-2024-ONCO-003] O estadiamento TNM classifica o câncer de mama em: T (tumor primário): T1 ≤2cm, T2 2–5cm, T3 >5cm, T4 invasão de parede torácica/pele. N (linfonodos regionais): N0 sem metástase, N1 1–3 linfonodos axilares, N2 4–9 linfonodos, N3 ≥10 linfonodos ou linfonodo infraclavicular. M (metástase a distância): M0 ausente, M1 presente. Estágio I: T1N0M0. Estágio II: T2N0M0 ou T1-2N1M0. Estágio III: T3-4 ou N2-3. Estágio IV: qualquer T, qualquer N, M1."
+      ],
+      "dados_paciente": null,
+      "rotulo": "fiel",
+      "justificativa": "comunicação pelo protocolo SPIKES (HUM-001)"
+    }
+  ]
+}

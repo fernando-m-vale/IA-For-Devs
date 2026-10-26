@@ -4,8 +4,9 @@ Guardrails do assistente (Etapa 6), em camadas:
 1. Entrada (determinística): bloqueia pedidos de automedicação/prescrição em 1ª
    pessoa com resposta fixa; detecta padrões de injeção (não bloqueia, registra
    evento de segurança).
-2. Saída determinística (barata): fonte inventada, número sem suporte e status
-   de exame sem suporte, reusando as verificações das etapas anteriores.
+2. Saída determinística (barata): fonte inventada, número sem suporte, status
+   de exame sem suporte (reusando as verificações das etapas anteriores) e uma
+   única regra de consistência com o perfil da paciente (anti-HER2; ver abaixo).
 3. Saída semântica: juiz de fidelidade (llama3.2:3b, temperatura 0, JSON) que
    confere afirmações clínicas contra os protocolos e os dados da paciente. O
    veredito é derivado só das afirmações; JSON inválido -> "indeterminado".
@@ -42,12 +43,17 @@ RESPOSTA_AUTOMEDICACAO = ("Não posso orientar uso de medicamentos para você. P
 VEREDITOS_REPROVADOS = ("infiel", "indeterminado")
 
 
-def aviso_juiz(juiz: dict) -> str:
-    """Aviso colocado no topo da resposta quando o juiz não confirma afirmações."""
+def aviso_juiz(juiz: dict, objeto: str = "conduta") -> str:
+    """
+    Aviso no topo da resposta quando o juiz não confirma afirmações. Deixa claro que a
+    verificação é experimental e NÃO exaustiva: no P004, o juiz levantou dúvida sobre uma
+    frase correta e deixou passar o erro real.
+    """
+    ressalva = f"Ela não é exaustiva: o restante da {objeto} também precisa ser conferido no protocolo."
     if juiz["afirmacoes_sem_suporte"]:
         itens = "; ".join(f"«{a}»" for a in juiz["afirmacoes_sem_suporte"])
-        return f"⚠ Verificação automática não confirmou: {itens}. Confira no protocolo antes de usar."
-    return "⚠ Verificação automática não pôde ser concluída. Confira no protocolo antes de usar."
+        return f"⚠ Verificação automática experimental levantou dúvida sobre: {itens}. {ressalva}"
+    return f"⚠ Verificação automática experimental não pôde ser concluída. {ressalva}"
 
 
 # ---------------------------------------------------------------------------
@@ -71,6 +77,42 @@ def eventos_seguranca_entrada(pergunta: str) -> list[dict]:
 # 2. Saída determinística
 # ---------------------------------------------------------------------------
 
+# Regra de consistência com o perfil da paciente (anti-HER2).
+# É a ÚNICA regra de perfil, por escolha: foi o erro clínico real que nem as checagens
+# de forma nem o juiz pegaram (P004, triplo-negativa, recebeu monitoramento cardíaco de
+# terapia anti-HER2). Generalizar regras de perfil exigiria uma ontologia clínica
+# (subtipos, contraindicações, condições de cada conduta), fora do escopo do projeto.
+TERMOS_ANTI_HER2_RE = re.compile(
+    r"\b(trastuzumab\w*|pertuzumab\w*|anti-?her2|ecocardiograma\w*|função cardíaca)\b", re.IGNORECASE)
+PERFIL_HER2_NEGATIVO = [
+    (re.compile(r"triplo[- ]negativ", re.IGNORECASE), "triplo-negativa"),
+    (re.compile(r"her2[- ]?negativ|her2\s*-(?!\w)|her2\s*0\b", re.IGNORECASE), "HER2 negativa"),
+]
+NEGACOES = {"nao", "sem", "nunca"}
+JANELA_NEGACAO_PERFIL = 3
+# Trechos literais do HOSP-2024-ONCO-004 que restringem a terapia anti-HER2 (testados contra protocolos.json).
+TRECHOS_ONCO004_ANTI_HER2 = [
+    "Em HER2 positivo, adicionar trastuzumabe e pertuzumabe.",
+    "Em terapia anti-HER2 (trastuzumabe), monitorar a função cardíaca com ecocardiograma antes do "
+    "início e a cada 3 meses durante o tratamento.",
+]
+
+
+def subtipo_her2_negativo(dados_paciente: dict | None) -> str | None:
+    diagnostico = (dados_paciente or {}).get("diagnostico") or ""
+    return next((rotulo for padrao, rotulo in PERFIL_HER2_NEGATIVO if padrao.search(diagnostico)), None)
+
+
+def termos_anti_her2_afirmados(texto: str) -> list[str]:
+    """Termos de terapia anti-HER2/monitoramento cardíaco que não estão negados ('não indicado trastuzumabe')."""
+    termos = []
+    for m in TERMOS_ANTI_HER2_RE.finditer(texto):
+        anteriores = [normalizar(w).strip(".,;:!?\"'()") for w in texto[:m.start()].split()[-JANELA_NEGACAO_PERFIL:]]
+        if not NEGACOES & set(anteriores):
+            termos.append(m.group())
+    return list(dict.fromkeys(termos))
+
+
 def verificar_deterministico(
     resposta: str,
     fontes_texto: list[str],
@@ -82,12 +124,20 @@ def verificar_deterministico(
 ) -> list[dict]:
     """
     Problemas encontrados ({tipo, detalhe}):
-      fonte_inventada     código citado fora de codigos_permitidos
-      numero_sem_suporte  número ausente dos textos-fonte, dos dados da paciente e da pergunta
-      status_sem_suporte  status de exame afirmado e não devolvido pelas ferramentas
-                          (só quando status_retornados é informado)
+      fonte_inventada          código citado fora de codigos_permitidos
+      numero_sem_suporte       número ausente dos textos-fonte, dos dados da paciente e da pergunta
+      status_sem_suporte       status de exame afirmado e não devolvido pelas ferramentas
+                               (só quando status_retornados é informado)
+      inconsistente_com_perfil terapia anti-HER2 ou monitoramento cardíaco recomendados a paciente
+                               triplo-negativa ou HER2 negativa (só com dados_paciente, isto é,
+                               no modo revisão)
     """
     problemas = []
+    if subtipo := subtipo_her2_negativo(dados_paciente):
+        if termos := termos_anti_her2_afirmados(resposta):
+            problemas.append({"tipo": "inconsistente_com_perfil",
+                              "detalhe": {"subtipo": subtipo, "termos": termos,
+                                          "trecho_protocolo": " ".join(TRECHOS_ONCO004_ANTI_HER2)}})
     if codigos_permitidos is not None:
         if inventados := sorted(set(CODIGO_RE.findall(resposta)) - set(codigos_permitidos)):
             problemas.append({"tipo": "fonte_inventada", "detalhe": inventados})

@@ -74,6 +74,38 @@ class TestVerificacoes(unittest.TestCase):
                                              None, status_retornados={"solicitado"}, verificar_numeros=False)
         self.assertEqual(problemas, [{"tipo": "status_sem_suporte", "detalhe": ["agendad"]}])
 
+    def test_perfil_triplo_negativo_com_ecocardiograma_e_problema(self):
+        problemas = verificar_deterministico(
+            "Iniciar AC-T. Monitorar a função cardíaca com ecocardiograma.", [], {"diagnostico":
+                                                                                  "Carcinoma triplo-negativo"},
+            "", None, verificar_numeros=False)
+        [p] = problemas
+        self.assertEqual(p["tipo"], "inconsistente_com_perfil")
+        self.assertEqual(p["detalhe"]["subtipo"], "triplo-negativa")
+        self.assertEqual(p["detalhe"]["termos"], ["função cardíaca", "ecocardiograma"])
+        self.assertIn("Em HER2 positivo, adicionar trastuzumabe e pertuzumabe.", p["detalhe"]["trecho_protocolo"])
+
+    def test_perfil_her2_positivo_com_ecocardiograma_sem_problema(self):
+        self.assertEqual(verificar_deterministico(
+            "Monitorar a função cardíaca com ecocardiograma.", [],
+            {"diagnostico": "Carcinoma ductal invasivo HER2+"}, "", None, verificar_numeros=False), [])
+
+    def test_perfil_negacao_de_trastuzumabe_sem_problema(self):
+        self.assertEqual(verificar_deterministico(
+            "Não indicado trastuzumabe, pois a paciente é triplo-negativa.", [],
+            {"diagnostico": "Carcinoma triplo-negativo"}, "", None, verificar_numeros=False), [])
+
+    def test_regra_de_perfil_so_vale_com_dados_da_paciente(self):
+        self.assertEqual(verificar_deterministico("Monitorar com ecocardiograma.", [], None, "", None,
+                                                  verificar_numeros=False), [])
+
+    def test_trechos_anti_her2_existem_literalmente_no_onco004(self):
+        from src.grafo import _protocolos_por_codigo
+        from src.guardrails import TRECHOS_ONCO004_ANTI_HER2
+        texto = _protocolos_por_codigo()["HOSP-2024-ONCO-004"]["conteudo"]
+        for trecho in TRECHOS_ONCO004_ANTI_HER2:
+            self.assertIn(trecho, texto)
+
     def test_interpretacao_do_juiz(self):
         self.assertEqual(interpretar_juiz("isto não é json")["veredito"], "indeterminado")
         self.assertEqual(interpretar_juiz('{"veredito": "fiel"}')["veredito"], "indeterminado")
@@ -123,16 +155,18 @@ class TestCicloDeReparo(unittest.TestCase):
         self.assertEqual(estado["reparos"], 0)
         self.assertTrue(estado["sinalizado_pelo_juiz"])
         self.assertTrue(estado["conduta"].startswith(
-            "⚠ Verificação automática não confirmou: «a paciente é HER2 positivo». "
-            "Confira no protocolo antes de usar."))
+            "⚠ Verificação automática experimental levantou dúvida sobre: «a paciente é HER2 positivo». "
+            "Ela não é exaustiva: o restante da conduta também precisa ser conferido no protocolo."))
         self.assertIn("Conduta A.", estado["conduta"])
         self.assertIn("juiz_sinalizou", estado["guardrails"])
+        self.assertIn("Juiz de fidelidade (experimental, não exaustivo): infiel", estado["resposta"])
         self.assertIn("sinalizador, não bloqueia", estado["resposta"])   # bloco "Por que esta resposta"
 
     def test_indeterminado_tambem_so_sinaliza(self):
         estado, _, _ = self.revisar(["Conduta A."], [INDETERMINADO])
         self.assertEqual(estado["reparos"], 0)
-        self.assertTrue(estado["conduta"].startswith("⚠ Verificação automática não pôde ser concluída."))
+        self.assertTrue(estado["conduta"].startswith(
+            "⚠ Verificação automática experimental não pôde ser concluída. Ela não é exaustiva"))
 
     def test_problema_deterministico_passa_apos_reparo(self):
         estado, conduta, _ = self.revisar([self.FONTE_ERRADA, "Conduta corrigida."], [FIEL, FIEL])
@@ -142,6 +176,20 @@ class TestCicloDeReparo(unittest.TestCase):
         self.assertEqual([v["texto"] for v in estado["verificacoes"]], [self.FONTE_ERRADA, "Conduta corrigida."])
         feedback = conduta.call_args_list[1].args[0][-1].content
         self.assertIn("HOSP-2024-RAD-001", feedback)
+
+    def test_p004_ecocardiograma_dispara_reparo_por_perfil(self):
+        with patch("src.grafo.gerar_conduta", side_effect=[
+                "Iniciar AC-T. Monitorar a função cardíaca com ecocardiograma.",
+                "Iniciar AC-T e avaliar a resposta por imagem."]) as conduta, \
+                patch("src.grafo.juiz_fidelidade", return_value=FIEL):
+            estado, _ = grafo.iniciar_revisao(grafo.construir_grafo(), "P004")
+        self.assertEqual(estado["reparos"], 1)
+        self.assertEqual(estado["verificacoes"][0]["problemas"][0]["tipo"], "inconsistente_com_perfil")
+        self.assertEqual(estado["verificacoes"][1]["problemas"], [])
+        feedback = conduta.call_args_list[1].args[0][-1].content
+        self.assertIn("A paciente é triplo-negativa. Terapia anti-HER2 e o monitoramento cardíaco "
+                      "associado não se aplicam; remova essas recomendações.", feedback)
+        self.assertIn("Iniciar AC-T e avaliar a resposta por imagem.", estado["conduta"])
 
     def test_reparo_aprovado_mas_sinalizado_pelo_juiz(self):
         estado, _, _ = self.revisar([self.FONTE_ERRADA, "Conduta corrigida."], [FIEL, INFIEL])

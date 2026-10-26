@@ -442,8 +442,8 @@ def verificar_saida(estado: Estado) -> dict:
                                "sinalizacoes_juiz": juiz["afirmacoes_sem_suporte"] if juiz else []}]}
     sinalizado = bool(juiz) and reprovado(juiz["veredito"]) and decisao == "ok"
     if sinalizado:
-        aviso = aviso_juiz(juiz)
         chave = "conduta" if estado["modo"] == "revisao" else "resposta"
+        aviso = aviso_juiz(juiz, objeto=chave)
         saida.update({chave: f"{aviso}\n\n{texto}", "sinalizado_pelo_juiz": True,
                       "guardrails": saida["guardrails"] + ["juiz_sinalizou"]})
         if estado["modo"] == "revisao":
@@ -462,7 +462,14 @@ def _feedback(problemas: list[dict]) -> str:
         "juiz_infiel": "afirmações sem suporte nos protocolos ou nos dados da paciente: {}",
         "juiz_indeterminado": "a verificação de fidelidade não pôde confirmar a resposta {}",
     }
-    linhas = [f"- {descricoes.get(p['tipo'], p['tipo'] + ': {}').format(p['detalhe'])}" for p in problemas]
+    linhas = []
+    for p in problemas:
+        if p["tipo"] == "inconsistente_com_perfil":
+            linhas.append(f"- A paciente é {p['detalhe']['subtipo']}. Terapia anti-HER2 e o monitoramento "
+                          "cardíaco associado não se aplicam; remova essas recomendações. Protocolo "
+                          f"HOSP-2024-ONCO-004: \"{p['detalhe']['trecho_protocolo']}\"")
+        else:
+            linhas.append(f"- {descricoes.get(p['tipo'], p['tipo'] + ': {}').format(p['detalhe'])}")
     return ("A resposta anterior falhou na verificação:\n" + "\n".join(linhas) +
             "\nReescreva a resposta corrigindo exatamente esses problemas. Use somente o que está "
             "no contexto e nos dados fornecidos; não acrescente informações novas.")
@@ -558,9 +565,9 @@ def bloco_porque(estado: Estado) -> str:
             f"tentativa {v['tentativa']}: {[p['tipo'] for p in v['problemas']] or 'ok'}" for v in verificacoes))
         if estado.get("juiz"):
             j = estado["juiz"]
-            linha = f"- Juiz de fidelidade (modo {j.get('modo', 'completo')}): {j['veredito']}"
+            linha = f"- Juiz de fidelidade (experimental, não exaustivo): {j['veredito']}"
             if estado.get("sinalizado_pelo_juiz"):
-                linha += " — sinalizador, não bloqueia; afirmações não confirmadas: " + (
+                linha += " — sinalizador, não bloqueia; dúvidas levantadas: " + (
                     "; ".join(f"«{a}»" for a in j["afirmacoes_sem_suporte"]) or "verificação inconclusiva")
             linhas.append(linha)
     else:

@@ -93,6 +93,27 @@ class TestRevisao(unittest.TestCase):
         with self.assertRaises(ValueError):
             grafo.decidir(self.grafo, config, "talvez")
 
+    def test_modo_interativo_retoma_a_mesma_execucao(self):
+        # Entrada simulada: uma resposta inválida, depois "a" e o comentário.
+        respostas = iter(["talvez", "a", "conferido no terminal"])
+        impresso = []
+        final = grafo.revisar_interativo(self.grafo, "P008", entrada=lambda _: next(respostas),
+                                         saida=impresso.append)
+        self.assertEqual(final["aprovacao"], {"decisao": "aprovado", "comentario": "conferido no terminal"})
+        self.assertIn("Conduta sugerida:", impresso[0])
+        self.assertIn("[CRITICO]", impresso[0])
+        self.assertIn("Resposta inválida", impresso[1])
+        self.assertEqual(self.mock.call_count, 1)  # uma única conduta gerada
+        nos = [e["no"] for e in final["auditoria"]]
+        self.assertEqual(nos.count("gerar_alertas"), 1)
+        self.assertEqual(nos[-3:], ["aprovacao_medica", "registrar_decisao", "finalizar"])
+
+    def test_modo_interativo_rejeicao_por_letra(self):
+        respostas = iter(["R", "aguardar laudo"])
+        final = grafo.revisar_interativo(self.grafo, "P002", entrada=lambda _: next(respostas),
+                                         saida=lambda _: None)
+        self.assertEqual(final["aprovacao"]["decisao"], "rejeitado")
+
 
 if __name__ == "__main__":
     unittest.main()

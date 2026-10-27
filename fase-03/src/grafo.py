@@ -710,6 +710,33 @@ def aguardando_aprovacao(grafo, config: dict) -> bool:
     return "aprovacao_medica" in grafo.get_state(config).next
 
 
+RESPOSTAS_DECISAO = {"a": "aprovado", "aprovar": "aprovado", "aprovado": "aprovado",
+                     "r": "rejeitado", "rejeitar": "rejeitado", "rejeitado": "rejeitado"}
+
+
+def pedir_decisao(entrada=input, saida=print) -> tuple[str, str]:
+    """Pergunta a decisão no terminal até receber uma válida; depois, o comentário."""
+    while True:
+        escolha = RESPOSTAS_DECISAO.get(entrada("\nDecisão médica [a]provar / [r]ejeitar: ").strip().lower())
+        if escolha:
+            return escolha, entrada("Comentário: ").strip()
+        saida("Resposta inválida: digite a (aprovar) ou r (rejeitar).")
+
+
+def revisar_interativo(grafo, paciente_id: str, entrada=input, saida=print) -> dict:
+    """
+    Modo interativo da CLI: roda até o interrupt, mostra conduta e alertas, pergunta a
+    decisão no terminal e retoma a MESMA execução (mesmo thread e mesmo id de auditoria).
+    Invocações separadas da CLI não compartilham estado (MemorySaver é em memória).
+    """
+    estado, config = iniciar_revisao(grafo, paciente_id)
+    if not aguardando_aprovacao(grafo, config):
+        return estado
+    saida("\n=== AGUARDANDO APROVAÇÃO MÉDICA ===\n" + estado["resposta"])
+    decisao, comentario = pedir_decisao(entrada, saida)
+    return decidir(grafo, config, decisao, comentario)
+
+
 def exportar_diagrama(grafo, destino_dir, png: bool = False) -> list[str]:
     """
     Grava o diagrama Mermaid (local). O PNG é opcional porque draw_mermaid_png()
@@ -754,14 +781,16 @@ if __name__ == "__main__":
 
     if args.pergunta:
         _imprimir(perguntar(grafo, args.pergunta))
-    else:
+    elif args.aprovar or args.rejeitar:
+        # Não interativo (avaliação): gera, decide e registra no mesmo processo.
         estado, config = iniciar_revisao(grafo, args.revisar)
         if aguardando_aprovacao(grafo, config):
             _imprimir(estado)
-            escolha = "aprovado" if args.aprovar else "rejeitado" if args.rejeitar else None
-            if escolha is None:
-                escolha = input("\nDecisão médica [aprovado/rejeitado]: ").strip().lower()
-                args.comentario = args.comentario or input("Comentário: ").strip()
-            estado = decidir(grafo, config, escolha, args.comentario)
+            estado = decidir(grafo, config, "aprovado" if args.aprovar else "rejeitado", args.comentario)
+            print(f"\nDecisão registrada: {estado['aprovacao']}")
+        _imprimir(estado)
+    else:
+        estado = revisar_interativo(grafo, args.revisar)
+        if estado.get("aprovacao"):
             print(f"\nDecisão registrada: {estado['aprovacao']}")
         _imprimir(estado)

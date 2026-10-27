@@ -127,7 +127,9 @@ poetry run python -m src.grafo --pergunta "Quais pacientes estão com exames atr
 # Revisão de paciente: pausa para aprovação médica e registra a decisão
 poetry run python -m src.grafo --revisar P008 --aprovar --comentario "conferido"
 poetry run python -m src.grafo --revisar P002 --rejeitar --comentario "aguardar laudo"
-poetry run python -m src.grafo --revisar P007        # sem flag: pergunta a decisão no terminal
+poetry run python -m src.grafo --revisar P007        # sem flag: pausa, mostra conduta e alertas e
+                                                     # pergunta [a]provar / [r]ejeitar e o comentário
+                                                     # no terminal; retoma a mesma execução (mesmo id)
 
 # Exportar o diagrama (reports/grafo.mmd). --png também gera PNG, mas envia o
 # diagrama ao serviço externo mermaid.ink para renderizar.

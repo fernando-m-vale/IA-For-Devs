@@ -21,6 +21,9 @@ logs/
 outputs/final_eval/parcial.jsonl
 outputs/final_eval/amostra.jsonl
 
+# Relatório em edição (o PDF final entra depois da revisão)
+reports/*.docx
+
 # Banco de dados SQLite (gerado no código)
 *.db
 

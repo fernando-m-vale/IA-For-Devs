@@ -1,0 +1,21 @@
+etapa,metrica,baseline,final
+"Etapa 3 — RAG (ft_A, busca híbrida)",cita_fonte,1.0,1.0
+"Etapa 3 — RAG (ft_A, busca híbrida)",fonte_correta,1.0,1.0
+"Etapa 3 — RAG (ft_A, busca híbrida)",recusa_fora_escopo,0.875,0.833
+"Etapa 3 — RAG (ft_A, busca híbrida)",recusa_fora_escopo_consistente,0.75,0.75
+"Etapa 3 — RAG (ft_A, busca híbrida)",recusa_adversarial,0.778,1.0
+"Etapa 3 — RAG (ft_A, busca híbrida)",adversarial_dose_segura,1.0,1.0
+"Etapa 3 — RAG (ft_A, busca híbrida)",fonte_inventada,0.015,0.0
+"Etapa 3 — RAG (ft_A, busca híbrida)",numero_sem_suporte,0.015,0.0
+Etapa 4 — agente B (v2),sem_falha[por_ferramenta],0.857,1.0
+Etapa 4 — agente B (v2),sem_falha[painel],1.0,1.0
+Etapa 4 — agente B (v2),sem_falha[id_inexistente],1.0,1.0
+Etapa 4 — agente B (v2),sem_falha[injecao],1.0,1.0
+Etapa 4 — agente B (v2),sem_falha[geral],0.933,1.0
+Etapa 4 — agente C (v2),sem_falha[fora_do_alcance],1.0,1.0
+Etapa 4 — agente C (v2),sem_falha[agregado],0.5,0.5
+Etapa 4 — agente C (v2),sem_falha[geral],0.789,0.667
+Etapa 5 — revisão sem guardrails,cita_fonte,1.0,0.778
+Etapa 5 — revisão sem guardrails,fontes_ok,1.0,1.0
+Etapa 5 — revisão sem guardrails,numero_sem_suporte,0.0,0.0
+Etapa 5 — revisão sem guardrails,infieis_baseline_sinalizados_ou_bloqueados,0.0,1.0

@@ -1,0 +1,55 @@
+---
+config:
+  flowchart:
+    curve: basis
+    nodeSpacing: 25
+    rankSpacing: 40
+  themeVariables:
+    fontFamily: Arial
+    fontSize: 15px
+---
+flowchart TB
+    subgraph OFF[" 1 · PREPARAÇÃO E FINE-TUNING — Google Colab, GPU T4 "]
+        direction LR
+        D1[(Protocolos internos<br/>10, sintéticos)] --> D2[Geração professor-aluno<br/>Llama 3.1 8B]
+        D2 --> D3[Curadoria em 6 filtros<br/>+ revisão humana]
+        D3 --> D4[Dataset formato RAG<br/>76 treino / 19 avaliação]
+        D4 --> D5[QLoRA · Unsloth<br/>Llama 3.2 3B Instruct]
+        D5 --> D6[GGUF q4_k_m<br/>Hugging Face Hub]
+    end
+
+    subgraph RUN[" 2 · ASSISTENTE — execução 100% local, CPU "]
+        direction TB
+        U([Médico]) --> G[Grafo LangGraph<br/>roteamento determinístico]
+        G --> RAG[RAG LangChain<br/>ChromaDB + BM25 · RRF]
+        G --> TB[Agente B<br/>ferramentas parametrizadas]
+        G --> TC[Agente C<br/>text-to-SQL protegido]
+        G --> RV[Revisão de paciente<br/>regras clínicas]
+        RAG --> M1[[medassist<br/>fine-tunado · Ollama]]
+        RV --> M1
+        TB --> M2[[llama3.2:3b<br/>ferramentas · SQL · juiz]]
+        TC --> M2
+        TB --> DB[(Prontuários SQLite<br/>somente leitura)]
+        TC --> DB
+        RV --> DB
+        RAG --> KB[(Base de protocolos<br/>embeddings MiniLM)]
+        G --> GR{{Guardrails<br/>entrada · saída · juiz}}
+        GR --> HM[/Aprovação médica/]
+        G --> LOG[(Auditoria JSONL)]
+    end
+
+    D6 -. ollama create .-> M1
+    D1 -. indexação .-> KB
+
+    classDef llm fill:#FDE9D9,stroke:#C55A11,color:#000
+    classDef data fill:#EDEDED,stroke:#595959,color:#000
+    classDef guard fill:#DDEBF7,stroke:#1F4E78,color:#000
+    classDef human fill:#FFF2CC,stroke:#BF8F00,color:#000
+    classDef proc fill:#E2EFDA,stroke:#548235,color:#000
+    class M1,M2,D2,D5 llm
+    class D1,D4,D6,DB,KB,LOG data
+    class GR guard
+    class U,HM human
+    class D3,G,RAG,TB,TC,RV proc
+    style OFF fill:#FAFAFA,stroke:#999
+    style RUN fill:#FAFAFA,stroke:#999

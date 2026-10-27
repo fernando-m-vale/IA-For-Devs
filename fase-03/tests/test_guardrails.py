@@ -122,6 +122,29 @@ class TestVerificacoes(unittest.TestCase):
         self.assertEqual((so_sim["veredito"], so_sim["veredito_modelo"]), ("fiel", "infiel"))
 
 
+class TestTrechoRelevante(unittest.TestCase):
+    """'Por que esta resposta': frase do protocolo mais próxima da resposta, não o início."""
+    RESPOSTA = ("Dor lombar com déficit neurológico, justificando corticoterapia imediata e "
+                "radioterapia de urgência.\n\nFonte: Protocolo Interno HOSP-2024-EMG-001")
+
+    def _emg001(self):
+        return grafo._protocolos_por_codigo()["HOSP-2024-EMG-001"]["conteudo"]
+
+    def test_compressao_medular_mostra_a_frase_certa(self):
+        trecho = grafo.trecho_relevante(self._emg001(), self.RESPOSTA)
+        self.assertIn("dor lombar com déficit neurológico", trecho)
+        self.assertNotIn("Neutropenia", trecho)
+
+    def test_sem_sobreposicao_mantem_o_inicio(self):
+        self.assertTrue(grafo.trecho_relevante(self._emg001(), "xyz").startswith("Emergências oncológicas"))
+
+    def test_bloco_porque_usa_a_resposta_final(self):
+        estado = {"modo": "pergunta", "rota": "rag", "resposta": self.RESPOSTA, "verificacoes": [],
+                  "fontes_detalhe": [{"codigo": "HOSP-2024-EMG-001", "titulo": "Emergência",
+                                      "trecho": grafo._trecho(self._emg001())}]}
+        self.assertIn("dor lombar com déficit neurológico", grafo.bloco_porque(estado))
+
+
 class TestLimitesDoJuiz(unittest.TestCase):
     """Laço de geração com format="json": teto de tokens e timeout viram indeterminado."""
 

@@ -68,6 +68,7 @@ from .config import DATA_REFERENCIA
 from .data_augmentation import CODIGO_RE, SYSTEM_PROMPT_RAG, format_context
 from .guardrails import (MODELO_JUIZ, aviso_juiz, eventos_seguranca_entrada, filtro_entrada,
                          juiz_fidelidade, reprovado, status_das_chamadas, verificar_deterministico)
+from .rag_pipeline import tokenizar
 from .regras_clinicas import gera_alerta
 
 logger = logging.getLogger(__name__)
@@ -196,6 +197,22 @@ def _protocolos_por_codigo() -> dict[str, dict]:
 
 def _trecho(texto: str, n: int = 180) -> str:
     return texto if len(texto) <= n else texto[:n].rsplit(" ", 1)[0] + "…"
+
+
+def trecho_relevante(texto_protocolo: str, resposta: str, n: int = 180) -> str:
+    """
+    Frase do protocolo com maior sobreposição de tokens normalizados (tokenizar do
+    RAG) com a resposta. Frases separadas por ". " e "; " (os protocolos enumeram
+    itens com ponto e vírgula). Sem sobreposição: o início do texto, como antes.
+    """
+    tokens_resposta = set(tokenizar(resposta))
+    frases = [f.strip() for f in re.split(r"(?<=[.;])\s+", texto_protocolo) if f.strip()]
+    melhor, pontos = None, 0
+    for frase in frases:
+        sobreposicao = len(set(tokenizar(frase)) & tokens_resposta)
+        if sobreposicao > pontos:  # empate: a primeira frase
+            melhor, pontos = frase, sobreposicao
+    return _trecho(melhor or texto_protocolo, n)
 
 
 # ---------------------------------------------------------------------------
@@ -562,9 +579,15 @@ def bloco_porque(estado: Estado) -> str:
               f"- Rota: {estado.get('rota') or estado.get('modo')}"
               + (f" ({estado['motivo_rota']})" if estado.get("motivo_rota") else "")]
     if estado.get("fontes_detalhe"):
+        # Trecho escolhido contra o texto final (depois de reparo/aviso), não o da 1ª tentativa.
+        final = estado.get("conduta") if estado.get("modo") == "revisao" else estado.get("resposta")
+        por_codigo = _protocolos_por_codigo()
         linhas.append("- Fontes:")
-        linhas += [f"  • {f['codigo']} — {f['titulo']}" + (f": \"{f['trecho']}\"" if f["trecho"] else "")
-                   for f in estado["fontes_detalhe"]]
+        for f in estado["fontes_detalhe"]:
+            trecho = f["trecho"]
+            if trecho and f["codigo"] in por_codigo:
+                trecho = trecho_relevante(por_codigo[f["codigo"]]["conteudo"], final or "")
+            linhas.append(f"  • {f['codigo']} — {f['titulo']}" + (f": \"{trecho}\"" if trecho else ""))
     verificacoes = estado.get("verificacoes", [])
     if verificacoes:
         linhas.append("- Verificações: " + "; ".join(
@@ -754,6 +777,10 @@ def exportar_diagrama(grafo, destino_dir, png: bool = False) -> list[str]:
 
 def _imprimir(estado: dict) -> None:
     print("\nRESPOSTA:\n" + (estado.get("resposta") or ""))
+    _imprimir_caminho(estado)
+
+
+def _imprimir_caminho(estado: dict) -> None:
     print("\nCAMINHO:")
     for ev in estado.get("auditoria", []):
         print(f"  {ev['no']:<20} {ev['segundos']:>7.2f}s  {ev['resumo']}")
@@ -785,12 +812,14 @@ if __name__ == "__main__":
         # Não interativo (avaliação): gera, decide e registra no mesmo processo.
         estado, config = iniciar_revisao(grafo, args.revisar)
         if aguardando_aprovacao(grafo, config):
-            _imprimir(estado)
+            print("\n=== AGUARDANDO APROVAÇÃO MÉDICA ===\n" + estado["resposta"])
             estado = decidir(grafo, config, "aprovado" if args.aprovar else "rejeitado", args.comentario)
-            print(f"\nDecisão registrada: {estado['aprovacao']}")
-        _imprimir(estado)
     else:
         estado = revisar_interativo(grafo, args.revisar)
+    if args.revisar:
+        # Depois da decisão a resposta já foi exibida: só a decisão e o caminho.
         if estado.get("aprovacao"):
             print(f"\nDecisão registrada: {estado['aprovacao']}")
-        _imprimir(estado)
+            _imprimir_caminho(estado)
+        else:
+            _imprimir(estado)  # paciente inexistente: encerrou sem pausar

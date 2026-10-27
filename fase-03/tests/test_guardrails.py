@@ -10,6 +10,7 @@ import json
 import re
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 from unittest.mock import patch
 
@@ -119,6 +120,44 @@ class TestVerificacoes(unittest.TestCase):
         # O veredito escrito pelo juiz é ignorado: só as afirmações decidem.
         so_sim = interpretar_juiz('{"afirmacoes": [{"texto": "x", "suporte": "sim"}], "veredito": "infiel"}')
         self.assertEqual((so_sim["veredito"], so_sim["veredito_modelo"]), ("fiel", "infiel"))
+
+
+class TestLimitesDoJuiz(unittest.TestCase):
+    """Laço de geração com format="json": teto de tokens e timeout viram indeterminado."""
+
+    def _juiz(self, efeito):
+        from src.guardrails import juiz_fidelidade
+        llm = unittest.mock.MagicMock()
+        llm.invoke.side_effect = efeito
+        with patch("src.guardrails._llm_juiz", return_value=llm):
+            return juiz_fidelidade("resposta", ["protocolo"])
+
+    def _saida(self, conteudo, done_reason, eval_count):
+        from langchain_core.messages import AIMessage
+        return [AIMessage(content=conteudo, response_metadata={"done_reason": done_reason,
+                                                               "eval_count": eval_count})]
+
+    def test_resposta_normal_registra_tokens(self):
+        r = self._juiz(self._saida('{"afirmacoes": [{"texto": "x", "suporte": "sim"}]}', "stop", 42))
+        self.assertEqual((r["veredito"], r["tokens_gerados"], r["truncado"], r["timeout"]),
+                         ("fiel", 42, False, False))
+
+    def test_saida_truncada_e_indeterminada(self):
+        # Mesmo que o JSON truncado fosse válido, o veredito não é confiável.
+        r = self._juiz(self._saida('{"afirmacoes": []}' + " " * 50, "length", 800))
+        self.assertEqual((r["veredito"], r["motivo"], r["truncado"]), ("indeterminado", "truncado", True))
+
+    def test_timeout_e_indeterminado(self):
+        import httpx
+        r = self._juiz(httpx.ReadTimeout("timeout"))
+        self.assertEqual((r["veredito"], r["motivo"], r["timeout"]), ("indeterminado", "timeout", True))
+
+    def test_llm_do_juiz_tem_teto_e_timeout(self):
+        from src.guardrails import NUM_PREDICT_JUIZ, _llm_juiz
+        llm = _llm_juiz()
+        self.assertEqual(llm.num_predict, NUM_PREDICT_JUIZ)
+        self.assertEqual(llm.client_kwargs["timeout"], 180)
+        self.assertEqual(grafo._llm(grafo.MODELO_CONDUTA).num_predict, grafo.NUM_PREDICT_CONDUTA)
 
 
 class TestCicloDeReparo(unittest.TestCase):

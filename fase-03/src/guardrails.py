@@ -33,6 +33,11 @@ from .rag_pipeline import numeros_sem_suporte
 logger = logging.getLogger(__name__)
 
 MODELO_JUIZ = "llama3.2:3b"
+# Com format="json", o llama3.2:3b às vezes entra em laço gerando espaços até o teto
+# padrão do Ollama (10 x num_ctx = 40.960 tokens, >2 h na CPU; P004 em 26/10/2026).
+# O maior JSON legítimo do juiz medido tem ~490 tokens, por isso o teto é 800.
+NUM_PREDICT_JUIZ = 800
+TIMEOUT_JUIZ_S = 180
 
 AUTOMEDICACAO_RE = re.compile(
     r"\b(devo tomar|posso tomar|quanto (eu )?tomo|me receite|qual dose (eu )?devo)\b", re.IGNORECASE)
@@ -180,7 +185,8 @@ O veredito é "infiel" se qualquer afirmação tiver suporte "nao"."""
 @lru_cache(maxsize=1)
 def _llm_juiz():
     from langchain_ollama import ChatOllama
-    return ChatOllama(model=MODELO_JUIZ, temperature=0, format="json")
+    return ChatOllama(model=MODELO_JUIZ, temperature=0, format="json", num_ctx=4096,
+                      num_predict=NUM_PREDICT_JUIZ, client_kwargs={"timeout": TIMEOUT_JUIZ_S})
 
 
 def _mensagem_juiz(resposta: str, protocolos_texto: list[str], dados_paciente: dict | None) -> str:
@@ -232,13 +238,30 @@ def interpretar_juiz(conteudo: str) -> dict:
 
 def juiz_fidelidade(resposta: str, protocolos_texto: list[str], dados_paciente: dict | None = None,
                     modo: str = "completo") -> dict:
-    """modo 'completo': todas as afirmações; 'paciente': só as que falam da paciente."""
-    inicio = time.time()
+    """
+    modo 'completo': todas as afirmações; 'paciente': só as que falam da paciente.
+    Registra tokens gerados e se a saída foi truncada (teto NUM_PREDICT_JUIZ) ou
+    estourou o timeout; nos dois casos o veredito é indeterminado.
+    """
+    import httpx
     from langchain_core.messages import HumanMessage, SystemMessage
-    saida = _llm_juiz().invoke([SystemMessage(content=PROMPTS_JUIZ[modo]),
-                                HumanMessage(content=_mensagem_juiz(resposta, protocolos_texto,
-                                                                    dados_paciente))])
-    resultado = interpretar_juiz(saida.content or "")
+    inicio = time.time()
+    try:
+        saida = _llm_juiz().invoke([SystemMessage(content=PROMPTS_JUIZ[modo]),
+                                    HumanMessage(content=_mensagem_juiz(resposta, protocolos_texto,
+                                                                        dados_paciente))])
+    except httpx.TimeoutException:
+        resultado = {"veredito": "indeterminado", "afirmacoes": [], "afirmacoes_sem_suporte": [],
+                     "veredito_modelo": None, "motivo": "timeout", "tokens_gerados": None,
+                     "truncado": False, "timeout": True}
+    else:
+        metadados = saida.response_metadata or {}
+        resultado = interpretar_juiz(saida.content or "")
+        resultado["tokens_gerados"] = metadados.get("eval_count")
+        resultado["truncado"] = metadados.get("done_reason") == "length"
+        resultado["timeout"] = False
+        if resultado["truncado"]:
+            resultado.update(veredito="indeterminado", motivo="truncado")
     resultado["modo"] = modo
     resultado["segundos"] = round(time.time() - inicio, 2)
     logger.info(f"[juiz:{modo}] veredito={resultado['veredito']} | "

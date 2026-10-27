@@ -84,6 +84,7 @@ VOCAB_ESTATISTICA = re.compile(
 MODELO_CONDUTA = "medassist"
 MODELO_AGENTE_B = "llama3.2:3b"
 MAX_REPAROS = 1
+NUM_PREDICT_CONDUTA = 600  # sugerir_conduta e reparos
 JUIZ_MODO_RAG = "completo"
 JUIZ_MODO_REVISAO = "completo"
 RODAPE_REVISAO = "Sugestão de apoio à decisão — requer validação médica."
@@ -172,7 +173,9 @@ def _rag():
 def _llm(modelo: str):
     from langchain_ollama import ChatOllama
     temperatura = 0.3 if modelo == MODELO_CONDUTA else 0
-    return ChatOllama(model=modelo, temperature=temperatura, num_ctx=4096)
+    # Teto de tokens por precaução (ver guardrails.NUM_PREDICT_JUIZ); a maior resposta
+    # final medida tem ~300 tokens.
+    return ChatOllama(model=modelo, temperature=temperatura, num_ctx=4096, num_predict=NUM_PREDICT_CONDUTA)
 
 
 def gerar_conduta(mensagens: list) -> str:
@@ -439,7 +442,10 @@ def verificar_saida(estado: Estado) -> dict:
              "guardrails": [p["tipo"] for p in problemas],
              "verificacoes": [{"tentativa": reparos + 1, "texto": texto, "problemas": problemas,
                                "veredito_juiz": juiz["veredito"] if juiz else None,
-                               "sinalizacoes_juiz": juiz["afirmacoes_sem_suporte"] if juiz else []}]}
+                               "sinalizacoes_juiz": juiz["afirmacoes_sem_suporte"] if juiz else [],
+                              "juiz_execucao": {k: juiz.get(k) for k in ("tokens_gerados", "truncado",
+                                                                         "timeout", "motivo", "segundos")}
+                              if juiz else None}]}
     sinalizado = bool(juiz) and reprovado(juiz["veredito"]) and decisao == "ok"
     if sinalizado:
         chave = "conduta" if estado["modo"] == "revisao" else "resposta"

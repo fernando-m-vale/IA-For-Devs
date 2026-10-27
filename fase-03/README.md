@@ -55,7 +55,7 @@ Diagrama completo gerado pelo próprio grafo: [`reports/grafo.mmd`](reports/graf
 | Poetry | 2.x (testado com 2.2.1) |
 | Ollama | testado com 0.40.5 |
 | Modelo `llama3.2:3b` | `ollama pull llama3.2:3b` |
-| Modelo `medassist` | GGUF fine-tunado (~2 GB) + [`models/Modelfile`](models/Modelfile). **TODO: link do Hugging Face para o GGUF** |
+| Modelo `medassist` | GGUF fine-tunado (~2 GB) em [FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr](https://huggingface.co/FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr) + [`models/Modelfile`](models/Modelfile) do repositório |
 | Modelo `llama3.1` (8B) | opcional: só para regerar o dataset sintético (modelo "professor") |
 | Hardware usado | notebook só com CPU, 16 GB de RAM (Windows 11); fine-tuning no Google Colab (GPU T4) |
 
@@ -77,7 +77,8 @@ poetry run python src/data_prep.py
 
 # 3. Modelos no Ollama
 ollama pull llama3.2:3b
-#    baixe o GGUF do medassist para models/ (TODO: link do Hugging Face) e registre:
+#    baixe o .gguf de https://huggingface.co/FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr
+#    para models/ e registre com o models/Modelfile do repositório:
 cd models && ollama create medassist -f Modelfile && cd ..
 
 # 4. Índice vetorial dos protocolos (recria data/vectorstore/ e responde uma pergunta de exemplo)

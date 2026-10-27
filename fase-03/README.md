@@ -24,6 +24,14 @@ O histórico das decisões técnicas, com números de cada iteração, está em
 
 ## 2. Arquitetura
 
+![Arquitetura geral](reports/diagramas/arquitetura.png)
+
+Diagramas de arquitetura e do fluxo LangGraph (fontes Mermaid, renderizam no GitHub):
+[`reports/diagramas.md`](reports/diagramas.md). Versões em PNG em
+[`reports/diagramas/`](reports/diagramas/).
+
+Resumo do fluxo:
+
 ```
 pergunta ──► extrair_ids ──► entrada (guardrail) ──► rotear ─┬─► agente_b  (ID P000 na pergunta)
                                    │                          ├─► painel    (atrasado/alerta/pendência/crítico — sem LLM)
@@ -35,8 +43,8 @@ revisão P000 ─► carregar_paciente ─► avaliar_pendencias ─► buscar_p
               ─► verificar_saida ─► gerar_alertas ─► aprovacao_medica (interrupt) ─► registrar_decisao ─► finalizar
 ```
 
-Diagrama completo gerado pelo próprio grafo: [`reports/grafo.mmd`](reports/grafo.mmd)
-(Mermaid; abre no GitHub ou em qualquer visualizador Mermaid).
+Diagrama cru exportado pelo próprio grafo (sem rótulos nas arestas condicionais):
+[`reports/grafo.mmd`](reports/grafo.mmd).
 
 | Componente | Implementação |
 |---|---|
@@ -77,10 +85,18 @@ poetry run python src/data_prep.py
 
 # 3. Modelos no Ollama
 ollama pull llama3.2:3b
-#    baixe o .gguf de https://huggingface.co/FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr
-#    para models/ e registre com o models/Modelfile do repositório:
+#    baixe Llama-3.2-3B-medassist-ptbr.Q4_K_M.gguf de
+#    https://huggingface.co/FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr
+#    para models/ (sem renomear) e registre com o models/Modelfile do repositório:
 cd models && ollama create medassist -f Modelfile && cd ..
+```
 
+> **Quem já tem o GGUF local com o nome antigo** (`Llama-3.2-3B-Instruct.Q4_K_M.gguf`, o
+> nome exportado pelo notebook): renomeie para `Llama-3.2-3B-medassist-ptbr.Q4_K_M.gguf`
+> antes de um novo `ollama create`. O modelo `medassist` já registrado no Ollama não é
+> afetado: o Ollama guarda sua própria cópia dos pesos.
+
+```bash
 # 4. Índice vetorial dos protocolos (recria data/vectorstore/ e responde uma pergunta de exemplo)
 poetry run python -m src.rag_pipeline --rebuild
 
@@ -179,7 +195,9 @@ poetry run python -c "import glob, json; [print(r['timestamp'], r['tipo'], r['id
      `finetune_eval_rag.jsonl`; o notebook treina (QLoRA, r=16, 3 épocas), avalia antes/depois
      e exporta para o Google Drive (`/MyDrive/fiap_fase3`): o GGUF `Q4_K_M`, o `Modelfile`,
      `curva_perda_v2.png` e `avaliacao_finetuning_v2.json`.
-3. **Registro local:** copie o GGUF para `models/` e use o
+3. **Registro local:** copie o GGUF para `models/` com o nome
+   `Llama-3.2-3B-medassist-ptbr.Q4_K_M.gguf` (o notebook exporta como
+   `Llama-3.2-3B-Instruct.Q4_K_M.gguf`) e use o
    [`models/Modelfile`](models/Modelfile) **do repositório** (não o exportado): ele fixa o system
    prompt do treino, `temperature 0.3` e `num_ctx 4096` (o contexto RAG com dois protocolos
    passa do padrão de 2048). Depois, `ollama create medassist -f Modelfile`.

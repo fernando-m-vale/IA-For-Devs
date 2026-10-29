@@ -1,0 +1,157 @@
+{
+  "model_name": "random_forest",
+  "config": {
+    "model_name": "random_forest",
+    "population_size": 10,
+    "n_generations": 10,
+    "mutation_rate": 0.1,
+    "crossover_rate": 0.8,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.934,
+  "total_seconds": 135.3,
+  "best_individual": {
+    "genes": {
+      "n_estimators": 224,
+      "max_depth": 16,
+      "min_samples_split": 6,
+      "min_samples_leaf": 2
+    },
+    "fitness": 0.9294573643410853
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9236877076411959,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9260465116279072,
+      "worst_fitness": 0.9245847176079736,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9265337763012182,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9274750830564784,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9269988925802879,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9293466223698784,
+      "worst_fitness": 0.9293466223698783,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.9293466223698783,
+      "mean_fitness": 0.9288815060908086,
+      "worst_fitness": 0.9246954595791805,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 8,
+        "min_samples_leaf": 8
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.9294573643410853,
+      "mean_fitness": 0.9279401993355483,
+      "worst_fitness": 0.9198228128460688,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 6,
+        "min_samples_leaf": 2
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.9294573643410853,
+      "mean_fitness": 0.9270099667774087,
+      "worst_fitness": 0.9198228128460688,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 6,
+        "min_samples_leaf": 2
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.9294573643410853,
+      "mean_fitness": 0.9289479512735326,
+      "worst_fitness": 0.9246954595791805,
+      "best_genes": {
+        "n_estimators": 224,
+        "max_depth": 16,
+        "min_samples_split": 6,
+        "min_samples_leaf": 2
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

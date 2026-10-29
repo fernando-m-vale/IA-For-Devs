@@ -1,0 +1,287 @@
+{
+  "model_name": "random_forest",
+  "config": {
+    "model_name": "random_forest",
+    "population_size": 20,
+    "n_generations": 20,
+    "mutation_rate": 0.2,
+    "crossover_rate": 0.7,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.934,
+  "total_seconds": 414.59,
+  "best_individual": {
+    "genes": {
+      "n_estimators": 115,
+      "max_depth": 7,
+      "min_samples_split": 2,
+      "min_samples_leaf": 1
+    },
+    "fitness": 0.9435215946843855
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.933997785160576,
+      "mean_fitness": 0.9236821705426358,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 11,
+        "min_samples_split": 6,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.933997785160576,
+      "mean_fitness": 0.9239534883720932,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 11,
+        "min_samples_split": 6,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.933997785160576,
+      "mean_fitness": 0.9262956810631232,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 11,
+        "min_samples_split": 6,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.933997785160576,
+      "mean_fitness": 0.9279346622369881,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 11,
+        "min_samples_split": 6,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.9386489479512734,
+      "mean_fitness": 0.9293244739756371,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 108,
+        "max_depth": 5,
+        "min_samples_split": 6,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.9302990033222593,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.9324086378737542,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.932934662236988,
+      "worst_fitness": 0.9200442967884829,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.9324584717607974,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.9303433001107422,
+      "worst_fitness": 0.9107419712070876,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 11,
+      "best_fitness": 0.9388704318936878,
+      "mean_fitness": 0.9322093023255815,
+      "worst_fitness": 0.9198228128460688,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 14,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 12,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9329291251384276,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 13,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9338870431893689,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 14,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.933156146179402,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 15,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9371760797342195,
+      "worst_fitness": 0.9292358803986712,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 16,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9374086378737543,
+      "worst_fitness": 0.9244739756367665,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 17,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9383333333333335,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 18,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9321926910299005,
+      "worst_fitness": 0.9152823920265781,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 19,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9354761904761906,
+      "worst_fitness": 0.9199335548172758,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 20,
+      "best_fitness": 0.9435215946843855,
+      "mean_fitness": 0.9326688815060908,
+      "worst_fitness": 0.915171650055371,
+      "best_genes": {
+        "n_estimators": 115,
+        "max_depth": 7,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

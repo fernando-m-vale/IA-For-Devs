@@ -15,7 +15,6 @@ data/vectorstore/*
 # Logs
 outputs/logs/*.jsonl
 !outputs/logs/.gitkeep
-logs/
 
 # Avaliação final: checkpoint redundante com avaliacao_final.json e amostra de teste
 outputs/final_eval/parcial.jsonl
@@ -23,6 +22,9 @@ outputs/final_eval/amostra.jsonl
 
 # Relatório em edição (o PDF final entra depois da revisão)
 reports/*.docx
+
+# Vídeo de demonstração (118 MB, acima do limite do GitHub; publicado no YouTube)
+*.mp4
 
 # Banco de dados SQLite (gerado no código)
 *.db

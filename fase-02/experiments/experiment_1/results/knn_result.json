@@ -1,0 +1,146 @@
+{
+  "model_name": "knn",
+  "config": {
+    "model_name": "knn",
+    "population_size": 10,
+    "n_generations": 10,
+    "mutation_rate": 0.1,
+    "crossover_rate": 0.8,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.925,
+  "total_seconds": 14.46,
+  "best_individual": {
+    "genes": {
+      "n_neighbors": 3,
+      "weights": "distance",
+      "metric": "manhattan"
+    },
+    "fitness": 0.9385382059800664
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9018826135105206,
+      "worst_fitness": 0.877297895902547,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9310520487264673,
+      "worst_fitness": 0.9057585825027686,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9329014396456257,
+      "worst_fitness": 0.8914728682170543,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.927718715393134,
+      "worst_fitness": 0.8867109634551495,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9385382059800664,
+      "worst_fitness": 0.9385382059800664,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9376079734219269,
+      "worst_fitness": 0.9292358803986712,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9347840531561461,
+      "worst_fitness": 0.9009966777408639,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.936201550387597,
+      "worst_fitness": 0.9244739756367665,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9329014396456257,
+      "worst_fitness": 0.8914728682170543,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.9385382059800664,
+      "mean_fitness": 0.9366777408637874,
+      "worst_fitness": 0.9292358803986712,
+      "best_genes": {
+        "n_neighbors": 3,
+        "weights": "distance",
+        "metric": "manhattan"
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

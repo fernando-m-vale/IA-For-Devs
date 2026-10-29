@@ -4,6 +4,14 @@
 > são **100% sintéticos**, criados para fins acadêmicos. O sistema **não é um
 > dispositivo médico e não deve ser usado em decisões clínicas reais**.
 
+## Entregáveis
+
+| Entregável | Link |
+|---|---|
+| Vídeo de demonstração | https://youtu.be/2o8-8p3Mp4A |
+| Relatório técnico (PDF) | [`reports/Relatorio_Tecnico_Fase3.pdf`](reports/Relatorio_Tecnico_Fase3.pdf) |
+| Modelo fine-tunado (GGUF) | [FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr](https://huggingface.co/FernandoMarquesVale/Llama-3.2-3B-medassist-ptbr) |
+
 ## 1. Visão geral
 
 Assistente de apoio à decisão clínica para um hospital fictício. Ele:
@@ -230,7 +238,8 @@ em CPU (16 GB); variam com a máquina.
   (em `evaluate_rag`, `evaluate_agente` e `evaluate_juiz`) e `evaluate_final --so-resumo`.
   Isso também permite mudar uma métrica e medir o efeito nas respostas já geradas, sem
   rodar os modelos de novo.
-- O log de auditoria (`logs/`) **não** é versionado (dado sensível).
+- O log de auditoria das execuções do projeto (`logs/auditoria/`) é versionado como evidência
+  (dados sintéticos, sem nomes de paciente). Em produção ficaria fora do git (dado sensível).
 - **Testes** (sem LLM; LLM, juiz e auditoria são substituídos por mocks ou diretório temporário):
 
 ```bash
@@ -249,7 +258,7 @@ fase-03/
 ├── notebooks/                fine-tuning no Colab: v1 (pergunta → resposta) e v2 (formato RAG)
 ├── outputs/                  resultados das avaliações (JSONs brutos e resumos .csv) e do fine-tuning
 ├── reports/                  diário de bordo e diagrama do grafo (grafo.mmd)
-├── logs/auditoria/           log de auditoria JSONL (gerado; fora do git — dado sensível)
+├── logs/auditoria/           log de auditoria JSONL (versionado: dados sintéticos, sem nomes)
 ├── tests/                    testes unitários e fixtures rotuladas
 └── src/
     ├── config.py                 DATA_REFERENCIA, status pendentes e K_MIN da supressão
@@ -301,8 +310,10 @@ Defesa em camadas — cada uma cobre o que a anterior não pega:
    juiz, reparos, eventos de segurança, decisão médica), sem nomes de paciente (campos
    removidos e "Paciente X" mascarado).
 
-> `logs/` é **dado sensível**: contém conteúdo clínico pseudonimizado. Fica fora do git; em
-> produção exigiria controle de acesso, criptografia em repouso e política de retenção.
+> `logs/` é **dado sensível**: contém conteúdo clínico pseudonimizado. Neste projeto acadêmico,
+> com dados 100% sintéticos, o log das execuções é versionado como evidência da auditoria; em
+> produção ficaria fora do git e exigiria controle de acesso, criptografia em repouso e política
+> de retenção.
 
 ## 10. Limitações
 

@@ -1,0 +1,146 @@
+{
+  "model_name": "logistic_regression",
+  "config": {
+    "model_name": "logistic_regression",
+    "population_size": 10,
+    "n_generations": 10,
+    "mutation_rate": 0.1,
+    "crossover_rate": 0.8,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.944,
+  "total_seconds": 2.71,
+  "best_individual": {
+    "genes": {
+      "C": 0.5928214852028797,
+      "solver": "liblinear",
+      "max_iter": 221
+    },
+    "fitness": 0.953045404208195
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9464008859357695,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.952015503875969,
+      "worst_fitness": 0.9481727574750831,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9530232558139534,
+      "worst_fitness": 0.9529346622369879,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9516057585825027,
+      "worst_fitness": 0.9386489479512736,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9525692137320044,
+      "worst_fitness": 0.9482834994462902,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9511627906976745,
+      "worst_fitness": 0.9436323366555925,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9530121816168327,
+      "worst_fitness": 0.9528239202657807,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.953045404208195,
+      "worst_fitness": 0.953045404208195,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.9521040974529347,
+      "worst_fitness": 0.9436323366555925,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.953045404208195,
+      "mean_fitness": 0.953045404208195,
+      "worst_fitness": 0.953045404208195,
+      "best_genes": {
+        "C": 0.5928214852028797,
+        "solver": "liblinear",
+        "max_iter": 221
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

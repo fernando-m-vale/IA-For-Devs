@@ -3,8 +3,9 @@ Log de auditoria do grafo, em logs/auditoria/AAAA-MM-DD.jsonl (um arquivo por di
 
 ATENÇÃO: este log é DADO SENSÍVEL. Contém conteúdo clínico pseudonimizado
 (perguntas, respostas, condutas, diagnósticos e pendências por código de
-paciente) e por isso fica fora do git (logs/ no .gitignore). Em produção exigiria
-controle de acesso, criptografia em repouso e política de retenção e descarte.
+paciente). Neste projeto acadêmico, com dados 100% sintéticos, o log é versionado
+como evidência; em produção ficaria fora do git e exigiria controle de acesso,
+criptografia em repouso e política de retenção e descarte.
 
 Nunca registra nome de paciente: campos de nome são removidos e qualquer
 "Paciente X" restante no texto (inclusive em pergunta e resposta) é mascarado.

@@ -1,0 +1,386 @@
+{
+  "model_name": "logistic_regression",
+  "config": {
+    "model_name": "logistic_regression",
+    "population_size": 30,
+    "n_generations": 30,
+    "mutation_rate": 0.3,
+    "crossover_rate": 0.6,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.944,
+  "total_seconds": 31.76,
+  "best_individual": {
+    "genes": {
+      "C": 0.15261138936559682,
+      "solver": "liblinear",
+      "max_iter": 1398
+    },
+    "fitness": 0.9576965669988926
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.9575858250276854,
+      "mean_fitness": 0.946201550387597,
+      "worst_fitness": 0.8678848283499446,
+      "best_genes": {
+        "C": 5.294327218012266,
+        "solver": "lbfgs",
+        "max_iter": 1939
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9389405684754523,
+      "worst_fitness": 0.7643410852713177,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9515134736064967,
+      "worst_fitness": 0.9200442967884829,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9488113695090437,
+      "worst_fitness": 0.8631229235880399,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9439497969730527,
+      "worst_fitness": 0.8346622369878183,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9549907715023996,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9531303063861204,
+      "worst_fitness": 0.9243632336655594,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9496862310815801,
+      "worst_fitness": 0.9059800664451828,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9456035437430789,
+      "worst_fitness": 0.8346622369878183,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9506238464378,
+      "worst_fitness": 0.9200442967884829,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 11,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9525175341454414,
+      "worst_fitness": 0.9243632336655594,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 12,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9542229605020303,
+      "worst_fitness": 0.9386489479512736,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 13,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9539091915836104,
+      "worst_fitness": 0.9243632336655594,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 14,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9520708748615726,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 15,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.948560354374308,
+      "worst_fitness": 0.8678848283499446,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 16,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9539128829826505,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 17,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9449981543004801,
+      "worst_fitness": 0.825359911406423,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 18,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9499630860095978,
+      "worst_fitness": 0.8631229235880399,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 19,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9465448504983389,
+      "worst_fitness": 0.778405315614618,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 20,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9525175341454412,
+      "worst_fitness": 0.9243632336655594,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 21,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.955031376891842,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 22,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9545662606127724,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 23,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9512846068660025,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 24,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.955640457733481,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 25,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9507899593946105,
+      "worst_fitness": 0.8678848283499446,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 26,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9493798449612406,
+      "worst_fitness": 0.8916943521594686,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 27,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9526799557032117,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 28,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.948449612403101,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 29,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9503396087117019,
+      "worst_fitness": 0.9343300110741971,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 30,
+      "best_fitness": 0.9576965669988926,
+      "mean_fitness": 0.9451162790697674,
+      "worst_fitness": 0.726578073089701,
+      "best_genes": {
+        "C": 0.15261138936559682,
+        "solver": "liblinear",
+        "max_iter": 1398
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

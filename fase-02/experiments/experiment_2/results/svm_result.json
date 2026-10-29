@@ -1,0 +1,266 @@
+{
+  "model_name": "svm",
+  "config": {
+    "model_name": "svm",
+    "population_size": 20,
+    "n_generations": 20,
+    "mutation_rate": 0.2,
+    "crossover_rate": 0.7,
+    "tournament_size": 3,
+    "elitism": 2,
+    "cv_folds": 5,
+    "random_seed": 42
+  },
+  "baseline_fitness": 0.9575858250276855,
+  "total_seconds": 19.81,
+  "best_individual": {
+    "genes": {
+      "C": 5.9451371557227315,
+      "kernel": "rbf",
+      "gamma": "scale"
+    },
+    "fitness": 0.9716500553709857
+  },
+  "history": [
+    {
+      "generation": 1,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.8406810631229236,
+      "worst_fitness": 0.3496124031007752,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 2,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9236600221483944,
+      "worst_fitness": 0.7786267995570322,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 3,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.927109634551495,
+      "worst_fitness": 0.7786267995570322,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 4,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9507198228128461,
+      "worst_fitness": 0.877297895902547,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 5,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9278571428571427,
+      "worst_fitness": 0.2548172757475083,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 6,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9596899224806201,
+      "worst_fitness": 0.9244739756367665,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 7,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9625249169435215,
+      "worst_fitness": 0.9244739756367665,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 8,
+      "best_fitness": 0.9669988925802879,
+      "mean_fitness": 0.9561461794019932,
+      "worst_fitness": 0.877297895902547,
+      "best_genes": {
+        "C": 20.442061379532987,
+        "kernel": "rbf",
+        "gamma": "auto"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 9,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9535880398671093,
+      "worst_fitness": 0.8820598006644518,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 10,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.8778460686600222,
+      "worst_fitness": 0.04728682170542635,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 11,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9521151716500553,
+      "worst_fitness": 0.8016611295681063,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 12,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9561018826135106,
+      "worst_fitness": 0.877297895902547,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 13,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9167109634551496,
+      "worst_fitness": 0.0,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 14,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9365448504983389,
+      "worst_fitness": 0.4482834994462902,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 15,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9608361018826137,
+      "worst_fitness": 0.8776301218161684,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 16,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9645847176079737,
+      "worst_fitness": 0.9150609080841638,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 17,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9636489479512738,
+      "worst_fitness": 0.9150609080841638,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 18,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9391805094130676,
+      "worst_fitness": 0.5192691029900331,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 19,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.95234219269103,
+      "worst_fitness": 0.877297895902547,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    },
+    {
+      "generation": 20,
+      "best_fitness": 0.9716500553709857,
+      "mean_fitness": 0.9596677740863786,
+      "worst_fitness": 0.8776301218161684,
+      "best_genes": {
+        "C": 5.9451371557227315,
+        "kernel": "rbf",
+        "gamma": "scale"
+      },
+      "elapsed_seconds": 0.0
+    }
+  ]
+}
